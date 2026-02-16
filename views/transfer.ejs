@@ -1,0 +1,340 @@
+w<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-university"></i>
+                <span>Saxon Bank</span>
+            </div>
+            <div class="nav-links">
+                <a href="/dashboard" class="nav-link">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="/deposit" class="nav-link">
+                    <i class="fas fa-money-bill-wave"></i> Deposit
+                </a>
+                <a href="/transfer" class="nav-link active">
+                    <i class="fas fa-exchange-alt"></i> Transfer
+                </a>
+                <a href="/transactions" class="nav-link">
+                    <i class="fas fa-history"></i> Transactions
+                </a>
+                <div class="user-menu">
+                    <span class="user-name"><i class="fas fa-user-circle"></i> <%= user.name %></span>
+                    <div class="user-dropdown">
+                        <a href="/dashboard"><i class="fas fa-home"></i> Dashboard</a>
+                        <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Back Button -->
+        <a href="/dashboard" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+
+        <!-- Transfer Header -->
+        <div class="page-header">
+            <h1>Transfer Money</h1>
+            <p class="subtitle">Send money to other Saxon Bank accounts</p>
+        </div>
+
+        <!-- Success/Error Messages -->
+        <% if (locals.success) { %>
+            <div class="alert success">
+                <i class="fas fa-check-circle"></i>
+<p><%= locals.success.replace(/\+/g, " ") %></p>
+            </div>
+        <% } %>
+        
+        <% if (locals.error) { %>
+            <div class="alert error">
+<p><%= locals.error.replace(/\+/g, " ") %></p>
+                <p><%= locals.error.replace(/\+/g, ' ') %></p>
+            </div>
+        <% } %>
+
+        <div class="transfer-container">
+            <!-- Balance Info -->
+            <div class="balance-card-large">
+                <div class="balance-header">
+                    <h3>Available Balance</h3>
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <p class="balance-amount">$<%= user.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></p>
+                <p class="balance-subtext">Ready to transfer</p>
+            </div>
+
+            <!-- Transfer Form -->
+            <div class="form-card">
+                <h2><i class="fas fa-paper-plane"></i> New Transfer</h2>
+                
+                <form action="/transfer" method="POST" class="transfer-form">
+                    <div class="form-group">
+                        <label for="toAccount">
+                            <i class="fas fa-user-friends"></i> Send To
+                        </label>
+                        <div class="input-with-hint">
+                            <input type="text" 
+                                   id="toAccount" 
+                                   name="toAccount" 
+                                   placeholder="Enter email or account number"
+                                   required>
+                            <p class="form-hint">Use recipient's email or 10-digit account number</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="amount">
+                            <i class="fas fa-money-bill-wave"></i> Amount
+                        </label>
+                        <div class="amount-input">
+                            <span class="currency">$</span>
+                            <input type="number" 
+                                   id="amount" 
+                                   name="amount" 
+                                   step="0.01" 
+                                   min="1" 
+                                   max="<%= user.balance %>"
+                                   placeholder="0.00"
+                                   required>
+                        </div>
+                        <p class="form-hint">Maximum: $<%= user.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">
+                            <i class="fas fa-file-alt"></i> Description (Optional)
+                        </label>
+                        <input type="text" 
+                               id="description" 
+                               name="description" 
+                               placeholder="e.g., Rent payment, Dinner bill">
+                    </div>
+
+                    <!-- Quick Amount Buttons -->
+                    <div class="quick-amounts">
+                        <p class="section-label">Quick Select:</p>
+                        <div class="amount-buttons">
+                            <button type="button" class="amount-btn" data-amount="10">$10</button>
+                            <button type="button" class="amount-btn" data-amount="50">$50</button>
+                            <button type="button" class="amount-btn" data-amount="100">$100</button>
+                            <button type="button" class="amount-btn" data-amount="500">$500</button>
+                        </div>
+                    </div>
+
+                    <!-- Transfer Type -->
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-bolt"></i> Transfer Speed
+                        </label>
+                        <div class="method-options">
+                            <label class="method-option">
+                                <input type="radio" name="speed" value="instant" checked>
+                                <div class="method-content">
+                                    <i class="fas fa-bolt"></i>
+                                    <div>
+                                        <h4>Instant Transfer</h4>
+                                        <p>Delivered within seconds • $0.99 fee</p>
+                                    </div>
+                                </div>
+                            </label>
+                            <label class="method-option">
+                                <input type="radio" name="speed" value="standard">
+                                <div class="method-content">
+                                    <i class="fas fa-clock"></i>
+                                    <div>
+                                        <h4>Standard Transfer</h4>
+                                        <p>1-2 business days • No fee</p>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Security Check -->
+                    <div class="security-check">
+                        <label class="checkbox-label">
+                            <input type="checkbox" required>
+                            <span>I confirm the recipient details are correct</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" required>
+                            <span>I authorize this transfer from my account</span>
+                        </label>
+                    </div>
+
+                    <!-- Preview Section -->
+                    <div class="preview-card">
+                        <h3><i class="fas fa-eye"></i> Transfer Preview</h3>
+                        <div class="preview-details">
+                            <div class="preview-item">
+                                <span>Amount:</span>
+                                <span id="previewAmount">$0.00</span>
+                            </div>
+                            <div class="preview-item">
+                                <span>Fee:</span>
+                                <span id="previewFee">$0.99</span>
+                            </div>
+                            <div class="preview-item total">
+                                <span>Total:</span>
+                                <span id="previewTotal">$0.99</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-lock"></i> Confirm & Send
+                    </button>
+                </form>
+            </div>
+
+            <!-- Recent Contacts -->
+            <div class="contacts-card">
+                <h3><i class="fas fa-users"></i> Recent Contacts</h3>
+                <div class="contacts-list">
+                    <div class="contact-item">
+                        <div class="contact-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="contact-info">
+                            <h4>Alex Johnson</h4>
+                            <p>alex@example.com</p>
+                        </div>
+                        <button type="button" class="select-contact" data-email="alex@example.com">
+                            Select
+                        </button>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="contact-info">
+                            <h4>Sarah Miller</h4>
+                            <p>sarah@business.com</p>
+                        </div>
+                        <button type="button" class="select-contact" data-email="sarah@business.com">
+                            Select
+                        </button>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="contact-info">
+                            <h4>Mike Wilson</h4>
+                            <p>mike@company.org</p>
+                        </div>
+                        <button type="button" class="select-contact" data-email="mike@company.org">
+                            Select
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2026 Saxon Bank. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Support</a>
+                <a href="#">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Quick amount buttons
+        document.querySelectorAll('.amount-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const amount = this.getAttribute('data-amount');
+                document.getElementById('amount').value = amount;
+                updatePreview();
+                
+                document.querySelectorAll('.amount-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+
+        // Select contact buttons
+        document.querySelectorAll('.select-contact').forEach(button => {
+            button.addEventListener('click', function() {
+                const email = this.getAttribute('data-email');
+                document.getElementById('toAccount').value = email;
+            });
+        });
+
+        // Update transfer preview
+        function updatePreview() {
+            const amount = parseFloat(document.getElementById('amount').value) || 0;
+            const isInstant = document.querySelector('input[name="speed"]:checked').value === 'instant';
+            const fee = isInstant ? 0.99 : 0;
+            const total = amount + fee;
+            
+            document.getElementById('previewAmount').textContent = '$' + amount.toFixed(2);
+            document.getElementById('previewFee').textContent = '$' + fee.toFixed(2);
+            document.getElementById('previewTotal').textContent = '$' + total.toFixed(2);
+        }
+
+        // Listen for amount and speed changes
+        document.getElementById('amount').addEventListener('input', updatePreview);
+        document.querySelectorAll('input[name="speed"]').forEach(radio => {
+            radio.addEventListener('change', updatePreview);
+        });
+
+        // Form validation
+        document.querySelector('.transfer-form').addEventListener('submit', function(e) {
+            const amount = parseFloat(document.getElementById('amount').value);
+            const maxAmount = parseFloat('<%= user.balance %>');
+            
+            if (amount > maxAmount) {
+                e.preventDefault();
+                alert('Insufficient funds. Your available balance is $' + maxAmount.toFixed(2));
+                return;
+            }
+            
+            if (amount < 1) {
+                e.preventDefault();
+                alert('Minimum transfer amount is $1.00');
+                return;
+            }
+        });
+
+        // Initialize preview
+        updatePreview();
+
+        // User dropdown
+        document.querySelector('.user-name').addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.parentElement.classList.toggle('show');
+        });
+
+        document.addEventListener('click', function() {
+            document.querySelector('.user-menu').classList.remove('show');
+        });
+    </script>
+</body>
+</html>

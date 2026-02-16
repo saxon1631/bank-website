@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1a2639;
+            line-height: 1.6;
+        }
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0056B3;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #5a6a7e;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #0056B3;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .privacy-card {
+            background: white;
+            border-radius: 24px;
+            padding: 2.5rem;
+            border: 1px solid #edf2f7;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+        }
+        .privacy-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #edf2f7;
+        }
+        .privacy-header h1 {
+            font-size: 2.5rem;
+            color: #0056B3;
+            margin-bottom: 0.5rem;
+        }
+        .privacy-header p {
+            color: #5a6a7e;
+            font-size: 1.1rem;
+        }
+        .last-updated {
+            text-align: right;
+            color: #8a9aa8;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+        .privacy-section {
+            margin-bottom: 2.5rem;
+        }
+        .privacy-section h2 {
+            font-size: 1.5rem;
+            color: #1a2639;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .privacy-section h2 i {
+            color: #0056B3;
+            font-size: 1.5rem;
+        }
+        .privacy-section h3 {
+            font-size: 1.2rem;
+            color: #2d3748;
+            margin: 1.5rem 0 0.5rem;
+        }
+        .privacy-section p {
+            color: #4a5568;
+            margin-bottom: 1rem;
+        }
+        .privacy-section ul {
+            margin: 1rem 0 1rem 2rem;
+            color: #4a5568;
+        }
+        .privacy-section li {
+            margin-bottom: 0.5rem;
+        }
+        .highlight-box {
+            background: #f0f4ff;
+            border-left: 4px solid #0056B3;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+        }
+        .highlight-box i {
+            color: #0056B3;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        .data-table th {
+            background: #f8fafd;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #1a2639;
+            border-bottom: 2px solid #edf2f7;
+        }
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #edf2f7;
+        }
+        .data-table tr:hover {
+            background: #f8fafd;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .badge.secure {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+        .badge.info {
+            background: #E6F0FA;
+            color: #0056B3;
+        }
+        .footer {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #edf2f7;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: #5a6a7e;
+            text-decoration: none;
+        }
+        .footer-links a:hover {
+            color: #0056B3;
+        }
+        
+        /* Mobile Responsive */
+        @media screen and (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+            .privacy-card {
+                padding: 1.5rem;
+            }
+            .privacy-header h1 {
+                font-size: 2rem;
+            }
+            .data-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-university"></i>
+            <span>Saxon Bank</span>
+        </div>
+        <div class="nav-links">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/profile">Profile</a>
+            <a href="/settings">Settings</a>
+            <a href="/privacy" class="active">Privacy</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="privacy-card">
+            <div class="privacy-header">
+                <h1><i class="fas fa-shield-alt"></i> Privacy & Security</h1>
+                <p>Your trust is our priority. Learn how we protect your data.</p>
+            </div>
+
+            <div class="last-updated">
+                <i class="fas fa-clock"></i> Last Updated: February 15, 2026
+            </div>
+
+            <!-- Data Collection -->
+            <div class="privacy-section">
+                <h2><i class="fas fa-database"></i> Data Collection</h2>
+                <p>We collect the following information to provide and improve our banking services:</p>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Data Type</th>
+                            <th>Purpose</th>
+                            <th>Security</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Personal Information</strong><br><small>Name, Email, Phone</small></td>
+                            <td>Account creation, customer support</td>
+                            <td><span class="badge secure">Encrypted</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Financial Data</strong><br><small>Balance, Transactions</small></td>
+                            <td>Banking operations, statements</td>
+                            <td><span class="badge secure">256-bit SSL</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Verification Documents</strong><br><small>ID, Address Proof</small></td>
+                            <td>KYC compliance, fraud prevention</td>
+                            <td><span class="badge secure">Secure Storage</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Device Information</strong><br><small>IP address, Browser</small></td>
+                            <td>Security monitoring, fraud detection</td>
+                            <td><span class="badge info">Anonymized</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- How We Use Data -->
+            <div class="privacy-section">
+                <h2><i class="fas fa-chart-line"></i> How We Use Your Data</h2>
+                <ul>
+                    <li><strong>Account Management:</strong> To operate and maintain your bank account</li>
+                    <li><strong>Transaction Processing:</strong> To process deposits, transfers, and payments</li>
+                    <li><strong>Fraud Prevention:</strong> To detect and prevent unauthorized access</li>
+                    <li><strong>Customer Support:</strong> To respond to your inquiries and resolve issues</li>
+                    <li><strong>Legal Compliance:</strong> To comply with banking regulations and KYC requirements</li>
+                </ul>
+            </div>
+
+            <!-- Security Measures -->
+            <div class="highlight-box">
+                <div style="display: flex; align-items: center;">
+                    <i class="fas fa-lock"></i>
+                    <div>
+                        <strong style="font-size: 1.1rem;">Your Data is Protected</strong>
+                        <p style="margin-top: 0.5rem;">We use bank-level 256-bit encryption to protect your information. All data is stored in secure, SOC2-compliant data centers.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="privacy-section">
+                <h2><i class="fas fa-shield-virus"></i> Security Features</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                    <div style="background: #f8fafd; padding: 1.5rem; border-radius: 16px;">
+                        <i class="fas fa-fingerprint" style="color: #0056B3; font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <h3>Two-Factor Authentication</h3>
+                        <p style="color: #5a6a7e; font-size: 0.9rem;">Add an extra layer of security to your account</p>
+                    </div>
+                    <div style="background: #f8fafd; padding: 1.5rem; border-radius: 16px;">
+                        <i class="fas fa-bell" style="color: #0056B3; font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <h3>Login Alerts</h3>
+                        <p style="color: #5a6a7e; font-size: 0.9rem;">Get notified of new logins to your account</p>
+                    </div>
+                    <div style="background: #f8fafd; padding: 1.5rem; border-radius: 16px;">
+                        <i class="fas fa-history" style="color: #0056B3; font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <h3>Session Management</h3>
+                        <p style="color: #5a6a7e; font-size: 0.9rem;">View and manage active sessions</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Sharing -->
+            <div class="privacy-section">
+                <h2><i class="fas fa-share-alt"></i> Data Sharing</h2>
+                <p>We never sell your personal information. We only share data:</p>
+                <ul>
+                    <li>With your explicit consent</li>
+                    <li>To process transactions (with other banks)</li>
+                    <li>When required by law or regulation</li>
+                    <li>With service providers who assist our operations (under strict confidentiality)</li>
+                </ul>
+            </div>
+
+            <!-- Your Rights -->
+            <div class="privacy-section">
+                <h2><i class="fas fa-user-check"></i> Your Privacy Rights</h2>
+                <p>You have the right to:</p>
+                <ul>
+                    <li><strong>Access:</strong> Request a copy of your personal data</li>
+                    <li><strong>Correction:</strong> Update inaccurate information</li>
+                    <li><strong>Deletion:</strong> Request account closure and data deletion</li>
+                    <li><strong>Export:</strong> Download your transaction history</li>
+                </ul>
+                <div style="margin-top: 1.5rem; text-align: center;">
+                    <a href="/contact" style="background: #0056B3; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; display: inline-block;">
+                        <i class="fas fa-envelope"></i> Contact Privacy Officer
+                    </a>
+                </div>
+            </div>
+
+            <!-- Cookie Policy -->
+            <div class="privacy-section">
+                <h2><i class="fas fa-cookie-bite"></i> Cookie Policy</h2>
+                <p>We use essential cookies to:</p>
+                <ul>
+                    <li>Keep you logged in during your session</li>
+                    <li>Remember your preferences</li>
+                    <li>Protect against fraud</li>
+                </ul>
+                <p>You can control cookies through your browser settings.</p>
+            </div>
+
+            <!-- Contact Information -->
+            <div style="background: #f8fafd; padding: 1.5rem; border-radius: 16px; margin-top: 2rem;">
+                <h3 style="margin-bottom: 1rem;">📞 Privacy Questions?</h3>
+                <p>Email: <a href="mailto:privacy@saxonbank.com" style="color: #0056B3;">privacy@saxonbank.com</a></p>
+                <p>Phone: 1-800-SAXON-BANK</p>
+                <p>Mail: Saxon Bank, 123 Banking Ave, New York, NY 10001</p>
+            </div>
+        </div>
+
+        <!-- Footer Links -->
+        <div class="footer">
+            <div class="footer-links">
+                <a href="/terms">Terms of Service</a>
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/cookies">Cookie Policy</a>
+                <a href="/gdpr">GDPR Compliance</a>
+                <a href="/ccpa">CCPA Notice</a>
+            </div>
+            <p style="text-align: center; margin-top: 1.5rem; color: #8a9aa8;">
+                <i class="fas fa-shield-alt"></i> Protected by 256-bit SSL Encryption
+            </p>
+        </div>
+    </div>
+</body>
+</html>

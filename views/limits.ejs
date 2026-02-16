@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1a2639;
+        }
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0056B3;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #5a6a7e;
+            font-weight: 500;
+        }
+        .nav-links a.active {
+            color: #0056B3;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .page-header {
+            margin-bottom: 2rem;
+        }
+        .page-header h1 {
+            font-size: 2rem;
+            color: #1a2639;
+            margin-bottom: 0.5rem;
+        }
+        .page-header p {
+            color: #5a6a7e;
+        }
+        .limits-card {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid #edf2f7;
+            margin-bottom: 2rem;
+        }
+        .limit-tiers {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .tier-card {
+            background: #f8fafd;
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid #edf2f7;
+            transition: all 0.3s;
+        }
+        .tier-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(0,86,179,0.08);
+        }
+        .tier-card.current {
+            border: 2px solid #0056B3;
+            background: #f0f4ff;
+        }
+        .tier-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+        .tier-header i {
+            font-size: 1.5rem;
+            color: #0056B3;
+        }
+        .tier-header h3 {
+            font-size: 1.2rem;
+            color: #1a2639;
+        }
+        .tier-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .tier-badge.standard {
+            background: #E6F0FA;
+            color: #0056B3;
+        }
+        .tier-badge.verified {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+        .tier-badge.business {
+            background: gold;
+            color: black;
+        }
+        .limit-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #edf2f7;
+        }
+        .limit-item:last-child {
+            border-bottom: none;
+        }
+        .limit-label {
+            color: #5a6a7e;
+        }
+        .limit-value {
+            font-weight: 600;
+            color: #1a2639;
+        }
+        .current-limits {
+            background: #f8fafd;
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+        }
+        .current-limits h3 {
+            margin-bottom: 1.5rem;
+            color: #1a2639;
+        }
+        .progress-section {
+            margin: 2rem 0;
+        }
+        .progress-item {
+            margin-bottom: 1.5rem;
+        }
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #0056B3;
+            border-radius: 4px;
+        }
+        .progress-fill.warning {
+            background: #F59E0B;
+        }
+        .progress-fill.danger {
+            background: #EF4444;
+        }
+        .upgrade-card {
+            background: linear-gradient(135deg, #0056B3 0%, #003d7a 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+        }
+        .upgrade-card h3 {
+            margin-bottom: 1rem;
+        }
+        .upgrade-card p {
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        .btn-upgrade {
+            background: white;
+            color: #0056B3;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .btn-upgrade:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        .info-text {
+            font-size: 0.875rem;
+            color: #8a9aa8;
+            margin-top: 0.5rem;
+        }
+        
+        /* Mobile Responsive */
+        @media screen and (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .limit-tiers {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-university"></i>
+            <span>Saxon Bank</span>
+        </div>
+        <div class="nav-links">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/profile">Profile</a>
+            <a href="/limits" class="active">Limits</a>
+            <a href="/settings">Settings</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1><i class="fas fa-chart-line" style="color: #0056B3;"></i> Transaction Limits</h1>
+            <p>View and manage your account spending limits</p>
+        </div>
+
+        <!-- Current Limits & Usage -->
+        <div class="limits-card">
+            <h2 style="margin-bottom: 1.5rem;">Your Current Limits</h2>
+            
+            <div class="current-limits">
+                <div class="progress-section">
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span>Daily Limit</span>
+                            <span><strong>$1,250</strong> / $5,000</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 25%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span>Weekly Limit</span>
+                            <span><strong>$8,500</strong> / $25,000</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 34%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span>Monthly Limit</span>
+                            <span><strong>$42,000</strong> / $100,000</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 42%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem;">
+                    <div>
+                        <p style="color: #5a6a7e;">Per Transaction</p>
+                        <p style="font-weight: 600; font-size: 1.25rem;">$2,500</p>
+                    </div>
+                    <div>
+                        <p style="color: #5a6a7e;">ATM Withdrawal</p>
+                        <p style="font-weight: 600; font-size: 1.25rem;">$1,000/day</p>
+                    </div>
+                </div>
+            </div>
+
+            <p class="info-text">
+                <i class="fas fa-info-circle"></i> Limits reset daily at 12:00 AM EST
+            </p>
+        </div>
+
+        <!-- Limit Tiers -->
+        <h2 style="margin-bottom: 1.5rem;">Available Limit Tiers</h2>
+        
+        <div class="limit-tiers">
+            <!-- Standard Account -->
+            <div class="tier-card current">
+                <div class="tier-header">
+                    <i class="fas fa-user"></i>
+                    <h3>Standard Account</h3>
+                </div>
+                <span class="tier-badge standard">✓ Current Plan</span>
+                <div style="margin: 1rem 0;">
+                    <div class="limit-item">
+                        <span class="limit-label">Daily Limit</span>
+                        <span class="limit-value">$5,000</span>
+                    </div>
+                    <div class="limit-item">
+                        <span class="limit-label">Weekly Limit</span>
+                        <span class="limit-value">$25,000</span>
+                    </div>
+                    <div class="limit-item">
+                        <span class="limit-label">Monthly Limit</span>
+                        <span class="limit-value">$100,000</span>
+                    </div>
+                    <div class="limit-item">
+                        <span class="limit-label">Per Transaction</span>
+                        <span class="limit-value">$2,500</span>
+                    </div>
+                    <div class="limit-item">
+                        <span class="limit-label">ATM Withdrawal</span>
+                        <span class="limit-value">$1,000/day</span>
+                    </div>
+                </div>
+                <p style="color: #5a6a7e; font-size: 0.875rem;">Default for new accounts</p>
+            </div>
+
+            <!-- Verified Account (KYC Complete) -->
+            <div class="tier-card">
+                <div class="tier-header">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Verified Account</h3>
+                </div>
+                <span class="tier-badge verified">KYC Required</span>
+                <div style="margin: 1rem 0;">
+                    <div class="limit-item">
+                        <span class="limit-label">Daily Limit</span>
+                        <span class="limit-value">$25,000</span>
+                    </div>
+                    <div class="limit-item">
+                        <span class="limit-label">Weekly Limit</span>
+                        <span class="limit-value">$100,000</span>
+                    </div>
+                    <div class="limit-item">
+                        <span class="limit-label">Monthly Limit</span>
+                        <span class="limit-value">$500,000</span>
+                    </div>
+                    <div class="limit-item">
+                        <span class="limit-label">Per Transaction</span>
+                        <span class="limit-value">$10,000</span>
+                    </div>
+                    <div class="limit-item">
+                        <span class="limit-label">ATM Withdrawal</span>
+                        <span class="limit-value">$3,000/day</span>
+                    </div>
+                </div>
+                <% if (!user.isVerified) { %>
+                    <a href="/kyc" style="display: block; text-align: center; background: #0056B3; color: white; padding: 0.75rem; border-radius: 8px; text-decoration: none; margin-top: 1rem;">
+                        Complete KYC to Upgrade
+                    </a>
+                <% } else { %>
+                    <p style="color: #065F46; text-align: center; margin-top: 1rem;">
+                        <i class="fas fa-check-circle"></i> You qualify for this tier
+                    </p>
+                <% } %>
+            </div>
+
+            <!-- Business Account -->
+            <div class="tier-card">
+                <div class="tier-header">
+                    <i class="fas fa-briefcase"></i>
+                    <h3>Business Account</h3>
+                </div>
+                <span class="tier-badge business">Business</span>
+                <div style="margin: 1rem 0;">
+                    <div class="limit-item">
+                        <span class="limit-label">Daily Limit</span>
+                        <span class="limit-value">$100,000</span>
+                    </div>
+                    <div class="limit-item">
+                        <span class="limit-label">Weekly Limit</span>
+                        <span class="limit-value">$500,000</span>
+                    </div>
+                    <div class="limit-item">
+                        <span class="limit-label">Monthly Limit</span>
+                        <span class="limit-value">$2,000,000</span>
+                    </div>
+                    <div class="limit-item">
+                        <span class="limit-label">Per Transaction</span>
+                        <span class="limit-value">$50,000</span>
+                    </div>
+                    <div class="limit-item">
+                        <span class="limit-label">ATM Withdrawal</span>
+                        <span class="limit-value">$5,000/day</span>
+                    </div>
+                </div>
+                <a href="/business-apply" style="display: block; text-align: center; background: gold; color: black; padding: 0.75rem; border-radius: 8px; text-decoration: none; margin-top: 1rem; font-weight: 600;">
+                    Apply for Business Account
+                </a>
+            </div>
+        </div>
+
+        <!-- Upgrade Prompt -->
+        <div class="upgrade-card">
+            <h3>Need Higher Limits?</h3>
+            <p>Complete your KYC verification to increase your transaction limits and unlock premium features.</p>
+            <a href="/kyc" class="btn-upgrade">
+                <i class="fas fa-arrow-right"></i> Verify Your Identity
+            </a>
+        </div>
+
+        <!-- Limit Details Table -->
+        <div class="limits-card" style="margin-top: 2rem;">
+            <h3 style="margin-bottom: 1.5rem;">Detailed Limit Information</h3>
+            
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="border-bottom: 2px solid #edf2f7;">
+                        <th style="text-align: left; padding: 1rem 0.5rem;">Transaction Type</th>
+                        <th style="text-align: left; padding: 1rem 0.5rem;">Standard</th>
+                        <th style="text-align: left; padding: 1rem 0.5rem;">Verified</th>
+                        <th style="text-align: left; padding: 1rem 0.5rem;">Business</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 1rem 0.5rem;">ACH Transfer</td>
+                        <td style="padding: 1rem 0.5rem;">$2,500</td>
+                        <td style="padding: 1rem 0.5rem;">$10,000</td>
+                        <td style="padding: 1rem 0.5rem;">$50,000</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 1rem 0.5rem;">Wire Transfer</td>
+                        <td style="padding: 1rem 0.5rem;">$5,000</td>
+                        <td style="padding: 1rem 0.5rem;">$25,000</td>
+                        <td style="padding: 1rem 0.5rem;">$100,000</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 1rem 0.5rem;">International Transfer</td>
+                        <td style="padding: 1rem 0.5rem;">$2,500</td>
+                        <td style="padding: 1rem 0.5rem;">$10,000</td>
+                        <td style="padding: 1rem 0.5rem;">$25,000</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 1rem 0.5rem;">ATM Withdrawal</td>
+                        <td style="padding: 1rem 0.5rem;">$1,000/day</td>
+                        <td style="padding: 1rem 0.5rem;">$3,000/day</td>
+                        <td style="padding: 1rem 0.5rem;">$5,000/day</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 1rem 0.5rem;">POS Purchase</td>
+                        <td style="padding: 1rem 0.5rem;">$5,000</td>
+                        <td style="padding: 1rem 0.5rem;">$25,000</td>
+                        <td style="padding: 1rem 0.5rem;">$100,000</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p class="info-text" style="margin-top: 1.5rem;">
+                <i class="fas fa-clock"></i> Limits reset daily at 12:00 AM EST • 
+                <i class="fas fa-question-circle"></i> <a href="/support" style="color: #0056B3;">Contact support</a> for custom limits
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1a2639;
+        }
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0056B3;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #5a6a7e;
+            font-weight: 500;
+        }
+        .nav-links a.active {
+            color: #0056B3;
+        }
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .page-header {
+            margin-bottom: 2rem;
+        }
+        .page-header h1 {
+            font-size: 2rem;
+            color: #1a2639;
+            margin-bottom: 0.5rem;
+        }
+        .page-header p {
+            color: #5a6a7e;
+        }
+        .notifications-card {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid #edf2f7;
+        }
+        .notifications-list {
+            display: flex;
+            flex-direction: column;
+        }
+        .notification-item {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #edf2f7;
+            transition: background 0.3s;
+        }
+        .notification-item:hover {
+            background: #f8fafd;
+        }
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+        .notification-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1.5rem;
+            font-size: 1.5rem;
+        }
+        .notification-icon.transaction {
+            background: #e6f7e6;
+            color: #0b7b0b;
+        }
+        .notification-icon.security {
+            background: #fee7e7;
+            color: #c00;
+        }
+        .notification-icon.promo {
+            background: #fff4e6;
+            color: #cc7b00;
+        }
+        .notification-icon.system {
+            background: #e6f0fa;
+            color: #0056B3;
+        }
+        .notification-content {
+            flex: 1;
+        }
+        .notification-content h4 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+            color: #1a2639;
+        }
+        .notification-content p {
+            color: #5a6a7e;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+        .notification-time {
+            font-size: 0.75rem;
+            color: #8a9aa8;
+        }
+        .notification-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            background: #0056B3;
+            color: white;
+            margin-left: 1rem;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #8a9aa8;
+        }
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            border: 1px solid #edf2f7;
+            border-radius: 30px;
+            background: white;
+            cursor: pointer;
+            color: #5a6a7e;
+        }
+        .filter-btn.active {
+            background: #0056B3;
+            color: white;
+            border-color: #0056B3;
+        }
+        .mark-read {
+            text-align: right;
+            margin-bottom: 1rem;
+        }
+        .mark-read button {
+            background: none;
+            border: none;
+            color: #0056B3;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        /* Mobile Responsive */
+        @media screen and (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .notification-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            .notification-icon {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            .notification-badge {
+                margin-left: 0;
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-university"></i>
+            <span>Saxon Bank</span>
+        </div>
+        <div class="nav-links">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/profile">Profile</a>
+            <a href="/settings">Settings</a>
+            <a href="/notifications" class="active">Notifications</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1><i class="fas fa-bell" style="color: #0056B3;"></i> Notifications</h1>
+            <p>Stay updated with your account activity</p>
+        </div>
+
+        <div class="notifications-card">
+            <div class="filter-bar">
+                <button class="filter-btn active">All</button>
+                <button class="filter-btn">Unread</button>
+                <button class="filter-btn">Transactions</button>
+                <button class="filter-btn">Security</button>
+                <button class="filter-btn">Promotions</button>
+            </div>
+
+            <div class="mark-read">
+                <button><i class="fas fa-check-double"></i> Mark all as read</button>
+            </div>
+
+            <div class="notifications-list">
+                <!-- Transaction Notification -->
+                <div class="notification-item">
+                    <div class="notification-icon transaction">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>Deposit Received</h4>
+                        <p>$1,500.00 was deposited to your account</p>
+                        <span class="notification-time">2 hours ago</span>
+                    </div>
+                    <span class="notification-badge">New</span>
+                </div>
+
+                <!-- Security Notification -->
+                <div class="notification-item">
+                    <div class="notification-icon security">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>New Login Detected</h4>
+                        <p>New login from Chrome on MacOS • New York, NY</p>
+                        <span class="notification-time">Yesterday at 3:45 PM</span>
+                    </div>
+                </div>
+
+                <!-- Transfer Notification -->
+                <div class="notification-item">
+                    <div class="notification-icon transaction">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>Transfer Sent</h4>
+                        <p>You sent $250.00 to account ending in 1234</p>
+                        <span class="notification-time">2 days ago</span>
+                    </div>
+                </div>
+
+                <!-- Card Notification -->
+                <div class="notification-item">
+                    <div class="notification-icon system">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>Card Application Approved</h4>
+                        <p>Your debit card has been approved and is being shipped</p>
+                        <span class="notification-time">3 days ago</span>
+                    </div>
+                </div>
+
+                <!-- KYC Notification -->
+                <div class="notification-item">
+                    <div class="notification-icon system">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>KYC Verification Complete</h4>
+                        <p>Your identity has been verified. Thank you!</p>
+                        <span class="notification-time">1 week ago</span>
+                    </div>
+                </div>
+
+                <!-- Promo Notification -->
+                <div class="notification-item">
+                    <div class="notification-icon promo">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>Special Offer</h4>
+                        <p>Earn 2% cashback on all purchases this month</p>
+                        <span class="notification-time">1 week ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <button style="background: none; border: 1px solid #edf2f7; padding: 0.75rem 2rem; border-radius: 8px; color: #5a6a7e; cursor: pointer;">
+                    Load More Notifications
+                </button>
+            </div>
+        </div>
+
+        <!-- Notification Settings Link -->
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="/settings" style="color: #0056B3; text-decoration: none;">
+                <i class="fas fa-cog"></i> Manage Notification Settings
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Filter buttons functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                // In real app, this would filter notifications
+            });
+        });
+
+        // Mark all as read
+        document.querySelector('.mark-read button').addEventListener('click', function() {
+            document.querySelectorAll('.notification-badge').forEach(badge => {
+                badge.style.display = 'none';
+            });
+            alert('All notifications marked as read');
+        });
+    </script>
+</body>
+</html>

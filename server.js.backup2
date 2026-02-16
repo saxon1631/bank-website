@@ -1,0 +1,204 @@
+require("dotenv").config();
+const express = require("express");
+const mongoose = require("mongoose");
+const session = require("express-session");
+const bcrypt = require("bcrypt");
+const path = require("path");
+const nodemailer = require('nodemailer');
+const app = express();
+
+// Middleware
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Session configuration
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'bank-app-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 24 * 60 * 60 * 1000 }
+}));
+
+// Database connection
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/bankapp', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+.then(() => console.log('MongoDB Connected Successfully'))
+.catch(err => console.log('MongoDB Connection Error:', err.message));
+
+// User Schema
+const userSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    balance: { type: Number, default: 1000 },
+    accountNumber: { type: String, unique: true, sparse: true },
+    isAdmin: { type: Boolean, default: false, required: true },
+    isVerified: { type: Boolean, default: false },
+    resetToken: String,
+    resetTokenExpiry: Date,
+    createdAt: { type: Date, default: Date.now }
+}, { strict: false });
+
+const User = mongoose.model('User', userSchema);
+
+// Transaction Schema
+const transactionSchema = new mongoose.Schema({
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    type: String,
+    amount: Number,
+    description: String,
+    date: { type: Date, default: Date.now },
+    status: { type: String, default: 'completed' }
+});
+const Transaction = mongoose.model('Transaction', transactionSchema);
+
+// Auth middleware
+const requireAuth = (req, res, next) => {
+    if (!req.session.userId) {
+        return res.redirect('/login');
+    }
+    next();
+};
+
+// Routes
+app.get('/', (req, res) => {
+    res.redirect(req.session.userId ? '/dashboard' : '/login');
+});
+
+app.get('/login', (req, res) => {if (req.session.userId) return res.redirect('/dashboard');
+        res.render('login', { title: 'Login | Saxon Bank', error: null, success: null });
+});
+// Register Page
+app.get('/register', (req, res) => {
+app.get('/login', (req, res) => {
+    if (req.session.userId) return res.redirect('/dashboard');
+    res.render('login', {
+        title: 'Login | Saxon Bank',
+        error: req.query.error || null,
+        success: req.query.success || null
+    });
+});        error: req.query.error || null,
+        success: req.query.success || null
+    });
+});
+app.post('/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
+        
+        if (!user) {
+            return res.render('login', { 
+                title: 'Login | Saxon Bank', 
+                error: 'Invalid credentials', 
+                success: null 
+            });
+        }
+        
+        const validPassword = await bcrypt.compare(password, user.password);
+        if (!validPassword) {
+            return res.render('login', { 
+                title: 'Login | Saxon Bank', 
+                error: 'Invalid credentials', 
+                success: null 
+            });
+        }
+        
+        req.session.userId = user._id;
+        req.session.user = { id: user._id, email: user.email, isAdmin: user.isAdmin };
+        res.redirect('/dashboard');
+    } catch (error) {
+        console.error('Login error:', error);
+        res.render('login', { 
+            title: 'Login | Saxon Bank', 
+            error: 'Server error', 
+            success: null 
+        });
+    }
+});
+// Currency formatting function
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+    }).format(amount);
+}
+
+// Dashboard
+app.get('/dashboard', requireAuth, async (req, res) => {
+    try {
+        const user = await User.findById(req.session.userId);
+        console.log('DEBUG: User isAdmin =', user.isAdmin, 'Email:', user.email);
+               
+        const transactions = await Transaction.find({ userId: user._id })
+            .sort({ date: -1 })
+            .limit(10);
+        
+        res.render('dashboard', {
+            title: 'Dashboard | Saxon Bank',
+            user: user,
+            transactions: transactions,
+            formatCurrency: formatCurrency
+        });
+    } catch (error) {
+        console.error('Dashboard error:', error);
+        res.redirect('/login');
+    }
+});
+
+// Deposit
+app.get('/deposit', requireAuth, async (req, res) => {
+    try {
+        const user = await User.findById(req.session.userId);
+        res.render('deposit', { 
+            title: 'Deposit | Saxon Bank',
+            user: user 
+        });
+    } catch (error) {
+        console.error('Deposit page error:', error);
+        res.status(500).send('Server error');
+    }
+});
+// Transfer
+app.get('/transfer', requireAuth, async (req, res) => {
+    try {
+        const user = await User.findById(req.session.userId);
+res.render("transfer", {
+    title: "Transfer | Saxon Bank",
+    user: user,
+    success: req.query.success || null,
+    error: req.query.error || null
+});    } catch (error) {
+        console.error('Transfer page error:', error);
+        res.status(500).send('Server error');
+    }
+});
+// Transactions
+app.get('/transactions', requireAuth, async (req, res) => {
+    try {
+        const user = await User.findById(req.session.userId);
+        res.render('transactions', { 
+            title: 'Transactions | Saxon Bank',
+            user: user 
+        });
+    } catch (error) {
+        console.error('Transactions error:', error);
+        res.status(500).send('Server error');
+    }
+});
+
+// Logout
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/login');
+});
+
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Saxon Bank Professional Edition running on http://localhost:${PORT}`);
+});

@@ -1,0 +1,173 @@
+k<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #f5f7fb;
+            color: #1a2639;
+        }
+        
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0056B3;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #5a6a7e;
+            font-weight: 500;
+        }
+        
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #0056B3;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        /* Mobile Responsive */
+        @media screen and (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-university"></i>
+            <span>Saxon Bank</span>
+        </div>
+        <div class="nav-links">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/deposit">Deposit</a>
+            <a href="/transfer">Transfer</a>
+            <a href="/transactions">History</a>
+            <a href="/card" class="active">Card</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 style="margin-bottom: 2rem;">Card Services</h1>
+        
+        <% if (success) { %>
+            <div style="background: #D1FAE5; color: #065F46; padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem;">
+                <i class="fas fa-check-circle"></i> <%= success %>
+            </div>
+        <% } %>
+        
+        <% if (error) { %>
+            <div style="background: #FEE2E2; color: #991B1B; padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem;">
+                <i class="fas fa-exclamation-circle"></i> <%= error %>
+            </div>
+        <% } %>
+        
+        <!-- Card Status -->
+        <div style="background: white; border-radius: 24px; padding: 2rem; margin-bottom: 2rem; border: 1px solid #edf2f7;">
+            <h2 style="margin-bottom: 1.5rem;">Your Card Status</h2>
+            
+            <% if (hasCard) { %>
+                <div style="background: linear-gradient(135deg, #0056B3 0%, #003d7a 100%); padding: 2rem; border-radius: 16px; color: white;">
+                    <p style="font-size: 1.5rem; margin-bottom: 1rem;">✅ Active Card</p>
+                    <p>Your card is active and ready to use.</p>
+                </div>
+            <% } else if (cardRequested || pendingRequest) { %>
+                <div style="background: #FEF3C7; padding: 2rem; border-radius: 16px; color: #92400E;">
+                    <p style="font-size: 1.5rem; margin-bottom: 1rem;">⏳ Request Pending</p>
+                    <p>Your card request is being reviewed. You'll be notified within 2-3 business days.</p>
+                </div>
+            <% } else { %>
+                <div style="background: #F3F4F6; padding: 2rem; border-radius: 16px; text-align: center;">
+                    <i class="fas fa-credit-card" style="font-size: 3rem; color: #0056B3; margin-bottom: 1rem;"></i>
+                    <p style="font-size: 1.25rem; margin-bottom: 1rem;">No Card Issued</p>
+                    <form action="/card/apply" method="POST">
+                        <button type="submit" style="background: #0056B3; color: white; border: none; padding: 1rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer;">
+                            Apply for Card
+                        </button>
+                    </form>
+                </div>
+            <% } %>
+        </div>
+        
+        <!-- Benefits -->
+        <div style="background: white; border-radius: 24px; padding: 2rem; border: 1px solid #edf2f7;">
+            <h2 style="margin-bottom: 1.5rem;">Card Benefits</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                <div style="display: flex; gap: 1rem;">
+                    <i class="fas fa-globe" style="color: #0056B3; font-size: 1.5rem;"></i>
+                    <div>
+                        <h3>Global Acceptance</h3>
+                        <p>Use your card worldwide</p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <i class="fas fa-shield-alt" style="color: #0056B3; font-size: 1.5rem;"></i>
+                    <div>
+                        <h3>Zero Liability</h3>
+                        <p>$0 fraud liability guarantee</p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <i class="fas fa-mobile-alt" style="color: #0056B3; font-size: 1.5rem;"></i>
+                    <div>
+                        <h3>Mobile Banking</h3>
+                        <p>Manage card from your phone</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

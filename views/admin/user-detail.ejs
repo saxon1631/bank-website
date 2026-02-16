@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f5f7fb;
+            color: #1a2639;
+        }
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0056B3;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #5a6a7e;
+            font-weight: 500;
+        }
+        .nav-links a.active {
+            color: #0056B3;
+        }
+        .admin-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            color: #0056B3;
+            text-decoration: none;
+        }
+        .user-profile {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid #edf2f7;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+        }
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+        }
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            background: #0056B3;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+        .badge {
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        .badge.admin { background: gold; color: black; }
+        .badge.card { background: #10B981; color: white; }
+        .badge.pending { background: #F59E0B; color: white; }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        .info-card {
+            background: #f8fafd;
+            padding: 1.5rem;
+            border-radius: 16px;
+        }
+        .info-card h3 {
+            font-size: 0.875rem;
+            color: #5a6a7e;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .balance-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #0056B3;
+            margin-bottom: 1.5rem;
+        }
+        .balance-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #edf2f7;
+            border-radius: 12px;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+        }
+        .btn-add {
+            background: #10B981;
+            color: white;
+        }
+        .btn-deduct {
+            background: #EF4444;
+            color: white;
+        }
+        .btn-admin {
+            background: #F59E0B;
+            color: white;
+        }
+        .card-section {
+            background: linear-gradient(135deg, #0056B3 0%, #003d7a 100%);
+            border-radius: 16px;
+            padding: 1.5rem;
+            color: white;
+        }
+        .alert {
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+        .alert.success { background: #D1FAE5; color: #065F46; }
+        .alert.error { background: #FEE2E2; color: #991B1B; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-university"></i>
+            <span>Saxon Bank Admin</span>
+        </div>
+        <div class="nav-links">
+            <a href="/admin">Dashboard</a>
+            <a href="/admin/users" class="active">Users</a>
+            <a href="/admin/transfers">Transfers</a>
+            <a href="/admin/cards">Cards</a>
+            <a href="/dashboard">Exit Admin</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="admin-container">
+        <a href="/admin/users" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to All Users
+        </a>
+
+        <% if (success) { %>
+            <div class="alert success"><i class="fas fa-check-circle"></i> <%= success %></div>
+        <% } %>
+        <% if (error) { %>
+            <div class="alert error"><i class="fas fa-exclamation-circle"></i> <%= error %></div>
+        <% } %>
+
+        <!-- User Profile -->
+        <div class="user-profile">
+            <div class="profile-header">
+                <div style="display: flex; gap: 1.5rem;">
+                    <div class="profile-avatar"><%= user.name.charAt(0).toUpperCase() %></div>
+                    <div>
+                        <h1 style="font-size: 1.75rem; margin-bottom: 0.5rem;"><%= user.name %></h1>
+                        <p style="color: #5a6a7e; margin-bottom: 0.75rem;"><%= user.email %></p>
+                        <div style="display: flex; gap: 0.75rem;">
+                            <% if (user.isAdmin) { %>
+                                <span class="badge admin">⚡ ADMIN</span>
+                            <% } %>
+                            <% if (user.hasCard) { %>
+                                <span class="badge card">✓ CARD HOLDER</span>
+                            <% } else if (user.cardRequested) { %>
+                                <span class="badge pending">⏳ PENDING</span>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+                <form action="/admin/users/<%= user._id %>/toggle-admin" method="POST">
+                    <button type="submit" class="btn btn-admin">
+                        <%= user.isAdmin ? 'Remove Admin' : 'Make Admin' %>
+                    </button>
+                </form>
+            </div>
+
+            <div class="info-grid">
+                <!-- Account Info -->
+                <div class="info-card">
+                    <h3>Account Details</h3>
+                    <p style="font-size: 1.25rem; font-family: monospace;"><%= user.accountNumber %></p>
+                    <p style="color: #5a6a7e;">Member since <%= new Date(user.createdAt).toLocaleDateString() %></p>
+                </div>
+
+                <!-- Balance Management -->
+                <div class="info-card">
+                    <h3>Balance Management</h3>
+                    <div class="balance-amount">$<%= user.balance.toLocaleString() %></div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <form action="/admin/users/<%= user._id %>/balance" method="POST">
+                            <input type="hidden" name="action" value="add">
+                            <input type="number" name="amount" placeholder="Amount" class="balance-input" required>
+                            <input type="text" name="reason" placeholder="Reason" class="balance-input">
+                            <button type="submit" class="btn btn-add">➕ Add Funds</button>
+                        </form>
+
+                        <form action="/admin/users/<%= user._id %>/balance" method="POST">
+                            <input type="hidden" name="action" value="deduct">
+                            <input type="number" name="amount" placeholder="Amount" class="balance-input" required>
+                            <input type="text" name="reason" placeholder="Reason" class="balance-input">
+                            <button type="submit" class="btn btn-deduct">➖ Deduct Funds</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Card Info -->
+                <div class="info-card" style="background: none; padding: 0;">
+                    <div class="card-section">
+                        <h3 style="color: rgba(255,255,255,0.9);">Debit Card</h3>
+                        <% if (user.hasCard && user.cardNumber) { %>
+                            <p style="font-size: 1.25rem; font-family: monospace; margin: 1rem 0;">
+                                <%= user.cardNumber.match(/.{1,4}/g).join(' ') %>
+                            </p>
+                            <p>Expires: <%= user.cardExpiry %></p>
+                        <% } else { %>
+                            <p style="margin-top: 1rem;">No active card</p>
+                            <% if (user.cardRequested) { %>
+                                <p style="color: #F59E0B;">⏳ Pending approval</p>
+                            <% } %>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
