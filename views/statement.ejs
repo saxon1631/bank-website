@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1a2639;
+        }
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0056B3;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #5a6a7e;
+            font-weight: 500;
+        }
+        .nav-links a.active {
+            color: #0056B3;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .statement-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .statement-header h1 {
+            font-size: 2rem;
+        }
+        .print-btn {
+            background: #0056B3;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .print-btn:hover {
+            background: #003d7a;
+        }
+        .statement-table {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid #edf2f7;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            text-align: left;
+            padding: 1rem 0.5rem;
+            color: #5a6a7e;
+            border-bottom: 2px solid #edf2f7;
+        }
+        td {
+            padding: 1rem 0.5rem;
+            border-bottom: 1px solid #edf2f7;
+        }
+        .positive { color: #0b7b0b; }
+        .negative { color: #c00; }
+        @media print {
+            .navbar, .print-btn, .footer { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-university"></i>
+            <span>Saxon Bank</span>
+        </div>
+        <div class="nav-links">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/statement" class="active">Statement</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="statement-header">
+            <h1>Account Statement</h1>
+            <button class="print-btn" onclick="window.print()">
+                <i class="fas fa-print"></i> Print / PDF
+            </button>
+        </div>
+
+        <div class="statement-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (transactions && transactions.length > 0) { %>
+                        <% transactions.forEach(tx => { %>
+                        <tr>
+                            <td><%= new Date(tx.date).toLocaleDateString() %></td>
+                            <td><%= tx.description || tx.type %></td>
+                            <td class="<%= tx.type === 'deposit' ? 'positive' : 'negative' %>">
+                                <%= tx.type === 'deposit' ? '+' : '-' %> <%= formatCurrency(tx.amount) %>
+                            </td>
+                            <td>
+                                <% if (tx.status === 'completed') { %>
+                                    <span style="color:#10B981;">Completed</span>
+                                <% } else if (tx.status === 'pending') { %>
+                                    <span style="color:#F59E0B;">Pending</span>
+                                <% } else { %>
+                                    <span style="color:#EF4444;">Rejected</span>
+                                <% } %>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr><td colspan="4" style="text-align:center; padding:2rem;">No transactions yet.</td></tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

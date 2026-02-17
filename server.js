@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const bcrypt = require("bcrypt");
 const path = require("path");
+const nodemailer = require("nodemailer");
 
 const app = express();
 
@@ -25,6 +26,20 @@ app.use(
         },
     })
 );
+
+// ========== EMAIL TRANSPORTER (Zoho) ==========
+const transporter = nodemailer.createTransport({
+    host: process.env.EMAIL_HOST || 'smtp.zoho.com',
+    port: process.env.EMAIL_PORT || 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    },
+    tls: {
+        rejectUnauthorized: false // optional, helps with some firewalls
+    }
+});
 
 // ========== DATABASE ==========
 mongoose
@@ -88,6 +103,10 @@ const userSchema = new mongoose.Schema({
     isAdmin: { type: Boolean, default: false },
     lastLogin: { type: Date, default: null },
     createdAt: { type: Date, default: Date.now },
+    
+    // Password Reset Fields
+    resetToken: { type: String, default: null },
+    resetTokenExpiry: { type: Date, default: null },
 });
 
 const transactionSchema = new mongoose.Schema({
@@ -189,7 +208,6 @@ app.post("/login", async (req, res) => {
             });
         }
         
-        // Update last login
         user.lastLogin = new Date();
         await user.save();
         
@@ -247,6 +265,7 @@ app.post("/register", async (req, res) => {
 });
 
 // ========== PASSWORD RESET ROUTES ==========
+
 // Forgot Password Page
 app.get("/forgot-password", (req, res) => {
     res.render("forgot-password", {
@@ -256,21 +275,110 @@ app.get("/forgot-password", (req, res) => {
     });
 });
 
-// Forgot Password POST
+// Forgot Password POST (sends real email via Zoho)
 app.post("/forgot-password", async (req, res) => {
     try {
         const { email } = req.body;
         const user = await User.findOne({ email });
         
         if (!user) {
+            // Don't reveal if email exists
             return res.redirect("/forgot-password?success=If that email exists, we'll send reset instructions");
         }
         
-        console.log(`🔐 Password reset requested for: ${email}`);
-        res.redirect("/forgot-password?success=Password reset instructions sent to your email");
+        // Generate a random token
+        const resetToken = Math.random().toString(36).slice(-8); // 8-character token
+        const expiry = Date.now() + 3600000; // 1 hour
+        
+        user.resetToken = resetToken;
+        user.resetTokenExpiry = expiry;
+        await user.save();
+        
+        // Create reset link (use your domain – for now localhost, later your live URL)
+        const resetLink = `http://localhost:3000/reset-password?token=${resetToken}&email=${encodeURIComponent(email)}`;
+        
+        // Send email via Zoho
+        await transporter.sendMail({
+            from: `"Saxon Bank" <${process.env.EMAIL_FROM || process.env.EMAIL_USER}>`,
+            to: email,
+            subject: 'Password Reset Request',
+            html: `
+                <h2>Reset Your Password</h2>
+                <p>You requested a password reset. Click the link below to set a new password. This link expires in 1 hour.</p>
+                <p><a href="${resetLink}">${resetLink}</a></p>
+                <p>If you didn't request this, please ignore this email.</p>
+                <br>
+                <p>– Saxon Bank Team</p>
+            `
+        });
+        
+        console.log(`🔐 Password reset email sent to: ${email}`);
+        res.redirect("/forgot-password?success=Reset instructions sent to your email");
     } catch (error) {
         console.error("Password reset error:", error);
         res.redirect("/forgot-password?error=Something went wrong. Please try again.");
+    }
+});
+
+// Reset Password Page (GET)
+app.get("/reset-password", (req, res) => {
+    const { token, email } = req.query;
+    if (!token || !email) {
+        return res.redirect("/forgot-password?error=Invalid reset link");
+    }
+    res.render("reset-password", {
+        title: "Reset Password | Saxon Bank",
+        token,
+        email,
+        error: null,
+        success: null,
+        valid: true // for your custom template
+    });
+});
+
+// Reset Password POST
+app.post("/reset-password", async (req, res) => {
+    try {
+        const { email, token, password, confirm } = req.body;
+        if (password !== confirm) {
+            return res.render("reset-password", {
+                title: "Reset Password | Saxon Bank",
+                token,
+                email,
+                error: "Passwords do not match",
+                success: null,
+                valid: true
+            });
+        }
+        const user = await User.findOne({ email, resetToken: token });
+        if (!user || user.resetTokenExpiry < Date.now()) {
+            return res.render("reset-password", {
+                title: "Reset Password | Saxon Bank",
+                token,
+                email,
+                error: "Invalid or expired reset link",
+                success: null,
+                valid: true
+            });
+        }
+        // Hash new password
+        const hashedPassword = await bcrypt.hash(password, 10);
+        user.password = hashedPassword;
+        user.resetToken = null;
+        user.resetTokenExpiry = null;
+        await user.save();
+        
+        res.render("reset-password", {
+            title: "Reset Password | Saxon Bank",
+            token: null,
+            email: null,
+            error: null,
+            success: "Password reset successfully! You can now login.",
+            valid: false // hide form, show success
+        });
+    } catch (error) {
+        console.error(error);
+        res.redirect("/forgot-password?error=Something went wrong");
     }
 });
 
@@ -383,6 +491,24 @@ app.get("/limits", requireAuth, async (req, res) => {
     }
 });
 
+// ========== STATEMENT ROUTE ==========
+app.get("/statement", requireAuth, async (req, res) => {
+    try {
+        const user = await User.findById(req.session.userId);
+        const transactions = await Transaction.find({ userId: user._id })
+            .sort({ date: -1 });
+        res.render("statement", {
+            title: "Account Statement | Saxon Bank",
+            user,
+            transactions,
+            formatCurrency
+        });
+    } catch (error) {
+        console.error("Statement error:", error);
+        res.redirect("/dashboard");
+    }
+});
+
 // ========== KYC VERIFICATION ROUTES ==========
 
 // KYC Page
@@ -410,12 +536,10 @@ app.post("/kyc/submit", requireAuth, async (req, res) => {
         const { documentType } = req.body;
         const user = await User.findById(req.session.userId);
         
-        // Check if already verified
         if (user.isVerified) {
             return res.redirect("/kyc?error=You are already verified");
         }
         
-        // Check for existing pending request
         const existingRequest = await KycRequest.findOne({ 
             userId: user._id, 
             status: "pending" 
@@ -425,19 +549,17 @@ app.post("/kyc/submit", requireAuth, async (req, res) => {
             return res.redirect("/kyc?error=You already have a pending verification request");
         }
         
-        // Create KYC request (in real app, handle file upload here)
         const kycRequest = new KycRequest({
             userId: user._id,
             documents: [{
                 type: documentType,
-                url: "/uploads/placeholder.jpg", // Replace with actual file upload
+                url: "/uploads/placeholder.jpg",
                 filename: "document.jpg"
             }],
             status: "pending"
         });
         await kycRequest.save();
         
-        // Update user
         user.kycPending = true;
         user.kycProgress = 33;
         await user.save();
@@ -482,13 +604,11 @@ app.post("/admin/kyc/:id/approve", requireAuth, requireAdmin, async (req, res) =
     try {
         const kycRequest = await KycRequest.findById(req.params.id);
         
-        // Update KYC request
         kycRequest.status = "approved";
         kycRequest.processedAt = new Date();
         kycRequest.processedBy = req.session.userId;
         await kycRequest.save();
         
-        // Update user
         await User.findByIdAndUpdate(kycRequest.userId, {
             isVerified: true,
             kycPending: false,
@@ -714,7 +834,6 @@ app.post("/card/apply", requireAuth, async (req, res) => {
 });
 
 // ========== ADMIN ROUTES ==========
-
 // Admin Dashboard
 app.get("/admin", requireAuth, requireAdmin, async (req, res) => {
     try {
@@ -975,17 +1094,12 @@ app.post("/admin/cards/:id/approve", requireAuth, requireAdmin, async (req, res)
     try {
         const cardRequest = await CardRequest.findById(req.params.id);
         
-        // Generate card details
         const cardNumber = Math.floor(1000000000000000 + Math.random() * 9000000000000000).toString();
-        
-        // Set expiry 4 years from now
         const expiry = new Date();
         expiry.setFullYear(expiry.getFullYear() + 4);
         const cardExpiry = `${(expiry.getMonth() + 1).toString().padStart(2, '0')}/${expiry.getFullYear().toString().slice(-2)}`;
-        
         const cardCVV = Math.floor(100 + Math.random() * 900).toString();
         
-        // Update user
         await User.findByIdAndUpdate(cardRequest.userId, {
             hasCard: true,
             cardNumber: cardNumber,
@@ -994,7 +1108,6 @@ app.post("/admin/cards/:id/approve", requireAuth, requireAdmin, async (req, res)
             cardRequested: false
         });
         
-        // Update request
         cardRequest.status = "approved";
         cardRequest.processedDate = new Date();
         cardRequest.processedBy = req.session.userId;
