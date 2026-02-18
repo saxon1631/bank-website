@@ -31,13 +31,13 @@ app.use(
 const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST || 'smtp.zoho.com',
     port: process.env.EMAIL_PORT || 587,
-    secure: false, // true for 465, false for other ports
+    secure: false,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
     },
     tls: {
-        rejectUnauthorized: false // optional, helps with some firewalls
+        rejectUnauthorized: false
     }
 });
 
@@ -175,8 +175,14 @@ function formatCurrency(amount) {
 }
 
 // ========== ROUTES ==========
+// Home page (landing) – NEW
 app.get("/", (req, res) => {
-    res.redirect(req.session.userId ? "/dashboard" : "/login");
+    if (req.session.userId) {
+        return res.redirect("/dashboard");
+    }
+    res.render("index", {
+        title: "Saxon Bank – Modern Banking for Everyone"
+    });
 });
 
 // Login Page
@@ -275,29 +281,25 @@ app.get("/forgot-password", (req, res) => {
     });
 });
 
-// Forgot Password POST (sends real email via Zoho)
+// Forgot Password POST
 app.post("/forgot-password", async (req, res) => {
     try {
         const { email } = req.body;
         const user = await User.findOne({ email });
         
         if (!user) {
-            // Don't reveal if email exists
             return res.redirect("/forgot-password?success=If that email exists, we'll send reset instructions");
         }
         
-        // Generate a random token
-        const resetToken = Math.random().toString(36).slice(-8); // 8-character token
-        const expiry = Date.now() + 3600000; // 1 hour
+        const resetToken = Math.random().toString(36).slice(-8);
+        const expiry = Date.now() + 3600000;
         
         user.resetToken = resetToken;
         user.resetTokenExpiry = expiry;
         await user.save();
         
-        // Create reset link (use your domain – for now localhost, later your live URL)
         const resetLink = `http://localhost:3000/reset-password?token=${resetToken}&email=${encodeURIComponent(email)}`;
         
-        // Send email via Zoho
         await transporter.sendMail({
             from: `"Saxon Bank" <${process.env.EMAIL_FROM || process.env.EMAIL_USER}>`,
             to: email,
@@ -332,7 +334,7 @@ app.get("/reset-password", (req, res) => {
         email,
         error: null,
         success: null,
-        valid: true // for your custom template
+        valid: true
     });
 });
 
@@ -361,7 +363,6 @@ app.post("/reset-password", async (req, res) => {
                 valid: true
             });
         }
-        // Hash new password
         const hashedPassword = await bcrypt.hash(password, 10);
         user.password = hashedPassword;
         user.resetToken = null;
@@ -374,7 +375,7 @@ app.post("/reset-password", async (req, res) => {
             email: null,
             error: null,
             success: "Password reset successfully! You can now login.",
-            valid: false // hide form, show success
+            valid: false
         });
     } catch (error) {
         console.error(error);
