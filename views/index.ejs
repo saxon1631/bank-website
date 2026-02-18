@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saxon Bank – Modern Banking for Everyone</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <title>Saxon Bank – Trusted Banking for Your Future</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
@@ -16,25 +18,90 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #fff;
+            background: #ffffff;
             color: #1e293b;
             line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
         }
 
         .container {
             max-width: 1280px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 32px;
         }
 
-        /* Navbar */
+        /* ===== TYPOGRAPHY ===== */
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .section-subhead {
+            font-size: 1.125rem;
+            color: #64748b;
+            max-width: 700px;
+            margin: 0 auto 3rem auto;
+            text-align: center;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.75rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #0056b3;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,86,179,0.2);
+        }
+
+        .btn-primary:hover {
+            background: #003d7a;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,86,179,0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #0056b3;
+            border: 1px solid #0056b3;
+        }
+
+        .btn-outline:hover {
+            background: #f0f7ff;
+            transform: translateY(-2px);
+        }
+
+        /* ===== NAVBAR ===== */
         .navbar {
             background: white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            padding: 16px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            padding: 1rem 0;
             position: sticky;
             top: 0;
-            z-index: 50;
+            z-index: 100;
         }
 
         .navbar .container {
@@ -46,77 +113,48 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 0.5rem;
             font-size: 1.5rem;
             font-weight: 700;
-            color: #0056B3;
+            color: #0056b3;
         }
 
         .logo i {
-            font-size: 1.8rem;
+            font-size: 2rem;
         }
 
         .nav-links {
             display: flex;
-            gap: 32px;
+            gap: 2.5rem;
             align-items: center;
         }
 
         .nav-links a {
             text-decoration: none;
-            color: #475569;
+            color: #334155;
             font-weight: 500;
             transition: color 0.2s;
         }
 
         .nav-links a:hover {
-            color: #0056B3;
+            color: #0056b3;
         }
 
         .nav-buttons {
             display: flex;
-            gap: 12px;
+            gap: 1rem;
         }
 
-        .btn-outline {
-            border: 1px solid #0056B3;
-            color: #0056B3;
-            padding: 8px 20px;
-            border-radius: 40px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-
-        .btn-outline:hover {
-            background: #0056B3;
-            color: white;
-        }
-
-        .btn-primary {
-            background: #0056B3;
-            color: white;
-            padding: 8px 20px;
-            border-radius: 40px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: background 0.2s;
-        }
-
-        .btn-primary:hover {
-            background: #003d7a;
-        }
-
-        /* Hero */
+        /* ===== HERO ===== */
         .hero {
-            padding: 64px 0;
-            background: linear-gradient(to bottom, #f8fafc, #ffffff);
+            padding: 5rem 0;
+            background: linear-gradient(145deg, #f9fcff, #ffffff);
         }
 
         .hero .container {
             display: flex;
             align-items: center;
-            gap: 48px;
+            gap: 4rem;
         }
 
         .hero-content {
@@ -124,22 +162,19 @@
         }
 
         .hero-content h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            line-height: 1.2;
             color: #0f172a;
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
 
         .hero-content p {
-            font-size: 1.125rem;
+            font-size: 1.25rem;
             color: #475569;
-            margin-bottom: 32px;
+            margin-bottom: 2.5rem;
         }
 
         .hero-buttons {
             display: flex;
-            gap: 16px;
+            gap: 1rem;
         }
 
         .hero-image {
@@ -148,172 +183,279 @@
 
         .hero-image img {
             width: 100%;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0,86,179,0.1);
+            border-radius: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0,86,179,0.25);
         }
 
-        /* Section headings */
-        .section-title {
-            font-size: 2rem;
-            font-weight: 700;
+        /* ===== LOANS GRID ===== */
+        .loans {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .loans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .loan-card {
+            background: #fafcff;
+            border: 1px solid #e9eef4;
+            border-radius: 24px;
+            padding: 2rem;
+            transition: all 0.25s ease;
+        }
+
+        .loan-card:hover {
+            border-color: #b8d1f0;
+            box-shadow: 0 20px 30px -10px rgba(0,86,179,0.1);
+            transform: translateY(-4px);
+        }
+
+        .loan-icon {
+            font-size: 2.25rem;
+            color: #0056b3;
+            margin-bottom: 1.5rem;
+        }
+
+        .loan-card h3 {
+            margin-bottom: 0.75rem;
+        }
+
+        .loan-card p {
+            color: #475569;
+            margin-bottom: 1.5rem;
+        }
+
+        .loan-link {
+            color: #0056b3;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .loan-link i {
+            transition: transform 0.2s;
+        }
+
+        .loan-link:hover i {
+            transform: translateX(4px);
+        }
+
+        /* ===== STATS ===== */
+        .stats {
+            background: #0f172a;
+            color: white;
+            padding: 4rem 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
             text-align: center;
-            margin-bottom: 48px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #cbd5e1;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== FUND MANAGEMENT ===== */
+        .fund {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .fund .container {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .fund-content {
+            flex: 1;
+        }
+
+        .fund-content h2 {
             color: #0f172a;
         }
 
-        /* Cards */
-        .cards-grid {
+        .fund-content p {
+            color: #475569;
+            margin: 1.5rem 0;
+        }
+
+        .fund-features {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .fund-features li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: #334155;
+        }
+
+        .fund-features i {
+            color: #0056b3;
+            font-size: 1.25rem;
+        }
+
+        .fund-image {
+            flex: 1;
+        }
+
+        .fund-image img {
+            width: 100%;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+
+        /* ===== STEPS ===== */
+        .steps {
+            background: #f8fcff;
+            padding: 5rem 0;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step-item {
+            text-align: center;
+        }
+
+        .step-number {
+            width: 56px;
+            height: 56px;
+            background: #0056b3;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 20px rgba(0,86,179,0.2);
+        }
+
+        .step-item h4 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .step-item p {
+            color: #475569;
+        }
+
+        /* ===== TESTIMONIALS ===== */
+        .testimonials {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
-            margin: 48px 0;
+            gap: 2rem;
+            margin-top: 2rem;
         }
 
-        .card {
-            background: #f8fafc;
+        .testimonial-card {
+            background: #fafcff;
+            border: 1px solid #e9eef4;
             border-radius: 24px;
-            padding: 32px;
-            border: 1px solid #e2e8f0;
-            transition: transform 0.2s, box-shadow 0.2s;
+            padding: 2rem;
         }
 
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(0,86,179,0.08);
+        .stars {
+            color: #fbbf24;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
         }
 
-        .card-icon {
-            font-size: 2.5rem;
-            color: #0056B3;
-            margin-bottom: 20px;
+        .testimonial-text {
+            font-style: italic;
+            color: #1e293b;
+            margin-bottom: 2rem;
         }
 
-        .card-badge {
-            display: inline-block;
-            background: #10b981;
-            color: white;
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 4px 12px;
-            border-radius: 30px;
-            margin-bottom: 16px;
-        }
-
-        .card h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .card p {
-            color: #475569;
-            margin-bottom: 24px;
-        }
-
-        .card .btn-outline {
-            display: inline-block;
-            padding: 8px 16px;
-            font-size: 0.875rem;
-        }
-
-        /* Features */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 24px;
-            margin: 48px 0;
-        }
-
-        .feature {
-            text-align: center;
-            padding: 24px;
-        }
-
-        .feature i {
-            font-size: 2rem;
-            color: #0056B3;
-            margin-bottom: 16px;
-        }
-
-        .feature h4 {
-            font-size: 1.125rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .feature p {
-            color: #475569;
-            font-size: 0.875rem;
-        }
-
-        /* Security meter */
-        .security-section {
-            background: #f8fafc;
-            padding: 48px 0;
-            border-radius: 32px;
-            margin: 48px 0;
-        }
-
-        .security-meter {
-            max-width: 500px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .meter-bar {
-            width: 100%;
-            height: 12px;
-            background: #e2e8f0;
-            border-radius: 30px;
-            margin: 24px 0 12px;
-            overflow: hidden;
-        }
-
-        .meter-fill {
-            height: 100%;
-            width: 65%;
-            background: #10b981;
-            border-radius: 30px;
-        }
-
-        .meter-labels {
+        .testimonial-author {
             display: flex;
-            justify-content: space-between;
-            font-size: 0.875rem;
-            color: #475569;
-            margin-bottom: 24px;
+            align-items: center;
+            gap: 1rem;
         }
 
-        /* Footer */
+        .author-avatar {
+            width: 48px;
+            height: 48px;
+            background: #0056b3;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.125rem;
+        }
+
+        .author-info h5 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .author-info p {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        /* ===== FOOTER ===== */
         .footer {
             background: #0f172a;
             color: white;
-            padding: 48px 0 24px;
-            margin-top: 64px;
+            padding: 4rem 0 2rem;
         }
 
         .footer-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
+            gap: 3rem;
+            margin-bottom: 3rem;
         }
 
         .footer-col h5 {
-            font-weight: 600;
-            margin-bottom: 20px;
             color: #94a3b8;
             font-size: 0.875rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            margin-bottom: 1.5rem;
         }
 
         .footer-col a {
             display: block;
             color: #cbd5e1;
             text-decoration: none;
-            margin-bottom: 10px;
-            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
             transition: color 0.2s;
         }
 
@@ -323,36 +465,36 @@
 
         .footer-col p {
             color: #cbd5e1;
-            font-size: 0.875rem;
-            margin-bottom: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 0.75rem;
         }
 
         .footer-col i {
-            color: #0056B3;
+            color: #0056b3;
             width: 20px;
         }
 
         .footer-bottom {
-            border-top: 1px solid #334155;
-            padding-top: 24px;
+            border-top: 1px solid #1e293b;
+            padding-top: 2rem;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            gap: 16px;
+            gap: 1rem;
         }
 
         .social-links {
             display: flex;
-            gap: 16px;
+            gap: 1.5rem;
         }
 
         .social-links a {
             color: #94a3b8;
-            font-size: 1.125rem;
+            font-size: 1.25rem;
             transition: color 0.2s;
         }
 
@@ -366,28 +508,23 @@
             text-align: center;
             width: 100%;
             line-height: 1.6;
+            margin-top: 2rem;
         }
 
         .legal p {
-            margin: 4px 0;
+            margin: 0.2rem 0;
         }
 
-        hr {
-            border: none;
-            border-top: 1px solid #e2e8f0;
-            margin: 32px 0;
-        }
-
-        /* Responsive */
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .hero .container {
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+            .hero .container,
+            .fund .container {
                 flex-direction: column;
             }
             .nav-links {
-                display: none; /* For simplicity, keep it hidden; we could add a hamburger later */
-            }
-            .hero-content h1 {
-                font-size: 2rem;
+                display: none; /* hide on mobile for simplicity – can add hamburger later */
             }
         }
     </style>
@@ -401,113 +538,214 @@
             </div>
             <div class="nav-links">
                 <a href="#">Home</a>
-                <a href="#products">Products</a>
-                <a href="#features">About</a>
-                <a href="#support">Support</a>
+                <a href="#loans">Loans</a>
+                <a href="#fund">Wealth</a>
+                <a href="#apply">Apply</a>
+                <a href="#reviews">Reviews</a>
             </div>
             <div class="nav-buttons">
-                <a href="/login" class="btn-outline">Log In</a>
-                <a href="/register" class="btn-primary">Sign Up</a>
+                <a href="/login" class="btn btn-outline">Log In</a>
+                <a href="/register" class="btn btn-primary">Sign Up</a>
             </div>
         </div>
     </nav>
 
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Banking that works for you</h1>
-                <p>Discover a better way to manage your money with no hidden fees, smart insights, and 24/7 support.</p>
-                <div class="hero-buttons">
-                    <a href="/register" class="btn-primary">Open an Account</a>
-                    <a href="/login" class="btn-outline">Sign In</a>
+    <main>
+        <!-- Hero -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Banking built around you</h1>
+                    <p>Transparent, secure, and personal – we're here to help you achieve your financial goals.</p>
+                    <div class="hero-buttons">
+                        <a href="/register" class="btn btn-primary">Open an Account</a>
+                        <a href="/login" class="btn btn-outline">Sign In</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Mobile banking">
                 </div>
             </div>
-            <div class="hero-image">
-                <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Banking app on phone">
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="products" class="container" style="scroll-margin-top: 80px;">
-        <h2 class="section-title">Choose the card that works for you</h2>
-        <div class="cards-grid">
-            <div class="card">
-                <div class="card-icon"><i class="fas fa-credit-card"></i></div>
-                <span class="card-badge">6% cash back</span>
-                <h3>Customized Cash Rewards</h3>
-                <p>Earn more in the category you choose – dining, travel, gas, and more.</p>
-                <a href="/register" class="btn-outline">Apply now</a>
-            </div>
-            <div class="card">
-                <div class="card-icon"><i class="fas fa-credit-card"></i></div>
-                <span class="card-badge">2% cash back</span>
-                <h3>Unlimited Cash Rewards</h3>
-                <p>Unlimited 2% cash back on all purchases – no categories to track.</p>
-                <a href="/register" class="btn-outline">Apply now</a>
-            </div>
-            <div class="card">
-                <div class="card-icon"><i class="fas fa-gem"></i></div>
-                <span class="card-badge">1.5x points</span>
-                <h3>Premium Rewards</h3>
-                <p>Earn unlimited 1.5 points per dollar, plus exclusive travel benefits.</p>
-                <a href="/register" class="btn-outline">Apply now</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="features" class="container" style="scroll-margin-top: 80px;">
-        <h2 class="section-title">Why choose Saxon Bank?</h2>
-        <div class="features-grid">
-            <div class="feature">
-                <i class="fas fa-mobile-alt"></i>
-                <h4>Mobile Banking</h4>
-                <p>Bank anywhere, anytime with our award-winning app.</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-lock"></i>
-                <h4>Advanced Security</h4>
-                <p>Multi-factor authentication and real-time fraud monitoring.</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-chart-line"></i>
-                <h4>Smart Insights</h4>
-                <p>Track spending, set budgets, and reach your goals.</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-headset"></i>
-                <h4>24/7 Support</h4>
-                <p>We're here whenever you need us – call, chat, or email.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="container">
-        <div class="security-section">
-            <div class="security-meter">
-                <h2 class="section-title" style="margin-bottom: 20px;">Your security meter</h2>
-                <p class="meter-labels">
-                    <span>Standard</span>
-                    <span>Enhanced</span>
-                    <span>Advanced</span>
-                </p>
-                <div class="meter-bar">
-                    <div class="meter-fill"></div>
+        <!-- Loans Section -->
+        <section id="loans" class="loans">
+            <div class="container">
+                <h2>Loans designed for your life</h2>
+                <p class="section-subhead">From commercial to personal, we offer competitive rates and flexible terms.</p>
+                <div class="loans-grid">
+                    <div class="loan-card">
+                        <div class="loan-icon"><i class="fas fa-briefcase"></i></div>
+                        <h3>Commercial Loan</h3>
+                        <p>Grow your business with tailored financing and expert advice.</p>
+                        <a href="#" class="loan-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="loan-card">
+                        <div class="loan-icon"><i class="fas fa-car"></i></div>
+                        <h3>Car Loan</h3>
+                        <p>Low rates, quick approval – drive away with confidence.</p>
+                        <a href="#" class="loan-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="loan-card">
+                        <div class="loan-icon"><i class="fas fa-graduation-cap"></i></div>
+                        <h3>Education Loan</h3>
+                        <p>Invest in your future with flexible repayment options.</p>
+                        <a href="#" class="loan-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="loan-card">
+                        <div class="loan-icon"><i class="fas fa-hard-hat"></i></div>
+                        <h3>Construction Loan</h3>
+                        <p>Finance your build with staged disbursements.</p>
+                        <a href="#" class="loan-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="loan-card">
+                        <div class="loan-icon"><i class="fas fa-tree"></i></div>
+                        <h3>Land Loan</h3>
+                        <p>Secure your plot with competitive terms.</p>
+                        <a href="#" class="loan-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="loan-card">
+                        <div class="loan-icon"><i class="fas fa-home"></i></div>
+                        <h3>Housing Loan</h3>
+                        <p>Make your dream home a reality with our mortgage solutions.</p>
+                        <a href="#" class="loan-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
                 </div>
-                <p style="color:#475569; margin: 16px 0 24px;">You're well protected. Enable more features to increase your level.</p>
-                <a href="#" class="btn-outline">Check your level</a>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <!-- Stats Bar -->
+        <section class="stats">
+            <div class="container">
+                <div class="stats-grid">
+                    <div>
+                        <div class="stat-number">1000+</div>
+                        <div class="stat-label">Projects Completed</div>
+                    </div>
+                    <div>
+                        <div class="stat-number">£2.5B</div>
+                        <div class="stat-label">Funds Managed</div>
+                    </div>
+                    <div>
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Client Satisfaction</div>
+                    </div>
+                    <div>
+                        <div class="stat-number">50K+</div>
+                        <div class="stat-label">Happy Customers</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fund Management -->
+        <section id="fund" class="fund">
+            <div class="container">
+                <div class="fund-content">
+                    <h2>Expert wealth management</h2>
+                    <p>Our advisors help you preserve and grow your capital with a personalised approach. From retirement planning to multi‑asset portfolios, we're with you every step.</p>
+                    <ul class="fund-features">
+                        <li><i class="fas fa-check-circle"></i> Diversified portfolios tailored to your risk</li>
+                        <li><i class="fas fa-check-circle"></i> Transparent reporting and low fees</li>
+                        <li><i class="fas fa-check-circle"></i> Regular reviews with your dedicated advisor</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary">Schedule a consultation</a>
+                </div>
+                <div class="fund-image">
+                    <img src="https://images.unsplash.com/photo-1579621970588-a35d0e7ab9b6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Financial advisor">
+                </div>
+            </div>
+        </section>
+
+        <!-- Loan Steps -->
+        <section id="apply" class="steps">
+            <div class="container">
+                <h2>Apply in four simple steps</h2>
+                <p class="section-subhead">Get from application to funding faster than you think.</p>
+                <div class="steps-grid">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <h4>Check eligibility</h4>
+                        <p>Use our online tool – no impact on your credit score.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <h4>Choose your loan</h4>
+                        <p>Compare rates and terms side‑by‑side.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <h4>Upload documents</h4>
+                        <p>Securely submit ID, income proof, and more.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <h4>Get funded</h4>
+                        <p>Funds in your account as fast as 24 hours.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section id="reviews" class="testimonials">
+            <div class="container">
+                <h2>Trusted by thousands</h2>
+                <p class="section-subhead">See what our clients say about banking with us.</p>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"Saxon Bank made buying our first home simple and stress‑free. The online application was clear, and we had approval in two days."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">JD</div>
+                            <div class="author-info">
+                                <h5>John Davies</h5>
+                                <p>Homeowner, Manchester</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"The business loan helped us expand our bakery. The team was supportive and the rates were very competitive."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">AS</div>
+                            <div class="author-info">
+                                <h5>Aisha Syed</h5>
+                                <p>Small Business Owner</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"I used their education loan for my master's degree. The interest rate was fair and the online portal made repayments easy."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">MK</div>
+                            <div class="author-info">
+                                <h5>Michael Kim</h5>
+                                <p>Graduate Student</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <footer id="support" class="footer">
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
                     <h5>Products</h5>
-                    <a href="#products">Checking</a>
-                    <a href="#products">Savings</a>
-                    <a href="#products">Credit Cards</a>
-                    <a href="#products">Loans</a>
+                    <a href="#loans">Loans</a>
+                    <a href="#">Credit Cards</a>
+                    <a href="#">Savings</a>
+                    <a href="#">Investments</a>
                 </div>
                 <div class="footer-col">
                     <h5>Resources</h5>
@@ -537,11 +775,10 @@
                     <p><i class="fas fa-clock"></i> 24/7 Support</p>
                 </div>
             </div>
-
             <div class="footer-bottom">
                 <div class="social-links">
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-x-twitter"></i></a>
                     <a href="#"><i class="fab fa-linkedin-in"></i></a>
                     <a href="#"><i class="fab fa-instagram"></i></a>
                 </div>
@@ -555,10 +792,10 @@
         </div>
     </footer>
 
+    <!-- Smooth scroll for anchor links -->
     <script>
-        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
