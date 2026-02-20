@@ -1305,6 +1305,7 @@ app.get("/admin", requireAuth, requireAdmin, async (req, res) => {
             status: "pending"
         }).populate("userId");
         const pendingLoans = await Loan.find({ status: "pending" }).populate("userId");
+        const billers = await Biller.find({});
 
         res.render("admin/dashboard", {
             title: "Admin Dashboard | Saxon Bank",
@@ -1313,6 +1314,7 @@ app.get("/admin", requireAuth, requireAdmin, async (req, res) => {
             pendingCards: pendingCards,
             pendingKyc: pendingKyc,
             pendingLoans: pendingLoans,
+            billers: billers,
             success: req.query.success || null,
             error: req.query.error || null
         });
@@ -1677,7 +1679,7 @@ app.post("/admin/users/:id/toggle-admin", requireAuth, requireAdmin, async (req,
     }
 });
 
-// ========== ADMIN TRANSFER APPROVAL ==========
+// ========== ADMIN TRANSFER APPROVAL (FIXED) ==========
 app.get("/admin/transfers", requireAuth, requireAdmin, async (req, res) => {
     try {
         const pendingTransfers = await Transaction.find({
@@ -1704,19 +1706,30 @@ app.get("/admin/transfers", requireAuth, requireAdmin, async (req, res) => {
     }
 });
 
+// FIXED: Approve transfer with better error handling
 app.post("/admin/transfers/:id/approve", requireAuth, requireAdmin, async (req, res) => {
     try {
         const transaction = await Transaction.findById(req.params.id);
-        const recipient = await User.findById(transaction.toUserId);
+        if (!transaction) {
+            return res.redirect("/admin/transfers?error=Transaction not found");
+        }
 
+        const recipient = await User.findById(transaction.toUserId);
+        if (!recipient) {
+            return res.redirect("/admin/transfers?error=Recipient not found");
+        }
+
+        // Credit recipient
         recipient.balance += transaction.amount;
         await recipient.save();
 
+        // Update transaction status
         transaction.status = "completed";
         transaction.processedBy = req.session.userId;
         transaction.processedDate = new Date();
         await transaction.save();
 
+        // Create transaction record for recipient
         const recipientTransaction = new Transaction({
             userId: recipient._id,
             type: "transfer",
@@ -1732,23 +1745,34 @@ app.post("/admin/transfers/:id/approve", requireAuth, requireAdmin, async (req, 
         res.redirect("/admin/transfers?success=Transfer approved and recipient credited");
     } catch (error) {
         console.error("Transfer approval error:", error);
-        res.redirect("/admin/transfers?error=Failed to approve transfer");
+        res.redirect("/admin/transfers?error=Failed to approve transfer: " + error.message);
     }
 });
 
+// FIXED: Reject transfer with better error handling
 app.post("/admin/transfers/:id/reject", requireAuth, requireAdmin, async (req, res) => {
     try {
         const transaction = await Transaction.findById(req.params.id);
-        const sender = await User.findById(transaction.fromUserId);
+        if (!transaction) {
+            return res.redirect("/admin/transfers?error=Transaction not found");
+        }
 
+        const sender = await User.findById(transaction.fromUserId);
+        if (!sender) {
+            return res.redirect("/admin/transfers?error=Sender not found");
+        }
+
+        // Refund sender
         sender.balance += transaction.amount;
         await sender.save();
 
+        // Update transaction status
         transaction.status = "rejected";
         transaction.processedBy = req.session.userId;
         transaction.processedDate = new Date();
         await transaction.save();
 
+        // Create refund transaction record
         const refundTransaction = new Transaction({
             userId: sender._id,
             type: "deposit",
@@ -1763,7 +1787,7 @@ app.post("/admin/transfers/:id/reject", requireAuth, requireAdmin, async (req, r
         res.redirect("/admin/transfers?success=Transfer rejected and sender refunded");
     } catch (error) {
         console.error("Transfer rejection error:", error);
-        res.redirect("/admin/transfers?error=Failed to reject transfer");
+        res.redirect("/admin/transfers?error=Failed to reject transfer: " + error.message);
     }
 });
 

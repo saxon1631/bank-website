@@ -261,6 +261,51 @@
             color: white;
         }
 
+        /* ADMIN NAVIGATION STYLES */
+        .admin-nav {
+            background: linear-gradient(145deg, #1e3a5f, #0b1f33);
+            border-radius: 16px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .admin-badge {
+            background: #c9a05e;
+            color: #0b1f33;
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-link {
+            background: #1e3a5f;
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid #2d4b72;
+            transition: all 0.3s;
+        }
+
+        .admin-link:hover {
+            background: #c9a05e !important;
+            color: #0b1f33 !important;
+            border-color: #c9a05e !important;
+        }
+
         /* Navy Blue Balance Card with Gold Accents */
         .balance-card {
             background: linear-gradient(145deg, #0b1f33, #1e3a5f);
@@ -550,6 +595,19 @@
             font-weight: 500;
         }
 
+        /* KYC Status Card */
+        .kyc-status-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.2rem;
+            margin: 1rem 0 1.5rem;
+            border: 1px solid #e9eef3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        }
+
         /* Transactions List */
         .transactions-list {
             background: white;
@@ -707,6 +765,28 @@
                 align-items: flex-start;
                 gap: 0.5rem;
             }
+
+            .admin-nav {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .admin-link {
+                justify-content: center;
+            }
+
+            .kyc-status-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .kyc-status-card a,
+            .kyc-status-card span {
+                align-self: stretch;
+                text-align: center;
+                width: 100%;
+            }
         }
 
         @media screen and (max-width: 480px) {
@@ -739,6 +819,17 @@
             .action-tab {
                 padding: 0.5rem 0.8rem;
                 font-size: 0.8rem;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
     </style>
@@ -795,6 +886,61 @@
             <a href="/insights" class="action-tab"><i class="fas fa-chart-pie"></i> Insights</a>
             <a href="/currency" class="action-tab"><i class="fas fa-coins"></i> Currency</a>
         </div>
+
+        <!-- KYC VERIFICATION SECTION -->
+        <div class="kyc-status-card">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="width: 48px; height: 48px; background: <%= user.isVerified ? '#e6f7e6' : (user.kycPending ? '#fff3d6' : '#fee7e7') %>; border-radius: 14px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-id-card" style="font-size: 1.3rem; color: <%= user.isVerified ? '#10b981' : (user.kycPending ? '#f59e0b' : '#ef4444') %>;"></i>
+                </div>
+                <div>
+                    <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 0.2rem;">Identity Verification (KYC)</h3>
+                    <p style="font-size: 0.85rem; color: #5a6f88;">
+                        <% if (user.isVerified) { %>
+                            <span style="color: #10b981;">✓ Your identity has been verified</span>
+                        <% } else if (user.kycPending) { %>
+                            <span style="color: #f59e0b;">⏳ Verification pending - We're reviewing your documents</span>
+                        <% } else { %>
+                            <span style="color: #ef4444;">⚠️ Not verified - Please complete KYC to unlock all features</span>
+                        <% } %>
+                    </p>
+                </div>
+            </div>
+            <% if (!user.isVerified && !user.kycPending) { %>
+                <a href="/kyc" style="background: #c9a05e; color: white; padding: 0.6rem 1.5rem; border-radius: 40px; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: all 0.3s; box-shadow: 0 4px 10px rgba(201,160,94,0.2);">Verify Now →</a>
+            <% } else if (user.kycPending) { %>
+                <span style="background: #fff3d6; color: #f59e0b; padding: 0.6rem 1.5rem; border-radius: 40px; font-size: 0.9rem; font-weight: 600;">Pending Review</span>
+            <% } else { %>
+                <span style="background: #e6f7e6; color: #10b981; padding: 0.6rem 1.5rem; border-radius: 40px; font-size: 0.9rem; font-weight: 600;"><i class="fas fa-check-circle"></i> Verified</span>
+            <% } %>
+        </div>
+
+        <!-- ADMIN NAVIGATION BAR - ONLY SHOWS FOR ADMINS -->
+        <% if (user.isAdmin) { %>
+        <div class="admin-nav">
+            <span class="admin-badge">
+                <i class="fas fa-shield-alt"></i> ADMIN PANEL
+            </span>
+            <a href="/admin/users" class="admin-link">
+                <i class="fas fa-users"></i> Manage Users
+            </a>
+            <a href="/admin/kyc" class="admin-link">
+                <i class="fas fa-id-card"></i> KYC Requests
+            </a>
+            <a href="/admin/transfers" class="admin-link">
+                <i class="fas fa-exchange-alt"></i> Transfers
+            </a>
+            <a href="/admin/cards" class="admin-link">
+                <i class="fas fa-credit-card"></i> Cards
+            </a>
+            <a href="/admin/billers" class="admin-link">
+                <i class="fas fa-file-invoice"></i> Billers
+            </a>
+            <a href="/admin/loans" class="admin-link">
+                <i class="fas fa-hand-holding-usd"></i> Loans
+            </a>
+        </div>
+        <% } %>
 
         <!-- Main Account Card - NAVY BLUE WITH GOLD ACCENTS -->
         <div class="balance-card">

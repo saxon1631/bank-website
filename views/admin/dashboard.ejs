@@ -7,12 +7,18 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background: #f5f7fb;
             color: #1a2639;
         }
+
         .navbar {
             background: #0b1f33;
             padding: 1rem 2rem;
@@ -20,7 +26,9 @@
             justify-content: space-between;
             align-items: center;
             color: white;
+            border-bottom: 3px solid #c9a05e;
         }
+
         .nav-brand {
             display: flex;
             align-items: center;
@@ -29,90 +37,414 @@
             font-weight: 700;
             color: #c9a05e;
         }
+
         .nav-links {
             display: flex;
             gap: 2rem;
         }
+
         .nav-links a {
             color: #cfddee;
             text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
         }
-        .nav-links a:hover {
+
+        .nav-links a:hover,
+        .nav-links a.active {
             color: #c9a05e;
         }
+
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 2rem auto;
             padding: 0 2rem;
         }
+
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
         }
+
+        .header h1 {
+            font-size: 2rem;
+            color: #0b1f33;
+        }
+
         .admin-badge {
             background: #c9a05e;
             color: #0b1f33;
             padding: 0.5rem 1.5rem;
             border-radius: 30px;
             font-weight: 700;
+            font-size: 0.9rem;
         }
+
+        /* Welcome Section */
+        .welcome-section {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid #e9eef3;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        .welcome-section h2 {
+            font-size: 1.5rem;
+            color: #0b1f33;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-section .highlight {
+            color: #c9a05e;
+        }
+
+        .welcome-section p {
+            color: #5a6f88;
+        }
+
+        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
+
         .stat-card {
             background: white;
-            padding: 1.5rem;
             border-radius: 16px;
-            border: 1px solid #edf2f7;
+            padding: 1.5rem;
+            border: 1px solid #e9eef3;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
         }
+
+        .stat-card h3 {
+            color: #5a6f88;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
         .stat-number {
             font-size: 2rem;
             font-weight: 700;
             color: #0b1f33;
+            margin-bottom: 0.25rem;
         }
+
+        .stat-label {
+            color: #8a9fb0;
+            font-size: 0.8rem;
+        }
+
+        /* Action Tabs */
+        .action-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .action-tab {
+            background: white;
+            color: #0b1f33;
+            font-weight: 600;
+            text-decoration: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 40px;
+            border: 1px solid #e9eef3;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .action-tab i {
+            color: #c9a05e;
+        }
+
+        .action-tab:hover {
+            background: #c9a05e;
+            color: white;
+            border-color: #c9a05e;
+        }
+
+        .action-tab:hover i {
+            color: white;
+        }
+
+        /* Admin Cards Grid */
         .admin-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
-            margin-top: 2rem;
+            margin-bottom: 2rem;
         }
+
         .admin-card {
             background: white;
-            padding: 2rem;
-            border-radius: 16px;
+            border-radius: 20px;
+            padding: 1.5rem;
             text-decoration: none;
             color: inherit;
-            border: 1px solid #edf2f7;
-            transition: transform 0.2s;
+            border: 1px solid #e9eef3;
+            transition: all 0.3s;
             display: block;
         }
+
         .admin-card:hover {
             transform: translateY(-3px);
             border-color: #c9a05e;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 25px rgba(201,160,94,0.1);
         }
+
         .admin-icon {
-            font-size: 2.5rem;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(145deg, #f0f5ff, #e6f0fa);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
             color: #c9a05e;
             margin-bottom: 1rem;
         }
+
         .admin-card h3 {
             font-size: 1.2rem;
             margin-bottom: 0.5rem;
+            color: #0b1f33;
         }
+
+        .admin-card p {
+            color: #5a6f88;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
         .badge {
             display: inline-block;
             background: #0b1f33;
             color: white;
-            padding: 0.2rem 0.8rem;
+            padding: 0.3rem 1rem;
             border-radius: 30px;
             font-size: 0.8rem;
-            margin-top: 0.5rem;
+            font-weight: 600;
+        }
+
+        .badge.warning {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .badge.success {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        /* KYC Section */
+        .kyc-section {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid #e9eef3;
+        }
+
+        .kyc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .kyc-header h3 {
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .kyc-header i {
+            color: #c9a05e;
+        }
+
+        .kyc-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .kyc-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f8fafd;
+            border-radius: 12px;
+            border: 1px solid #e9eef3;
+        }
+
+        .kyc-user h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .kyc-user p {
+            font-size: 0.75rem;
+            color: #5a6f88;
+        }
+
+        .kyc-status {
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .kyc-status.pending {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .btn-view {
+            background: #0b1f33;
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .btn-view:hover {
+            background: #1e3a5f;
+        }
+
+        /* Recent Activity */
+        .activity-section {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid #e9eef3;
+        }
+
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #e9eef3;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            background: #f0f5ff;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: #c9a05e;
+        }
+
+        .activity-details {
+            flex: 1;
+        }
+
+        .activity-details h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .activity-details p {
+            font-size: 0.75rem;
+            color: #5a6f88;
+        }
+
+        .activity-time {
+            font-size: 0.7rem;
+            color: #8a9fb0;
+        }
+
+        /* Footer */
+        .footer {
+            background: #0b1f33;
+            color: #a0b8d0;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: center;
+            border-top: 3px solid #c9a05e;
+        }
+
+        /* Mobile Responsive */
+        @media screen and (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .action-tabs {
+                justify-content: center;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-tab {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .kyc-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .btn-view {
+                align-self: flex-end;
+            }
         }
     </style>
 </head>
@@ -128,72 +460,156 @@
             <a href="/admin/transfers">Transfers</a>
             <a href="/admin/cards">Cards</a>
             <a href="/admin/kyc">KYC</a>
+            <a href="/admin/billers">Billers</a>
+            <a href="/admin/loans">Loans</a>
             <a href="/dashboard">Exit</a>
         </div>
     </nav>
 
     <div class="container">
-        <div class="header">
-            <h1>Admin Dashboard</h1>
-            <span class="admin-badge">⚡ ADMIN</span>
+        <!-- Welcome Header -->
+        <div class="welcome-section">
+            <h2>Welcome back, <span class="highlight">Admin</span></h2>
+            <p>📌 Your financial overview & system management</p>
         </div>
 
-        <!-- Stats -->
+        <!-- Quick Action Tabs -->
+        <div class="action-tabs">
+            <a href="/admin/users" class="action-tab"><i class="fas fa-users"></i> Users</a>
+            <a href="/admin/transfers" class="action-tab"><i class="fas fa-exchange-alt"></i> Transfers</a>
+            <a href="/admin/cards" class="action-tab"><i class="fas fa-credit-card"></i> Cards</a>
+            <a href="/admin/kyc" class="action-tab"><i class="fas fa-id-card"></i> KYC</a>
+            <a href="/admin/billers" class="action-tab"><i class="fas fa-file-invoice"></i> Billers</a>
+            <a href="/admin/loans" class="action-tab"><i class="fas fa-hand-holding-usd"></i> Loans</a>
+        </div>
+
+        <!-- Stats Overview -->
         <div class="stats-grid">
             <div class="stat-card">
                 <h3>Total Users</h3>
-                <p class="stat-number"><%= users ? users.length : 0 %></p>
-            </div>
-            <div class="stat-card">
-                <h3>Pending Transfers</h3>
-                <p class="stat-number"><%= pendingTransfers ? pendingTransfers.length : 0 %></p>
-            </div>
-            <div class="stat-card">
-                <h3>Pending Cards</h3>
-                <p class="stat-number"><%= pendingCards ? pendingCards.length : 0 %></p>
+                <div class="stat-number"><%= users ? users.length : 0 %></div>
+                <div class="stat-label">Registered accounts</div>
             </div>
             <div class="stat-card">
                 <h3>Pending KYC</h3>
-                <p class="stat-number"><%= pendingKyc ? pendingKyc.length : 0 %></p>
+                <div class="stat-number"><%= pendingKyc ? pendingKyc.length : 0 %></div>
+                <div class="stat-label">Awaiting verification</div>
+            </div>
+            <div class="stat-card">
+                <h3>Pending Transfers</h3>
+                <div class="stat-number"><%= pendingTransfers ? pendingTransfers.length : 0 %></div>
+                <div class="stat-label">Need approval</div>
+            </div>
+            <div class="stat-card">
+                <h3>Card Requests</h3>
+                <div class="stat-number"><%= pendingCards ? pendingCards.length : 0 %></div>
+                <div class="stat-label">Pending approval</div>
+            </div>
+            <div class="stat-card">
+                <h3>Loan Applications</h3>
+                <div class="stat-number"><%= pendingLoans ? pendingLoans.length : 0 %></div>
+                <div class="stat-label">Pending review</div>
             </div>
         </div>
 
-        <!-- Management Cards -->
+        <!-- Admin Management Cards -->
         <div class="admin-grid">
             <a href="/admin/users" class="admin-card">
                 <div class="admin-icon"><i class="fas fa-users"></i></div>
                 <h3>User Management</h3>
-                <p>View, edit, and manage all users</p>
+                <p>View, edit, and manage all bank users</p>
                 <span class="badge"><%= users ? users.length : 0 %> total</span>
+            </a>
+
+            <a href="/admin/kyc" class="admin-card">
+                <div class="admin-icon"><i class="fas fa-id-card"></i></div>
+                <h3>KYC Verification</h3>
+                <p>Verify user identities and documents</p>
+                <span class="badge warning"><%= pendingKyc ? pendingKyc.length : 0 %> pending</span>
             </a>
 
             <a href="/admin/transfers" class="admin-card">
                 <div class="admin-icon"><i class="fas fa-exchange-alt"></i></div>
                 <h3>Transfer Approvals</h3>
                 <p>Approve or reject pending transfers</p>
-                <span class="badge"><%= pendingTransfers ? pendingTransfers.length : 0 %> pending</span>
+                <span class="badge warning"><%= pendingTransfers ? pendingTransfers.length : 0 %> pending</span>
             </a>
 
             <a href="/admin/cards" class="admin-card">
                 <div class="admin-icon"><i class="fas fa-credit-card"></i></div>
                 <h3>Card Requests</h3>
                 <p>Approve or reject card applications</p>
-                <span class="badge"><%= pendingCards ? pendingCards.length : 0 %> pending</span>
+                <span class="badge warning"><%= pendingCards ? pendingCards.length : 0 %> pending</span>
             </a>
 
-            <a href="/admin/kyc" class="admin-card">
-                <div class="admin-icon"><i class="fas fa-id-card"></i></div>
-                <h3>KYC Verification</h3>
-                <p>Verify user identities</p>
-                <span class="badge"><%= pendingKyc ? pendingKyc.length : 0 %> pending</span>
+            <a href="/admin/loans" class="admin-card">
+                <div class="admin-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                <h3>Loan Applications</h3>
+                <p>Review and approve loan requests</p>
+                <span class="badge warning"><%= pendingLoans ? pendingLoans.length : 0 %> pending</span>
+            </a>
+
+            <a href="/admin/billers" class="admin-card">
+                <div class="admin-icon"><i class="fas fa-file-invoice"></i></div>
+                <h3>Biller Management</h3>
+                <p>Add and manage bill payment providers</p>
+                <span class="badge"><%= billers ? billers.length : 0 %> active</span>
             </a>
         </div>
 
-        <!-- Quick Stats -->
-        <div style="margin-top: 2rem; background: white; padding: 1.5rem; border-radius: 16px;">
-            <h3>Recent Activity</h3>
-            <p style="color: #5a6a7e; margin-top: 0.5rem;">Last login: <%= new Date().toLocaleString() %></p>
+        <!-- KYC Pending Section -->
+        <% if (pendingKyc && pendingKyc.length > 0) { %>
+        <div class="kyc-section">
+            <div class="kyc-header">
+                <h3><i class="fas fa-id-card"></i> Pending KYC Verifications</h3>
+                <a href="/admin/kyc" style="color: #c9a05e; text-decoration: none;">View all →</a>
+            </div>
+            <div class="kyc-list">
+                <% pendingKyc.slice(0, 3).forEach(request => { %>
+                <div class="kyc-item">
+                    <div class="kyc-user">
+                        <h4><%= request.userId ? request.userId.name : 'Unknown' %></h4>
+                        <p><%= request.userId ? request.userId.email : '' %></p>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span class="kyc-status pending">⏳ Pending</span>
+                        <a href="/admin/kyc" class="btn-view">Review</a>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+        </div>
+        <% } %>
+
+        <!-- Recent Activity -->
+        <div class="activity-section">
+            <div class="activity-header">
+                <h3><i class="fas fa-clock" style="color: #c9a05e;"></i> Recent Activity</h3>
+                <a href="/admin/transfers" style="color: #c9a05e; text-decoration: none;">View all</a>
+            </div>
+            
+            <% if (pendingTransfers && pendingTransfers.length > 0) { %>
+                <% pendingTransfers.slice(0, 3).forEach(transfer => { %>
+                <div class="activity-item">
+                    <div class="activity-icon"><i class="fas fa-exchange-alt"></i></div>
+                    <div class="activity-details">
+                        <h4>Transfer: $<%= transfer.amount %></h4>
+                        <p>From: <%= transfer.fromUserId?.name || 'Unknown' %> → To: <%= transfer.toUserId?.name || 'Unknown' %></p>
+                    </div>
+                    <div class="activity-time">Pending</div>
+                </div>
+                <% }) %>
+            <% } else { %>
+                <div style="text-align: center; padding: 2rem; color: #5a6f88;">
+                    <i class="fas fa-check-circle" style="font-size: 2rem; margin-bottom: 0.5rem; color: #10b981;"></i>
+                    <p>No pending activities</p>
+                </div>
+            <% } %>
         </div>
     </div>
+
+    <footer class="footer">
+        <p>© 2026 Saxon Bank. All rights reserved. | Admin Panel v2.0</p>
+    </footer>
 </body>
 </html>
