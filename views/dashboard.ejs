@@ -17,24 +17,23 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #f8fafd;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9eef5 100%);
             color: #1e2b3c;
             line-height: 1.5;
-            overflow-x: hidden;
         }
 
         /* ========== NAVBAR ========== */
         .navbar {
-            background: #0b1f33;
-            padding: 0.8rem 1rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            background: linear-gradient(145deg, #0b1f33, #1e3a5f);
+            padding: 1rem;
             position: sticky;
             top: 0;
             z-index: 1000;
+            border-bottom: 3px solid #c9a05e;
         }
 
         .nav-container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -45,14 +44,16 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .nav-brand i {
             color: #c9a05e;
-            font-size: 1.4rem;
+            font-size: 1.6rem;
+            filter: drop-shadow(0 2px 4px rgba(201,160,94,0.3));
         }
 
         .hamburger {
@@ -73,11 +74,14 @@
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 500;
-            transition: color 0.2s;
+            transition: all 0.3s;
+            padding: 0.5rem 0;
+            border-bottom: 2px solid transparent;
         }
 
         .nav-links a:hover {
             color: #c9a05e;
+            border-bottom-color: #c9a05e;
         }
 
         .dark-mode-toggle {
@@ -86,9 +90,15 @@
             gap: 0.5rem;
             cursor: pointer;
             color: white;
-            background: transparent;
-            border: none;
-            font-size: 1.2rem;
+            background: rgba(255,255,255,0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+
+        .dark-mode-toggle:hover {
+            background: rgba(201,160,94,0.3);
         }
 
         .user-menu {
@@ -100,14 +110,19 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            padding: 6px 14px;
+            padding: 6px 16px;
             border-radius: 30px;
-            background: #1e3a5f;
+            background: rgba(201,160,94,0.2);
             color: white;
-            font-weight: 500;
+            font-weight: 600;
             font-size: 0.9rem;
-            border: 1px solid #2d4b72;
-            cursor: pointer;
+            border: 1px solid #c9a05e;
+            transition: all 0.3s;
+        }
+
+        .user-name:hover {
+            background: #c9a05e;
+            color: #0b1f33;
         }
 
         .user-dropdown {
@@ -121,6 +136,7 @@
             min-width: 180px;
             display: none;
             z-index: 1000;
+            border: 1px solid #e9eef3;
         }
 
         .user-menu.show .user-dropdown {
@@ -141,224 +157,305 @@
 
         .user-dropdown a:hover {
             background: #f0f5ff;
-        }
-
-        /* ========== ADMIN NAVIGATION ========== */
-        .admin-nav {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            margin: 20px 0;
-            flex-wrap: wrap;
-            padding: 12px 18px;
-            background: linear-gradient(145deg, #1e3a5f, #0b1f33);
-            border-radius: 16px;
-            color: white;
-        }
-
-        .admin-badge {
-            background: #c9a05e;
-            color: #0b1f33;
-            padding: 6px 15px;
-            border-radius: 30px;
-            font-weight: 700;
-        }
-
-        .admin-btn {
-            color: white;
-            padding: 6px 16px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 500;
-            border: 1px solid rgba(255,255,255,0.15);
+            color: #c9a05e;
         }
 
         /* ========== MAIN CONTENT ========== */
         .container {
             max-width: 1200px;
-            margin: 1.5rem auto;
+            margin: 2rem auto;
             padding: 0 1rem;
             padding-bottom: 2rem;
         }
 
         /* Welcome Section */
         .welcome-section {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 1px solid #e9eef3;
         }
 
         .welcome-section h1 {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 600;
             color: #0b1f33;
+            margin-bottom: 0.3rem;
         }
 
         .highlight {
             color: #c9a05e;
+            position: relative;
+            display: inline-block;
+        }
+
+        .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #c9a05e, transparent);
         }
 
         .subtitle {
             color: #5a6f88;
-            font-size: 0.9rem;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        /* Action Tabs */
+        .subtitle i {
+            color: #c9a05e;
+        }
+
+        /* Action Tabs - Colorful */
         .action-tabs {
             display: flex;
-            gap: 2rem;
-            margin: 1.5rem 0;
-            border-bottom: 1px solid #e9eef3;
-            padding-bottom: 0.5rem;
+            gap: 1rem;
+            margin: 1.5rem 0 2rem;
+            flex-wrap: wrap;
         }
 
         .action-tab {
-            color: #5a6f88;
-            font-weight: 500;
+            background: white;
+            color: #0b1f33;
+            font-weight: 600;
             text-decoration: none;
-            padding: 0.5rem 0;
-            position: relative;
-            transition: color 0.2s;
+            padding: 0.8rem 1.8rem;
+            border-radius: 40px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            border: 1px solid #e9eef3;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .action-tab:hover {
+        .action-tab i {
             color: #c9a05e;
+            font-size: 1rem;
+        }
+
+        .action-tab:nth-child(1) { background: linear-gradient(145deg, #fff, #f0f5ff); }
+        .action-tab:nth-child(2) { background: linear-gradient(145deg, #fff, #fff1e0); }
+        .action-tab:nth-child(3) { background: linear-gradient(145deg, #fff, #e6f7e6); }
+        .action-tab:nth-child(4) { background: linear-gradient(145deg, #fff, #fee7e7); }
+
+        .action-tab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(201,160,94,0.2);
+            border-color: #c9a05e;
         }
 
         .action-tab.active {
-            color: #c9a05e;
+            background: #c9a05e;
+            color: white;
         }
 
-        .action-tab.active::after {
+        .action-tab.active i {
+            color: white;
+        }
+
+        /* Navy Blue Balance Card with Gold Accents */
+        .balance-card {
+            background: linear-gradient(145deg, #0b1f33, #1e3a5f);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            color: white;
+            box-shadow: 0 15px 30px rgba(11,31,51,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .balance-card::before {
             content: '';
             position: absolute;
-            bottom: -0.5rem;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: #c9a05e;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(201,160,94,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
         }
 
-        /* Balance Card */
-        .balance-card {
-            background: white;
-            border-radius: 24px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border: 1px solid #f0f5fa;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .account-label {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.5rem;
-            color: #5a6f88;
-            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.95rem;
+            position: relative;
+            z-index: 1;
         }
 
         .account-number {
             font-weight: 500;
+            background: rgba(255,255,255,0.1);
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
         .account-balance {
-            font-size: 2.2rem;
+            font-size: 3rem;
             font-weight: 700;
-            color: #0b1f33;
-            margin-bottom: 0.25rem;
+            color: white;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
         .account-update {
-            font-size: 0.8rem;
-            color: #8a9fb0;
-            margin-bottom: 1.5rem;
-        }
-
-        .account-actions {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 1px solid #c9a05e;
-            color: #c9a05e;
-            padding: 0.7rem 1.5rem;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-        }
-
-        .btn-primary {
-            background: #c9a05e;
-            border: none;
-            color: white;
-            padding: 0.7rem 1.5rem;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-        }
-
-        /* Available Balance */
-        .available-balance {
-            background: white;
-            border-radius: 16px;
-            padding: 1.2rem;
-            margin-bottom: 1.5rem;
-            border: 1px solid #f0f5fa;
-        }
-
-        .available-label {
-            color: #5a6f88;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .available-amount {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #0b1f33;
-        }
-
-        /* Premium Banner */
-        .premium-banner {
-            background: linear-gradient(145deg, #fbf7f0, #f5efe6);
-            border-radius: 16px;
-            padding: 1.2rem;
-            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
+        .account-update i {
+            color: #c9a05e;
+        }
+
+        .account-actions {
+            display: flex;
+            gap: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-outline-light {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+            flex: 1;
+        }
+
+        .btn-outline-light:hover {
+            border-color: #c9a05e;
+            background: rgba(201,160,94,0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary-light {
+            background: linear-gradient(145deg, #c9a05e, #b48a4a);
+            border: none;
+            color: #0b1f33;
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(201,160,94,0.3);
+            flex: 1;
+        }
+
+        .btn-primary-light:hover {
+            background: linear-gradient(145deg, #dbb47a, #c9a05e);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(201,160,94,0.4);
+        }
+
+        /* Your Balance Card - Colorful */
+        .available-balance {
+            background: linear-gradient(145deg, #ffffff, #f8fafd);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid #e9eef3;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .available-label {
+            color: #5a6f88;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .available-label i {
+            color: #c9a05e;
+            font-size: 1.2rem;
+        }
+
+        .available-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0b1f33;
+        }
+
+        /* Premium Banner - Colorful */
+        .premium-banner {
+            background: linear-gradient(145deg, #fbf7f0, #f5efe6);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border: 1px solid #e9eef3;
+            box-shadow: 0 8px 20px rgba(201,160,94,0.1);
+        }
+
         .premium-icon {
             background: #c9a05e;
             color: white;
-            width: 32px;
-            height: 32px;
+            width: 48px;
+            height: 48px;
             border-radius: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 8px 15px rgba(201,160,94,0.3);
         }
 
         .premium-text {
-            font-weight: 500;
+            font-weight: 600;
             color: #0b1f33;
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
 
         .premium-text small {
             color: #5a6f88;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             display: block;
+            margin-top: 0.2rem;
         }
 
         /* Section Header */
@@ -366,13 +463,20 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 1.5rem 0 1rem;
+            margin: 2rem 0 1rem;
         }
 
         .section-header h2 {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 600;
             color: #0b1f33;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-header h2 i {
+            color: #c9a05e;
         }
 
         .section-header a {
@@ -380,14 +484,24 @@
             text-decoration: none;
             font-size: 0.9rem;
             cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            border: 1px solid #c9a05e;
         }
 
-        /* Quick Access Grid */
+        .section-header a:hover {
+            background: #c9a05e;
+            color: white;
+        }
+
+        /* Quick Access Grid - Colorful Icons */
         .quick-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .quick-item {
@@ -399,42 +513,62 @@
         }
 
         .quick-icon {
-            width: 56px;
-            height: 56px;
-            background: white;
-            border-radius: 16px;
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 0.5rem;
-            font-size: 1.3rem;
-            color: #0b1f33;
-            border: 1px solid #f0f5fa;
-            transition: all 0.2s;
+            margin: 0 auto 0.8rem;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
         }
 
+        /* Different colors for each icon */
+        .quick-item:nth-child(1) .quick-icon { background: linear-gradient(145deg, #e6f7e6, #d1f0d1); color: #10b981; }
+        .quick-item:nth-child(2) .quick-icon { background: linear-gradient(145deg, #fff1e0, #ffe4cc); color: #c9a05e; }
+        .quick-item:nth-child(3) .quick-icon { background: linear-gradient(145deg, #e6f0fa, #d1e4f5); color: #3b82f6; }
+        .quick-item:nth-child(4) .quick-icon { background: linear-gradient(145deg, #f3eaff, #e8d9ff); color: #8b5cf6; }
+        .quick-item:nth-child(5) .quick-icon { background: linear-gradient(145deg, #fee7e7, #fed7d7); color: #ef4444; }
+        .quick-item:nth-child(6) .quick-icon { background: linear-gradient(145deg, #fff1e0, #ffe4cc); color: #f59e0b; }
+        .quick-item:nth-child(7) .quick-icon { background: linear-gradient(145deg, #e6f7e6, #d1f0d1); color: #10b981; }
+        .quick-item:nth-child(8) .quick-icon { background: linear-gradient(145deg, #e6f0fa, #d1e4f5); color: #3b82f6; }
+        .quick-item:nth-child(9) .quick-icon { background: linear-gradient(145deg, #f3eaff, #e8d9ff); color: #8b5cf6; }
+        .quick-item:nth-child(10) .quick-icon { background: linear-gradient(145deg, #fee7e7, #fed7d7); color: #ef4444; }
+        .quick-item:nth-child(11) .quick-icon { background: linear-gradient(145deg, #fff1e0, #ffe4cc); color: #c9a05e; }
+        .quick-item:nth-child(12) .quick-icon { background: linear-gradient(145deg, #e6f7e6, #d1f0d1); color: #10b981; }
+
         .quick-item:hover .quick-icon {
-            border-color: #c9a05e;
-            background: #fefaf5;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(201,160,94,0.2);
         }
 
         .quick-item span {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: #5a6f88;
+            font-weight: 500;
         }
 
         /* Transactions List */
         .transactions-list {
             background: white;
             border-radius: 20px;
-            border: 1px solid #f0f5fa;
+            border: 1px solid #e9eef3;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+            overflow: hidden;
         }
 
         .transaction-item {
             display: flex;
             align-items: center;
-            padding: 1rem;
+            padding: 1.2rem;
             border-bottom: 1px solid #f0f5fa;
+            transition: all 0.3s;
+        }
+
+        .transaction-item:hover {
+            background: #f8fafd;
         }
 
         .transaction-item:last-child {
@@ -444,7 +578,6 @@
         .transaction-icon {
             width: 48px;
             height: 48px;
-            background: #f8fafd;
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -453,6 +586,10 @@
             font-size: 1.2rem;
         }
 
+        .transaction-icon.deposit { background: #e6f7e6; color: #10b981; }
+        .transaction-icon.transfer { background: #fff1e0; color: #c9a05e; }
+        .transaction-icon.payment { background: #fee7e7; color: #ef4444; }
+
         .transaction-details {
             flex: 1;
         }
@@ -460,17 +597,25 @@
         .transaction-details h4 {
             font-size: 1rem;
             font-weight: 600;
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.3rem;
         }
 
         .transaction-time {
             font-size: 0.75rem;
             color: #8a9fb0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .transaction-time i {
+            color: #c9a05e;
+            font-size: 0.7rem;
         }
 
         .transaction-amount {
-            font-size: 1rem;
-            font-weight: 600;
+            font-size: 1.1rem;
+            font-weight: 700;
         }
 
         .amount-negative {
@@ -483,28 +628,36 @@
 
         /* Footer */
         .footer {
-            background: #0b1f33;
-            padding: 1rem;
-            margin-top: 2rem;
+            background: linear-gradient(145deg, #0b1f33, #1e3a5f);
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+            border-top: 3px solid #c9a05e;
         }
 
         .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
             color: #a0b8d0;
-            font-size: 0.7rem;
+            font-size: 0.8rem;
         }
 
         .footer-links {
             display: flex;
-            gap: 1rem;
+            gap: 2rem;
         }
 
         .footer-links a {
             color: #a0b8d0;
             text-decoration: none;
             cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #c9a05e;
         }
 
         /* Mobile Responsive */
@@ -512,13 +665,14 @@
             .nav-links {
                 display: none;
                 position: absolute;
-                top: 60px;
+                top: 70px;
                 left: 0;
                 width: 100%;
                 background: #0b1f33;
                 flex-direction: column;
-                padding: 1rem;
+                padding: 1.5rem;
                 gap: 1rem;
+                border-bottom: 3px solid #c9a05e;
             }
             
             .nav-links.active {
@@ -535,12 +689,23 @@
             }
             
             .quick-icon {
-                width: 48px;
-                height: 48px;
+                width: 56px;
+                height: 56px;
             }
             
             .action-tabs {
-                gap: 1rem;
+                gap: 0.8rem;
+            }
+            
+            .action-tab {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+            
+            .available-balance {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
             }
         }
 
@@ -554,18 +719,26 @@
             }
             
             .account-balance {
-                font-size: 1.8rem;
+                font-size: 2.2rem;
             }
             
             .footer-content {
                 flex-direction: column;
-                gap: 0.5rem;
+                gap: 1rem;
                 text-align: center;
             }
             
+            .footer-links {
+                gap: 1rem;
+            }
+            
             .action-tabs {
-                gap: 0.8rem;
-                font-size: 0.9rem;
+                gap: 0.5rem;
+            }
+            
+            .action-tab {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -609,52 +782,42 @@
         <!-- Welcome Header -->
         <div class="welcome-section">
             <h1>Hi, <span class="highlight"><%= user.name.split(' ')[0] %></span></h1>
-            <p class="subtitle">Your financial overview</p>
+            <p class="subtitle">
+                <i class="fas fa-chart-line"></i>
+                Your financial overview
+            </p>
         </div>
 
-        <!-- ACTION TABS -->
+        <!-- ACTION TABS - COLORFUL -->
         <div class="action-tabs">
-            <a href="/loans" class="action-tab">Loans</a>
-            <a href="/billers" class="action-tab">Bill Pay</a>
-            <a href="/insights" class="action-tab">Insights</a>
-            <a href="/currency" class="action-tab">Currency</a>
+            <a href="/loans" class="action-tab"><i class="fas fa-hand-holding-usd"></i> Loans</a>
+            <a href="/billers" class="action-tab"><i class="fas fa-file-invoice"></i> Bill Pay</a>
+            <a href="/insights" class="action-tab"><i class="fas fa-chart-pie"></i> Insights</a>
+            <a href="/currency" class="action-tab"><i class="fas fa-coins"></i> Currency</a>
         </div>
 
-        <!-- Admin Mode (if admin) -->
-        <% if (user.isAdmin) { %>
-        <div class="admin-nav">
-            <span class="admin-badge">⚡ ADMIN</span>
-            <a href="/admin/users" class="admin-btn">Users</a>
-            <a href="/admin/transfers" class="admin-btn">Transfers</a>
-            <a href="/admin/cards" class="admin-btn">Cards</a>
-            <a href="/admin/billers" class="admin-btn">Billers</a>
-            <a href="/admin/kyc" class="admin-btn">KYC</a>
-        </div>
-        <% } %>
-
-        <!-- KYC Warning (if not verified) -->
-        <% if (!user.isVerified) { %>
-        <div style="background: #fff3d6; padding: 0.8rem; border-radius: 12px; margin-bottom: 1rem; color: #b45b0a; font-size: 0.9rem;">
-            <i class="fas fa-exclamation-triangle"></i> Please complete KYC verification to unlock all features
-        </div>
-        <% } %>
-
-        <!-- Main Account Card -->
+        <!-- Main Account Card - NAVY BLUE WITH GOLD ACCENTS -->
         <div class="balance-card">
             <div class="account-label">
-                <span class="account-number">Naira Account - <%= user.accountNumber %></span>
+                <span>Account Balance</span>
+                <span class="account-number"><i class="fas fa-shield-alt"></i> Secured</span>
             </div>
             <div class="account-balance"><%= formatCurrency(user.balance) %></div>
-            <div class="account-update">Last updated just now</div>
+            <div class="account-update">
+                <i class="fas fa-clock"></i> Last updated just now
+            </div>
             <div class="account-actions">
-                <a href="/transfer" class="btn-outline">Transfer</a>
-                <a href="/deposit" class="btn-primary">Add Money</a>
+                <a href="/transfer" class="btn-outline-light"><i class="fas fa-exchange-alt"></i> Transfer</a>
+                <a href="/deposit" class="btn-primary-light"><i class="fas fa-arrow-down"></i> Add Money</a>
             </div>
         </div>
 
-        <!-- Available Balance - KEEPING IT BUT UPDATED TEXT -->
+        <!-- Your Balance Card -->
         <div class="available-balance">
-            <div class="available-label">Your Balance</div>
+            <div class="available-label">
+                <i class="fas fa-wallet"></i>
+                Your Balance
+            </div>
             <div class="available-amount"><%= formatCurrency(user.balance) %></div>
         </div>
 
@@ -662,15 +825,15 @@
         <div class="premium-banner">
             <div class="premium-icon">✨</div>
             <div class="premium-text">
-                Only On Premium<br>
+                Only On Premium
                 <small>Transform your financial life with improved features!</small>
             </div>
         </div>
 
-        <!-- Quick Access -->
+        <!-- Quick Access - COLORFUL ICONS -->
         <div class="section-header">
-            <h2>Quick Access</h2>
-            <a href="#">Edit</a>
+            <h2><i class="fas fa-bolt"></i> Quick Access</h2>
+            <a href="#"><i class="fas fa-pen"></i> Edit</a>
         </div>
         
         <div class="quick-grid">
@@ -726,20 +889,21 @@
 
         <!-- Recent Transactions -->
         <div class="section-header">
-            <h2>Transactions</h2>
-            <a href="/transactions">View All</a>
+            <h2><i class="fas fa-clock"></i> Recent Transactions</h2>
+            <a href="/transactions">View All <i class="fas fa-arrow-right"></i></a>
         </div>
 
         <div class="transactions-list">
             <% if (transactions && transactions.length > 0) { %>
                 <% transactions.slice(0, 3).forEach(transaction => { %>
                 <div class="transaction-item">
-                    <div class="transaction-icon" style="color: <%= transaction.type === 'deposit' ? '#10b981' : (transaction.type === 'transfer' ? '#c9a05e' : '#ef4444') %>;">
+                    <div class="transaction-icon <%= transaction.type %>">
                         <i class="fas fa-<%= transaction.type === 'deposit' ? 'arrow-down' : (transaction.type === 'transfer' ? 'exchange-alt' : (transaction.type === 'payment' ? 'file-invoice' : 'arrow-up')) %>"></i>
                     </div>
                     <div class="transaction-details">
                         <h4><%= transaction.description || transaction.type %></h4>
                         <p class="transaction-time">
+                            <i class="fas fa-clock"></i>
                             <%= new Date(transaction.date).toLocaleTimeString() %> • 
                             <%= transaction.status || 'completed' %>
                         </p>
@@ -750,8 +914,9 @@
                 </div>
                 <% }) %>
             <% } else { %>
-                <div style="text-align: center; padding: 2rem; color: #5a6f88;">
-                    No transactions yet
+                <div style="text-align: center; padding: 3rem; color: #5a6f88;">
+                    <i class="fas fa-receipt" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                    <p>No transactions yet</p>
                 </div>
             <% } %>
         </div>
@@ -759,7 +924,7 @@
 
     <footer class="footer">
         <div class="footer-content">
-            <p>© 2026 Saxon Bank</p>
+            <p>© 2026 Saxon Bank. All rights reserved.</p>
             <div class="footer-links">
                 <a href="/privacy">Privacy</a>
                 <a href="/terms">Terms</a>
@@ -774,7 +939,7 @@
             document.getElementById('navLinks').classList.toggle('active');
         }
 
-        // User dropdown menu - FIXED
+        // User dropdown menu
         document.addEventListener('DOMContentLoaded', function() {
             const userMenu = document.getElementById('userMenu');
             if (userMenu) {
@@ -793,7 +958,7 @@
             }
         });
 
-        // Dark mode toggle - FIXED
+        // Dark mode toggle
         function toggleDarkMode() {
             document.body.classList.toggle('dark-mode');
             const icon = document.querySelector('.dark-mode-toggle i');
