@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Statements | Saxon Bank</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1a2639;
+        }
+        .navbar {
+            background: #0b1f33;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #c9a05e;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #cfddee;
+            text-decoration: none;
+        }
+        .nav-links a.active {
+            color: #c9a05e;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .statement-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 2rem;
+        }
+        .date-range {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .date-input {
+            padding: 0.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .btn-primary {
+            background: #0b1f33;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #1e3a5f;
+        }
+        .btn-success {
+            background: #10B981;
+            color: white;
+        }
+        .btn-success:hover {
+            background: #059669;
+        }
+        .btn-outline {
+            background: white;
+            border: 1px solid #0b1f33;
+            color: #0b1f33;
+        }
+        .btn-outline:hover {
+            background: #f0f5ff;
+        }
+        .statements-list {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+        .statement-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .statement-item:last-child {
+            border-bottom: none;
+        }
+        .statement-info h4 {
+            margin-bottom: 0.25rem;
+        }
+        .statement-info p {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        .statement-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .download-btn {
+            background: #0b1f33;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .download-btn:hover {
+            background: #1e3a5f;
+        }
+        .csv-btn {
+            background: #10B981;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .csv-btn:hover {
+            background: #059669;
+        }
+        .custom-range {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border: 1px solid #e2e8f0;
+        }
+        .radio-group {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .alert.success {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+        .alert.error {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+        .format-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-university"></i>
+            <span>Saxon Bank</span>
+        </div>
+        <div class="nav-links">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/statements" class="active">Statements</a>
+            <a href="/deposit">Deposit</a>
+            <a href="/transfer">Transfer</a>
+            <a href="/card">Card</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Account Statements</h1>
+        </div>
+
+        <% if (success) { %>
+            <div class="alert success">
+                <i class="fas fa-check-circle"></i> <%= success %>
+            </div>
+        <% } %>
+        <% if (error) { %>
+            <div class="alert error">
+                <i class="fas fa-exclamation-circle"></i> <%= error %>
+            </div>
+        <% } %>
+
+        <div class="statement-card">
+            <h2 style="margin-bottom: 1.5rem;">Generate Custom Statement</h2>
+            
+            <div class="radio-group">
+                <label class="radio-label">
+                    <input type="radio" name="statementType" value="current" checked onchange="toggleCustom(false)">
+                    <span>Current Month</span>
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="statementType" value="last" onchange="toggleCustom(false)">
+                    <span>Last Month</span>
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="statementType" value="year" onchange="toggleCustom(false)">
+                    <span>Year to Date</span>
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="statementType" value="custom" onchange="toggleCustom(true)">
+                    <span>Custom Range</span>
+                </label>
+            </div>
+
+            <div id="customRange" style="display: none;">
+                <div class="date-range">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem;">From:</label>
+                        <input type="date" id="fromDate" class="date-input">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem;">To:</label>
+                        <input type="date" id="toDate" class="date-input">
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                <button onclick="downloadStatement('pdf')" class="btn btn-primary">
+                    <i class="fas fa-file-pdf"></i> Download PDF
+                </button>
+                <button onclick="downloadStatement('csv')" class="btn btn-success">
+                    <i class="fas fa-file-csv"></i> Download CSV
+                </button>
+            </div>
+        </div>
+
+        <div class="statements-list">
+            <h2 style="margin-bottom: 1.5rem;">Previous Statements</h2>
+            
+            <div class="statement-item">
+                <div class="statement-info">
+                    <h4>February 2026</h4>
+                    <p>28 transactions • Balance: $5,234.56</p>
+                </div>
+                <div class="statement-actions">
+                    <span class="format-badge">PDF</span>
+                    <span class="format-badge">CSV</span>
+                    <a href="#" class="download-btn"><i class="fas fa-download"></i></a>
+                </div>
+            </div>
+
+            <div class="statement-item">
+                <div class="statement-info">
+                    <h4>January 2026</h4>
+                    <p>31 transactions • Balance: $4,890.23</p>
+                </div>
+                <div class="statement-actions">
+                    <span class="format-badge">PDF</span>
+                    <span class="format-badge">CSV</span>
+                    <a href="#" class="download-btn"><i class="fas fa-download"></i></a>
+                </div>
+            </div>
+
+            <div class="statement-item">
+                <div class="statement-info">
+                    <h4>December 2025</h4>
+                    <p>25 transactions • Balance: $3,245.67</p>
+                </div>
+                <div class="statement-actions">
+                    <span class="format-badge">PDF</span>
+                    <span class="format-badge">CSV</span>
+                    <a href="#" class="download-btn"><i class="fas fa-download"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="custom-range">
+            <h3 style="margin-bottom: 1rem;">Export All Data</h3>
+            <p style="color: #64748b; margin-bottom: 1rem;">Download your complete transaction history for tax purposes or record keeping.</p>
+            <button onclick="exportAll('csv')" class="btn btn-outline">
+                <i class="fas fa-download"></i> Export All as CSV
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function toggleCustom(show) {
+            document.getElementById('customRange').style.display = show ? 'block' : 'none';
+        }
+
+        function downloadStatement(format) {
+            const type = document.querySelector('input[name="statementType"]:checked').value;
+            
+            if (type === 'custom') {
+                const from = document.getElementById('fromDate').value;
+                const to = document.getElementById('toDate').value;
+                
+                if (!from || !to) {
+                    alert('Please select both dates');
+                    return;
+                }
+                
+                window.location.href = `/api/statement/download?format=${format}&from=${from}&to=${to}`;
+            } else {
+                window.location.href = `/api/statement/download?format=${format}&period=${type}`;
+            }
+        }
+
+        function exportAll(format) {
+            window.location.href = `/api/statement/export-all?format=${format}`;
+        }
+    </script>
+</body>
+</html>

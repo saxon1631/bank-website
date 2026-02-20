@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
+    <title>Saxon Bank – Register</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -23,88 +23,95 @@
             padding: 20px;
         }
 
-        .register-card {
+        .register-container {
+            width: 100%;
+            max-width: 600px;
             background: white;
             border-radius: 32px;
             box-shadow: 0 30px 60px rgba(0,0,0,0.25);
-            width: 100%;
-            max-width: 480px;
-            padding: 48px;
+            overflow: hidden;
             animation: slideUp 0.5s ease;
         }
 
         @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .brand {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .brand-logo {
-            width: 64px;
-            height: 64px;
+        .header {
             background: linear-gradient(135deg, #0056B3 0%, #003D7A 100%);
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            box-shadow: 0 10px 20px rgba(0,86,179,0.2);
-        }
-
-        .brand-logo i {
-            font-size: 32px;
             color: white;
+            padding: 30px;
+            text-align: center;
         }
 
-        .brand h1 {
+        .header h1 {
             font-size: 28px;
             font-weight: 700;
-            color: #0B1C33;
             margin-bottom: 8px;
         }
 
-        .brand p {
-            color: #5A6A7E;
+        .header p {
             font-size: 15px;
-            font-weight: 400;
+            opacity: 0.9;
         }
 
-        .alert {
-            padding: 16px 20px;
-            border-radius: 14px;
-            margin-bottom: 28px;
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 30px;
+            background: #f8fafd;
+            border-bottom: 1px solid #e2e8f0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .step-indicator {
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 14px;
-            font-weight: 500;
-            animation: slideDown 0.3s ease;
+            font-size: 13px;
+            color: #64748b;
         }
 
-        .alert i {
-            font-size: 18px;
+        .step-indicator.active {
+            color: #0056B3;
+            font-weight: 600;
         }
 
-        .alert.error {
-            background: #FEF2F2;
-            color: #991B1B;
-            border: 1px solid #FECACA;
+        .step-indicator .number {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            color: #64748b;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 6px;
+            font-weight: 600;
+            font-size: 12px;
         }
 
-        .alert.success {
-            background: #ECFDF5;
-            color: #065F46;
-            border: 1px solid #A7F3D0;
+        .step-indicator.active .number {
+            background: #0056B3;
+            color: white;
+        }
+
+        .step-indicator.completed .number {
+            background: #10b981;
+            color: white;
+        }
+
+        .step-content {
+            padding: 30px;
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
         }
 
         .form-group {
@@ -133,7 +140,8 @@
             font-size: 18px;
         }
 
-        .form-group input {
+        .form-group input,
+        .form-group select {
             width: 100%;
             padding: 14px 16px 14px 48px;
             border: 1.5px solid #E2E8F0;
@@ -145,134 +153,648 @@
             color: #0F172A;
         }
 
-        .form-group input:focus {
+        .form-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2394A3B8' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 20px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
             outline: none;
             border-color: #0056B3;
             background: white;
             box-shadow: 0 0 0 4px rgba(0,86,179,0.1);
         }
 
-        .btn-register {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #0056B3 0%, #003D7A 100%);
-            color: white;
-            border: none;
-            border-radius: 14px;
-            font-size: 16px;
+        .row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .row .form-group {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 40px;
             font-weight: 600;
+            font-size: 16px;
             cursor: pointer;
             transition: all 0.2s;
+            border: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary {
+            background: #0056B3;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,86,179,0.2);
+        }
+
+        .btn-primary:hover {
+            background: #003D7A;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #0056B3;
+            border: 1px solid #0056B3;
+        }
+
+        .btn-secondary:hover {
+            background: #f0f7ff;
+        }
+
+        .alert {
+            padding: 16px 20px;
+            border-radius: 14px;
+            margin-bottom: 28px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 16px;
-            box-shadow: 0 8px 16px rgba(0,86,179,0.2);
+            gap: 12px;
+            font-size: 14px;
         }
 
-        .btn-register:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 24px rgba(0,86,179,0.3);
+        .alert.error {
+            background: #FEF2F2;
+            color: #991B1B;
+            border: 1px solid #FECACA;
         }
 
-        .login-link {
-            text-align: center;
-            margin-top: 32px;
-            padding-top: 24px;
-            border-top: 1px solid #E2E8F0;
-            color: #475569;
-            font-size: 15px;
+        .alert.success {
+            background: #ECFDF5;
+            color: #065F46;
+            border: 1px solid #A7F3D0;
         }
 
-        .login-link a {
-            color: #0056B3;
-            text-decoration: none;
-            font-weight: 600;
-            margin-left: 6px;
-        }
-
-        .login-link a:hover {
-            color: #003D7A;
-            text-decoration: underline;
-        }
-
-        .terms {
-            margin-top: 24px;
-            text-align: center;
-            color: #64748B;
+        .security-note {
             font-size: 12px;
+            color: #64748B;
+            text-align: center;
+            margin-top: 20px;
+            border-top: 1px solid #E2E8F0;
+            padding-top: 20px;
         }
 
-        .terms a {
-            color: #0056B3;
-            text-decoration: none;
-            font-weight: 500;
+        .address-group {
+            display: none;
+        }
+
+        .address-group.active {
+            display: block;
+        }
+
+        .ssn-note {
+            background: #F0F9FF;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #0369a1;
+            margin: 16px 0;
+        }
+
+        .review-row {
+            display: flex;
+            padding: 12px 0;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .review-label {
+            width: 140px;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .review-value {
+            flex: 1;
+            color: #0F172A;
         }
     </style>
 </head>
 <body>
-    <div class="register-card">
-        <div class="brand">
-            <div class="brand-logo">
-                <i class="fas fa-university"></i>
-            </div>
-            <h1>Create Account</h1>
-            <p>Join Saxon Bank for secure, modern banking</p>
+    <div class="register-container">
+        <div class="header">
+            <h1>Saxon Bank</h1>
+            <p>Open your account in a few simple steps</p>
         </div>
 
+        <!-- Progress indicators -->
+        <div class="progress-bar">
+            <span class="step-indicator" id="step1-indicator">
+                <span class="number">1</span> Email & Password
+            </span>
+            <span class="step-indicator" id="step2-indicator">
+                <span class="number">2</span> Personal Details
+            </span>
+            <span class="step-indicator" id="step3-indicator">
+                <span class="number">3</span> Address
+            </span>
+            <span class="step-indicator" id="step4-indicator">
+                <span class="number">4</span> SSN (US only)
+            </span>
+            <span class="step-indicator" id="step5-indicator">
+                <span class="number">5</span> Review
+            </span>
+        </div>
+
+        <!-- Error/Success messages -->
         <% if (error) { %>
             <div class="alert error">
                 <i class="fas fa-exclamation-circle"></i> <%= error %>
             </div>
         <% } %>
-
         <% if (success) { %>
             <div class="alert success">
                 <i class="fas fa-check-circle"></i> <%= success %>
             </div>
         <% } %>
 
-        <form action="/register" method="POST">
-            <div class="form-group">
-                <label for="name">Full Name</label>
-                <div class="input-wrapper">
-                    <i class="fas fa-user input-icon"></i>
-                    <input type="text" id="name" name="name" placeholder="John Doe" required>
+        <!-- Main form (single form, submits at the end) -->
+        <form id="registrationForm" action="/register" method="POST">
+            <!-- Step 1: Email & Password -->
+            <div class="step-content" id="step1">
+                <div class="form-step active">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" id="password" name="password" placeholder="Create a password" required minlength="6">
+                        </div>
+                        <p style="font-size:12px; color:#64748b; margin-top:4px;">Minimum 6 characters</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-enter password" required minlength="6">
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <div class="input-wrapper">
-                    <i class="fas fa-envelope input-icon"></i>
-                    <input type="email" id="email" name="email" placeholder="john@example.com" required>
+            <!-- Step 2: Personal Details -->
+            <div class="step-content" id="step2">
+                <div class="form-step">
+                    <div class="form-group">
+                        <label for="fullName">Full Legal Name (as on ID)</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" id="fullName" name="name" placeholder="John Doe" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="dob">Date of Birth</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-calendar input-icon"></i>
+                                <input type="date" id="dob" name="dateOfBirth" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-venus-mars input-icon"></i>
+                                <select id="gender" name="gender" required>
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                    <option value="prefer-not">Prefer not to say</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country of Residence</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-globe input-icon"></i>
+                            <select id="country" name="country" required onchange="toggleAddressFields()">
+                                <option value="" disabled selected>Select your country</option>
+                                <option value="United States">United States</option>
+                                <option value="United Kingdom">United Kingdom</option>
+                            </select>
+                        </div>
+                        <p style="font-size:12px; color:#64748b; margin-top:4px;">Only US and UK residents are eligible</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="password">Password</label>
-                <div class="input-wrapper">
-                    <i class="fas fa-lock input-icon"></i>
-                    <input type="password" id="password" name="password" placeholder="••••••••" required minlength="6">
+            <!-- Step 3: Address (dynamic based on country) -->
+            <div class="step-content" id="step3">
+                <div class="form-step">
+                    <!-- US address format -->
+                    <div id="us-address" class="address-group">
+                        <div class="form-group">
+                            <label for="usStreet">Street address</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-home input-icon"></i>
+                                <input type="text" id="usStreet" name="usStreet" placeholder="123 Main St">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="usApt">Suite/Apt/Other (optional)</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-door-open input-icon"></i>
+                                <input type="text" id="usApt" name="usApt" placeholder="Apt 4B">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="usCity">City</label>
+                                <input type="text" id="usCity" name="usCity" placeholder="New York">
+                            </div>
+                            <div class="form-group">
+                                <label for="usState">State</label>
+                                <select id="usState" name="usState">
+                                    <option value="" disabled selected>Choose</option>
+                                    <option value="AL">Alabama</option>
+                                    <option value="AK">Alaska</option>
+                                    <option value="AZ">Arizona</option>
+                                    <option value="AR">Arkansas</option>
+                                    <option value="CA">California</option>
+                                    <option value="CO">Colorado</option>
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="GA">Georgia</option>
+                                    <option value="HI">Hawaii</option>
+                                    <option value="ID">Idaho</option>
+                                    <option value="IL">Illinois</option>
+                                    <option value="IN">Indiana</option>
+                                    <option value="IA">Iowa</option>
+                                    <option value="KS">Kansas</option>
+                                    <option value="KY">Kentucky</option>
+                                    <option value="LA">Louisiana</option>
+                                    <option value="ME">Maine</option>
+                                    <option value="MD">Maryland</option>
+                                    <option value="MA">Massachusetts</option>
+                                    <option value="MI">Michigan</option>
+                                    <option value="MN">Minnesota</option>
+                                    <option value="MS">Mississippi</option>
+                                    <option value="MO">Missouri</option>
+                                    <option value="MT">Montana</option>
+                                    <option value="NE">Nebraska</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="NH">New Hampshire</option>
+                                    <option value="NJ">New Jersey</option>
+                                    <option value="NM">New Mexico</option>
+                                    <option value="NY">New York</option>
+                                    <option value="NC">North Carolina</option>
+                                    <option value="ND">North Dakota</option>
+                                    <option value="OH">Ohio</option>
+                                    <option value="OK">Oklahoma</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="PA">Pennsylvania</option>
+                                    <option value="RI">Rhode Island</option>
+                                    <option value="SC">South Carolina</option>
+                                    <option value="SD">South Dakota</option>
+                                    <option value="TN">Tennessee</option>
+                                    <option value="TX">Texas</option>
+                                    <option value="UT">Utah</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WA">Washington</option>
+                                    <option value="WV">West Virginia</option>
+                                    <option value="WI">Wisconsin</option>
+                                    <option value="WY">Wyoming</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="usZip">ZIP code</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-mail-bulk input-icon"></i>
+                                <input type="text" id="usZip" name="usZip" placeholder="90210">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- UK address format -->
+                    <div id="uk-address" class="address-group">
+                        <div class="form-group">
+                            <label for="ukStreet">Street address</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-home input-icon"></i>
+                                <input type="text" id="ukStreet" name="ukStreet" placeholder="123 High Street">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ukApt">Flat/Floor (optional)</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-door-open input-icon"></i>
+                                <input type="text" id="ukApt" name="ukApt" placeholder="Flat 2">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ukCity">City/Town</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-building input-icon"></i>
+                                <input type="text" id="ukCity" name="ukCity" placeholder="London">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ukCounty">County (optional)</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-map input-icon"></i>
+                                <input type="text" id="ukCounty" name="ukCounty" placeholder="Greater London">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ukPostcode">Postcode</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-mail-bulk input-icon"></i>
+                                <input type="text" id="ukPostcode" name="ukPostcode" placeholder="SW1A 1AA">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <button type="submit" class="btn-register">
-                <i class="fas fa-user-plus"></i>
-                Create Account
-            </button>
+            <!-- Step 4: SSN (only for US) -->
+            <div class="step-content" id="step4">
+                <div class="form-step">
+                    <div id="ssn-section">
+                        <div class="form-group">
+                            <label for="ssn">Social Security Number</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-id-card input-icon"></i>
+                                <input type="text" id="ssn" name="ssn" placeholder="XXX-XX-XXXX">
+                            </div>
+                        </div>
+                        <div class="ssn-note">
+                            <i class="fas fa-shield-alt"></i> We need your SSN to verify your identity. Your data is encrypted and secure.
+                        </div>
+                        <p style="font-size:13px; color:#64748b;">For UK residents, this step will be skipped.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5: Review -->
+            <div class="step-content" id="step5">
+                <div class="form-step">
+                    <h3 style="margin-bottom:20px;">Review your information</h3>
+                    <div id="review-details">
+                        <!-- Filled by JavaScript -->
+                    </div>
+                    <p style="font-size:13px; color:#64748b; margin-top:20px;">By submitting, you agree to our Terms of Service and Privacy Policy.</p>
+                </div>
+            </div>
+
+            <!-- Navigation buttons -->
+            <div class="step-content" style="padding-top:0;">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" id="prevBtn" onclick="prevStep()" disabled>Back</button>
+                    <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextStep()">Next</button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn" style="display:none;">Create Account</button>
+                </div>
+            </div>
         </form>
 
-        <div class="login-link">
-            Already have an account?
-            <a href="/login">Sign in →</a>
-        </div>
-
-        <div class="terms">
-            By creating an account, you agree to our 
-            <a href="#">Terms</a> • <a href="#">Privacy</a> • <a href="#">Security</a>
+        <div class="security-note">
+            <i class="fas fa-lock"></i> Your information is protected with 256-bit encryption
         </div>
     </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 5;
+        let country = '';
+
+        function showStep(step) {
+            document.querySelectorAll('.form-step').forEach((el, index) => {
+                el.classList.toggle('active', index + 1 === step);
+            });
+
+            document.querySelectorAll('.step-indicator').forEach((el, index) => {
+                if (index + 1 < step) {
+                    el.classList.add('completed');
+                    el.classList.remove('active');
+                } else if (index + 1 === step) {
+                    el.classList.add('active');
+                    el.classList.remove('completed');
+                } else {
+                    el.classList.remove('active', 'completed');
+                }
+            });
+
+            document.getElementById('prevBtn').disabled = (step === 1);
+            
+            if (step === totalSteps) {
+                document.getElementById('nextBtn').style.display = 'none';
+                document.getElementById('submitBtn').style.display = 'block';
+                populateReview();
+            } else {
+                document.getElementById('nextBtn').style.display = 'block';
+                document.getElementById('submitBtn').style.display = 'none';
+            }
+
+            // Special handling for step 4 (SSN) – show only if US
+            if (step === 4) {
+                const countryVal = document.getElementById('country').value;
+                if (countryVal !== 'United States') {
+                    // Skip to step 5 automatically
+                    currentStep = 5;
+                    showStep(5);
+                    return;
+                }
+            }
+
+            // Update address fields visibility when step 3 is shown
+            if (step === 3) {
+                toggleAddressFields();
+            }
+        }
+
+        function nextStep() {
+            if (!validateStep(currentStep)) return;
+            currentStep++;
+            showStep(currentStep);
+        }
+
+        function prevStep() {
+            currentStep--;
+            showStep(currentStep);
+        }
+
+        function validateStep(step) {
+            switch(step) {
+                case 1:
+                    const email = document.getElementById('email').value;
+                    const password = document.getElementById('password').value;
+                    const confirm = document.getElementById('confirmPassword').value;
+                    if (!email || !password || !confirm) {
+                        alert('Please fill in all fields');
+                        return false;
+                    }
+                    if (password !== confirm) {
+                        alert('Passwords do not match');
+                        return false;
+                    }
+                    if (password.length < 6) {
+                        alert('Password must be at least 6 characters');
+                        return false;
+                    }
+                    return true;
+                case 2:
+                    const name = document.getElementById('fullName').value;
+                    const dob = document.getElementById('dob').value;
+                    const gender = document.getElementById('gender').value;
+                    const countryVal = document.getElementById('country').value;
+                    
+                    if (!name || !dob || !gender || !countryVal) {
+                        alert('Please fill in all personal details');
+                        return false;
+                    }
+                    
+                    // Validate age (must be 18+)
+                    const birthDate = new Date(dob);
+                    const today = new Date();
+                    let age = today.getFullYear() - birthDate.getFullYear();
+                    const m = today.getMonth() - birthDate.getMonth();
+                    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--;
+                    if (age < 18) {
+                        alert('You must be at least 18 years old');
+                        return false;
+                    }
+                    
+                    country = countryVal;
+                    return true;
+                case 3:
+                    if (country === 'United States') {
+                        const street = document.getElementById('usStreet').value;
+                        const city = document.getElementById('usCity').value;
+                        const state = document.getElementById('usState').value;
+                        const zip = document.getElementById('usZip').value;
+                        if (!street || !city || !state || !zip) {
+                            alert('Please fill in all required address fields');
+                            return false;
+                        }
+                    } else if (country === 'United Kingdom') {
+                        const street = document.getElementById('ukStreet').value;
+                        const city = document.getElementById('ukCity').value;
+                        const postcode = document.getElementById('ukPostcode').value;
+                        if (!street || !city || !postcode) {
+                            alert('Please fill in all required address fields');
+                            return false;
+                        }
+                    }
+                    return true;
+                case 4:
+                    if (country === 'United States') {
+                        const ssn = document.getElementById('ssn').value;
+                        if (!ssn) {
+                            alert('Please enter your Social Security Number');
+                            return false;
+                        }
+                        // Simple SSN format validation
+                        if (!/^\d{3}-?\d{2}-?\d{4}$/.test(ssn.replace(/\s/g, ''))) {
+                            alert('Please enter a valid SSN (XXX-XX-XXXX)');
+                            return false;
+                        }
+                    }
+                    return true;
+                default:
+                    return true;
+            }
+        }
+
+        function toggleAddressFields() {
+            const countryVal = document.getElementById('country').value;
+            const usAddress = document.getElementById('us-address');
+            const ukAddress = document.getElementById('uk-address');
+            
+            if (countryVal === 'United States') {
+                usAddress.classList.add('active');
+                ukAddress.classList.remove('active');
+                // Make US fields required
+                document.getElementById('usStreet').required = true;
+                document.getElementById('usCity').required = true;
+                document.getElementById('usState').required = true;
+                document.getElementById('usZip').required = true;
+                // Remove UK required
+                document.getElementById('ukStreet').required = false;
+                document.getElementById('ukCity').required = false;
+                document.getElementById('ukPostcode').required = false;
+            } else if (countryVal === 'United Kingdom') {
+                ukAddress.classList.add('active');
+                usAddress.classList.remove('active');
+                // Make UK fields required
+                document.getElementById('ukStreet').required = true;
+                document.getElementById('ukCity').required = true;
+                document.getElementById('ukPostcode').required = true;
+                // Remove US required
+                document.getElementById('usStreet').required = false;
+                document.getElementById('usCity').required = false;
+                document.getElementById('usState').required = false;
+                document.getElementById('usZip').required = false;
+            }
+        }
+
+        function populateReview() {
+            const email = document.getElementById('email').value;
+            const name = document.getElementById('fullName').value;
+            const dob = new Date(document.getElementById('dob').value).toLocaleDateString();
+            const gender = document.getElementById('gender').value;
+            const country = document.getElementById('country').value;
+            
+            let addressHtml = '';
+            if (country === 'United States') {
+                const street = document.getElementById('usStreet').value;
+                const apt = document.getElementById('usApt').value;
+                const city = document.getElementById('usCity').value;
+                const state = document.getElementById('usState').value;
+                const zip = document.getElementById('usZip').value;
+                addressHtml = `${street}${apt ? ', ' + apt : ''}, ${city}, ${state} ${zip}`;
+            } else {
+                const street = document.getElementById('ukStreet').value;
+                const apt = document.getElementById('ukApt').value;
+                const city = document.getElementById('ukCity').value;
+                const county = document.getElementById('ukCounty').value;
+                const postcode = document.getElementById('ukPostcode').value;
+                addressHtml = `${street}${apt ? ', ' + apt : ''}, ${city}${county ? ', ' + county : ''}, ${postcode}`;
+            }
+            
+            let ssnHtml = '';
+            if (country === 'United States') {
+                const ssn = document.getElementById('ssn').value;
+                ssnHtml = `<div class="review-row"><span class="review-label">SSN:</span><span class="review-value">${ssn.replace(/.(?=.{4})/g, '•')}</span></div>`;
+            }
+            
+            const html = `
+                <div class="review-row"><span class="review-label">Email:</span><span class="review-value">${email}</span></div>
+                <div class="review-row"><span class="review-label">Full Name:</span><span class="review-value">${name}</span></div>
+                <div class="review-row"><span class="review-label">Date of Birth:</span><span class="review-value">${dob}</span></div>
+                <div class="review-row"><span class="review-label">Gender:</span><span class="review-value">${gender}</span></div>
+                <div class="review-row"><span class="review-label">Country:</span><span class="review-value">${country}</span></div>
+                <div class="review-row"><span class="review-label">Address:</span><span class="review-value">${addressHtml}</span></div>
+                ${ssnHtml}
+            `;
+            
+            document.getElementById('review-details').innerHTML = html;
+        }
+
+        // Initialize first step
+        showStep(1);
+    </script>
 </body>
 </html>

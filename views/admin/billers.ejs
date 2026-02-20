@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Billers | Admin</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1a2639;
+        }
+        .navbar {
+            background: #0b1f33;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #c9a05e;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #cfddee;
+            text-decoration: none;
+        }
+        .nav-links a.active {
+            color: #c9a05e;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .admin-badge {
+            background: #c9a05e;
+            color: #0b1f33;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 700;
+        }
+        .add-form {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid #e2e8f0;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #1a2639;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        .btn-add {
+            background: #10B981;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .billers-table {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            text-align: left;
+            padding: 1rem 0.5rem;
+            color: #64748b;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        td {
+            padding: 1rem 0.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge.active {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+        .badge.inactive {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+        .btn-toggle {
+            background: #0b1f33;
+            color: white;
+            border: none;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 0.5rem;
+        }
+        .btn-delete {
+            background: #EF4444;
+            color: white;
+            border: none;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .alert.success {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+        .alert.error {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-university"></i>
+            <span>Saxon Bank Admin</span>
+        </div>
+        <div class="nav-links">
+            <a href="/admin">Dashboard</a>
+            <a href="/admin/users">Users</a>
+            <a href="/admin/transfers">Transfers</a>
+            <a href="/admin/cards">Cards</a>
+            <a href="/admin/kyc">KYC</a>
+            <a href="/admin/billers" class="active">Billers</a>
+            <a href="/dashboard">Exit</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Manage Billers</h1>
+            <span class="admin-badge">⚡ ADMIN</span>
+        </div>
+
+        <% if (success) { %>
+            <div class="alert success">
+                <i class="fas fa-check-circle"></i> <%= success %>
+            </div>
+        <% } %>
+        <% if (error) { %>
+            <div class="alert error">
+                <i class="fas fa-exclamation-circle"></i> <%= error %>
+            </div>
+        <% } %>
+
+        <div class="add-form">
+            <h3>Add New Biller</h3>
+            <form action="/admin/billers/add" method="POST">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Biller Name</label>
+                        <input type="text" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select name="category" required>
+                            <option value="utility">Utility</option>
+                            <option value="credit card">Credit Card</option>
+                            <option value="loan">Loan</option>
+                            <option value="internet">Internet</option>
+                            <option value="phone">Phone</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Account Number</label>
+                        <input type="text" name="accountNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description (optional)</label>
+                        <input type="text" name="description">
+                    </div>
+                </div>
+                <button type="submit" class="btn-add">Add Biller</button>
+            </form>
+        </div>
+
+        <div class="billers-table">
+            <h3 style="margin-bottom: 1rem;">All Billers</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Account</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (billers && billers.length > 0) { %>
+                        <% billers.forEach(biller => { %>
+                            <tr>
+                                <td><%= biller.name %></td>
+                                <td><%= biller.category %></td>
+                                <td><%= biller.accountNumber %></td>
+                                <td><%= biller.description || '-' %></td>
+                                <td>
+                                    <span class="badge <%= biller.isActive ? 'active' : 'inactive' %>">
+                                        <%= biller.isActive ? 'Active' : 'Inactive' %>
+                                    </span>
+                                </td>
+                                <td>
+                                    <form action="/admin/billers/<%= biller._id %>/toggle" method="POST" style="display: inline;">
+                                        <button type="submit" class="btn-toggle">
+                                            <%= biller.isActive ? 'Deactivate' : 'Activate' %>
+                                        </button>
+                                    </form>
+                                    <form action="/admin/billers/<%= biller._id %>/delete" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure?');">
+                                        <button type="submit" class="btn-delete">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 2rem;">No billers added yet</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

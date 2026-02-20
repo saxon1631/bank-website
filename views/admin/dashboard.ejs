@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Saxon Bank</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1a2639;
+        }
+        .navbar {
+            background: #0b1f33;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #c9a05e;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #cfddee;
+            text-decoration: none;
+        }
+        .nav-links a:hover {
+            color: #c9a05e;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .admin-badge {
+            background: #c9a05e;
+            color: #0b1f33;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 700;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid #edf2f7;
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0b1f33;
+        }
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .admin-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid #edf2f7;
+            transition: transform 0.2s;
+            display: block;
+        }
+        .admin-card:hover {
+            transform: translateY(-3px);
+            border-color: #c9a05e;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+        }
+        .admin-icon {
+            font-size: 2.5rem;
+            color: #c9a05e;
+            margin-bottom: 1rem;
+        }
+        .admin-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        .badge {
+            display: inline-block;
+            background: #0b1f33;
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-university"></i>
+            <span>Saxon Bank Admin</span>
+        </div>
+        <div class="nav-links">
+            <a href="/admin" class="active">Dashboard</a>
+            <a href="/admin/users">Users</a>
+            <a href="/admin/transfers">Transfers</a>
+            <a href="/admin/cards">Cards</a>
+            <a href="/admin/kyc">KYC</a>
+            <a href="/dashboard">Exit</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Admin Dashboard</h1>
+            <span class="admin-badge">⚡ ADMIN</span>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Users</h3>
+                <p class="stat-number"><%= users ? users.length : 0 %></p>
+            </div>
+            <div class="stat-card">
+                <h3>Pending Transfers</h3>
+                <p class="stat-number"><%= pendingTransfers ? pendingTransfers.length : 0 %></p>
+            </div>
+            <div class="stat-card">
+                <h3>Pending Cards</h3>
+                <p class="stat-number"><%= pendingCards ? pendingCards.length : 0 %></p>
+            </div>
+            <div class="stat-card">
+                <h3>Pending KYC</h3>
+                <p class="stat-number"><%= pendingKyc ? pendingKyc.length : 0 %></p>
+            </div>
+        </div>
+
+        <!-- Management Cards -->
+        <div class="admin-grid">
+            <a href="/admin/users" class="admin-card">
+                <div class="admin-icon"><i class="fas fa-users"></i></div>
+                <h3>User Management</h3>
+                <p>View, edit, and manage all users</p>
+                <span class="badge"><%= users ? users.length : 0 %> total</span>
+            </a>
+
+            <a href="/admin/transfers" class="admin-card">
+                <div class="admin-icon"><i class="fas fa-exchange-alt"></i></div>
+                <h3>Transfer Approvals</h3>
+                <p>Approve or reject pending transfers</p>
+                <span class="badge"><%= pendingTransfers ? pendingTransfers.length : 0 %> pending</span>
+            </a>
+
+            <a href="/admin/cards" class="admin-card">
+                <div class="admin-icon"><i class="fas fa-credit-card"></i></div>
+                <h3>Card Requests</h3>
+                <p>Approve or reject card applications</p>
+                <span class="badge"><%= pendingCards ? pendingCards.length : 0 %> pending</span>
+            </a>
+
+            <a href="/admin/kyc" class="admin-card">
+                <div class="admin-icon"><i class="fas fa-id-card"></i></div>
+                <h3>KYC Verification</h3>
+                <p>Verify user identities</p>
+                <span class="badge"><%= pendingKyc ? pendingKyc.length : 0 %> pending</span>
+            </a>
+        </div>
+
+        <!-- Quick Stats -->
+        <div style="margin-top: 2rem; background: white; padding: 1.5rem; border-radius: 16px;">
+            <h3>Recent Activity</h3>
+            <p style="color: #5a6a7e; margin-top: 0.5rem;">Last login: <%= new Date().toLocaleString() %></p>
+        </div>
+    </div>
+</body>
+</html>

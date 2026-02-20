@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saxon Bank – Trusted Banking for Your Future</title>
+    <title>Saxon Bank – Premium Cards & Rewards</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
@@ -21,42 +20,12 @@
             background: #ffffff;
             color: #1e293b;
             line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
         }
 
         .container {
             max-width: 1280px;
             margin: 0 auto;
             padding: 0 32px;
-        }
-
-        /* ===== TYPOGRAPHY ===== */
-        h1, h2, h3, h4 {
-            font-weight: 600;
-            letter-spacing: -0.02em;
-        }
-
-        h1 {
-            font-size: 3.5rem;
-            line-height: 1.2;
-        }
-
-        h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .section-subhead {
-            font-size: 1.125rem;
-            color: #64748b;
-            max-width: 700px;
-            margin: 0 auto 3rem auto;
-            text-align: center;
         }
 
         /* ===== BUTTONS ===== */
@@ -72,25 +41,37 @@
         }
 
         .btn-primary {
-            background: #0056b3;
+            background: #0b2b4f;
             color: white;
-            box-shadow: 0 4px 12px rgba(0,86,179,0.2);
+            box-shadow: 0 4px 12px rgba(11,43,79,0.2);
         }
 
         .btn-primary:hover {
-            background: #003d7a;
+            background: #06203b;
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,86,179,0.3);
+            box-shadow: 0 8px 20px rgba(11,43,79,0.3);
         }
 
         .btn-outline {
             background: transparent;
-            color: #0056b3;
-            border: 1px solid #0056b3;
+            color: #0b2b4f;
+            border: 1px solid #0b2b4f;
         }
 
         .btn-outline:hover {
-            background: #f0f7ff;
+            background: #e8f0fe;
+            transform: translateY(-2px);
+        }
+
+        .btn-gold {
+            background: #b4945c;
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(180,148,92,0.3);
+        }
+
+        .btn-gold:hover {
+            background: #9e7e4a;
             transform: translateY(-2px);
         }
 
@@ -116,7 +97,7 @@
             gap: 0.5rem;
             font-size: 1.5rem;
             font-weight: 700;
-            color: #0056b3;
+            color: #0b2b4f;
         }
 
         .logo i {
@@ -137,7 +118,7 @@
         }
 
         .nav-links a:hover {
-            color: #0056b3;
+            color: #0b2b4f;
         }
 
         .nav-buttons {
@@ -147,8 +128,8 @@
 
         /* ===== HERO ===== */
         .hero {
-            padding: 5rem 0;
-            background: linear-gradient(145deg, #f9fcff, #ffffff);
+            padding: 4rem 0;
+            background: linear-gradient(145deg, #f4f8ff, #ffffff);
         }
 
         .hero .container {
@@ -162,7 +143,10 @@
         }
 
         .hero-content h1 {
-            color: #0f172a;
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            color: #0b2b4f;
             margin-bottom: 1.5rem;
         }
 
@@ -183,54 +167,238 @@
 
         .hero-image img {
             width: 100%;
-            border-radius: 32px;
-            box-shadow: 0 25px 50px -12px rgba(0,86,179,0.25);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(11,43,79,0.25);
         }
 
-        /* ===== LOANS GRID ===== */
-        .loans {
+        /* ===== OFFER BANNER ===== */
+        .offer-banner {
+            background: linear-gradient(135deg, #0b2b4f, #1a3f64);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .offer-banner h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .offer-banner p {
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        /* ===== CARDS SECTION ===== */
+        .cards-section {
             padding: 5rem 0;
             background: white;
         }
 
-        .loans-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+        .cards-section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #0b2b4f;
         }
 
-        .loan-card {
-            background: #fafcff;
-            border: 1px solid #e9eef4;
+        .cards-section .subhead {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 3rem;
+            font-size: 1.125rem;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2rem;
+        }
+
+        .card-item {
+            background: #f8fafd;
             border-radius: 24px;
             padding: 2rem;
-            transition: all 0.25s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s;
         }
 
-        .loan-card:hover {
-            border-color: #b8d1f0;
-            box-shadow: 0 20px 30px -10px rgba(0,86,179,0.1);
-            transform: translateY(-4px);
+        .card-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px rgba(11,43,79,0.1);
         }
 
-        .loan-icon {
-            font-size: 2.25rem;
-            color: #0056b3;
-            margin-bottom: 1.5rem;
+        .card-badge {
+            display: inline-block;
+            background: #b4945c;
+            color: white;
+            font-weight: 600;
+            font-size: 0.75rem;
+            padding: 0.25rem 1rem;
+            border-radius: 30px;
+            margin-bottom: 1rem;
         }
 
-        .loan-card h3 {
-            margin-bottom: 0.75rem;
+        .card-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #0b2b4f;
         }
 
-        .loan-card p {
+        .card-item p {
             color: #475569;
             margin-bottom: 1.5rem;
         }
 
+        /* Metallic card gradients */
+        .card-visual {
+            margin: 1.5rem 0;
+            border-radius: 16px;
+            padding: 1.5rem;
+            color: white;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .card-visual.card-red {
+            background: linear-gradient(145deg, #d42, #b21, #f43);
+            background-size: 200% 200%;
+            animation: metallic-shine 6s infinite alternate;
+        }
+
+        .card-visual.card-blue {
+            background: linear-gradient(145deg, #2a6fdb, #1a4f9e, #3a8fe0);
+            background-size: 200% 200%;
+            animation: metallic-shine 6s infinite alternate;
+        }
+
+        .card-visual.card-gold {
+            background: linear-gradient(145deg, #f0b000, #d49400, #f8c84a);
+            background-size: 200% 200%;
+            animation: metallic-shine 6s infinite alternate;
+        }
+
+        @keyframes metallic-shine {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        .card-chip {
+            width: 40px;
+            height: 30px;
+            background: linear-gradient(135deg, #d4af37, #b4945c);
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+
+        .card-number {
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            color: rgba(255,255,255,0.95);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .card-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-holder {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            opacity: 0.9;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+        }
+
+        .card-expiry {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+        }
+
+        .visa-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            font-style: italic;
+            color: white;
+            opacity: 0.95;
+            text-align: right;
+            margin-top: 1rem;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .card-footer span {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        /* ===== LOANS SECTION ===== */
+        .loans-section {
+            padding: 5rem 0;
+            background: #f8fafd;
+        }
+
+        .loans-section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #0b2b4f;
+        }
+
+        .loans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .loan-card {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+
+        .loan-card:hover {
+            background: #f1f5f9;
+            border-color: #b4945c;
+        }
+
+        .loan-icon {
+            font-size: 2rem;
+            color: #0b2b4f;
+            margin-bottom: 1rem;
+        }
+
+        .loan-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: #0b2b4f;
+        }
+
+        .loan-card p {
+            color: #475569;
+            margin-bottom: 1rem;
+        }
+
         .loan-link {
-            color: #0056b3;
+            color: #0b2b4f;
             text-decoration: none;
             font-weight: 600;
             display: inline-flex;
@@ -246,107 +414,92 @@
             transform: translateX(4px);
         }
 
-        /* ===== STATS ===== */
-        .stats {
-            background: #0f172a;
+        /* ===== CASH OFFER ===== */
+        .cash-offer {
+            background: linear-gradient(135deg, #0b2b4f, #1a3f64);
             color: white;
             padding: 4rem 0;
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        .cash-offer .container {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .cash-offer-content {
+            flex: 1;
+        }
+
+        .cash-offer-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cash-offer-content .highlight {
+            color: #b4945c;
+        }
+
+        .cash-offer-content p {
+            color: #cbd5e1;
+            margin-bottom: 2rem;
+        }
+
+        .cash-offer-amounts {
+            display: flex;
             gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #b4945c;
+        }
+
+        .amount small {
+            font-size: 0.875rem;
+            color: #cbd5e1;
+            display: block;
+        }
+
+        .cash-offer-icon {
+            flex: 1;
             text-align: center;
         }
 
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: white;
+        .cash-offer-icon i {
+            font-size: 8rem;
+            color: #b4945c;
         }
 
-        .stat-label {
-            font-size: 1rem;
-            color: #cbd5e1;
-            letter-spacing: 0.5px;
-        }
-
-        /* ===== FUND MANAGEMENT ===== */
-        .fund {
+        /* ===== STEPS SECTION ===== */
+        .steps-section {
             padding: 5rem 0;
             background: white;
         }
 
-        .fund .container {
-            display: flex;
-            align-items: center;
-            gap: 4rem;
-        }
-
-        .fund-content {
-            flex: 1;
-        }
-
-        .fund-content h2 {
-            color: #0f172a;
-        }
-
-        .fund-content p {
-            color: #475569;
-            margin: 1.5rem 0;
-        }
-
-        .fund-features {
-            list-style: none;
-            margin: 2rem 0;
-        }
-
-        .fund-features li {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-            color: #334155;
-        }
-
-        .fund-features i {
-            color: #0056b3;
-            font-size: 1.25rem;
-        }
-
-        .fund-image {
-            flex: 1;
-        }
-
-        .fund-image img {
-            width: 100%;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-        }
-
-        /* ===== STEPS ===== */
-        .steps {
-            background: #f8fcff;
-            padding: 5rem 0;
+        .steps-section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #0b2b4f;
         }
 
         .steps-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 2rem;
-            margin-top: 3rem;
         }
 
-        .step-item {
+        .step {
             text-align: center;
         }
 
         .step-number {
             width: 56px;
             height: 56px;
-            background: #0056b3;
+            background: #0b2b4f;
             color: white;
             border-radius: 50%;
             display: flex;
@@ -355,48 +508,54 @@
             font-size: 1.5rem;
             font-weight: 700;
             margin: 0 auto 1.5rem;
-            box-shadow: 0 10px 20px rgba(0,86,179,0.2);
+            box-shadow: 0 10px 20px rgba(11,43,79,0.2);
         }
 
-        .step-item h4 {
+        .step h4 {
             font-size: 1.25rem;
             margin-bottom: 0.75rem;
+            color: #0b2b4f;
         }
 
-        .step-item p {
+        .step p {
             color: #475569;
         }
 
-        /* ===== TESTIMONIALS ===== */
-        .testimonials {
+        /* ===== TESTIMONIALS SECTION ===== */
+        .testimonials-section {
             padding: 5rem 0;
-            background: white;
+            background: #f8fafd;
+        }
+
+        .testimonials-section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #0b2b4f;
         }
 
         .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            margin-top: 2rem;
         }
 
-        .testimonial-card {
-            background: #fafcff;
-            border: 1px solid #e9eef4;
+        .testimonial {
+            background: white;
             border-radius: 24px;
             padding: 2rem;
+            border: 1px solid #e2e8f0;
         }
 
         .stars {
-            color: #fbbf24;
-            margin-bottom: 1.5rem;
-            font-size: 1rem;
+            color: #b4945c;
+            margin-bottom: 1rem;
         }
 
-        .testimonial-text {
+        .testimonial p {
             font-style: italic;
             color: #1e293b;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .testimonial-author {
@@ -408,29 +567,51 @@
         .author-avatar {
             width: 48px;
             height: 48px;
-            background: #0056b3;
+            background: #0b2b4f;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: 600;
-            font-size: 1.125rem;
         }
 
         .author-info h5 {
             font-weight: 600;
             margin-bottom: 0.25rem;
+            color: #0b2b4f;
         }
 
         .author-info p {
             color: #64748b;
             font-size: 0.875rem;
+            margin: 0;
+        }
+
+        /* ===== LEGAL DISCLAIMER ===== */
+        .legal-disclaimer {
+            background: #f8fafd;
+            color: #475569;
+            font-size: 0.7rem;
+            line-height: 1.5;
+            padding: 2rem 0;
+            border-top: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .legal-disclaimer .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        .legal-disclaimer p {
+            margin-bottom: 0.75rem;
         }
 
         /* ===== FOOTER ===== */
         .footer {
-            background: #0f172a;
+            background: #0b2b4f;
             color: white;
             padding: 4rem 0 2rem;
         }
@@ -443,7 +624,7 @@
         }
 
         .footer-col h5 {
-            color: #94a3b8;
+            color: #b4945c;
             font-size: 0.875rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -473,12 +654,12 @@
         }
 
         .footer-col i {
-            color: #0056b3;
+            color: #b4945c;
             width: 20px;
         }
 
         .footer-bottom {
-            border-top: 1px solid #1e293b;
+            border-top: 1px solid #1e4a6e;
             padding-top: 2rem;
             display: flex;
             flex-wrap: wrap;
@@ -493,18 +674,18 @@
         }
 
         .social-links a {
-            color: #94a3b8;
+            color: #cbd5e1;
             font-size: 1.25rem;
             transition: color 0.2s;
         }
 
         .social-links a:hover {
-            color: white;
+            color: #b4945c;
         }
 
         .legal {
             font-size: 0.75rem;
-            color: #64748b;
+            color: #94a3b8;
             text-align: center;
             width: 100%;
             line-height: 1.6;
@@ -518,13 +699,12 @@
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             h1 { font-size: 2.5rem; }
-            h2 { font-size: 2rem; }
             .hero .container,
-            .fund .container {
+            .cash-offer .container {
                 flex-direction: column;
             }
             .nav-links {
-                display: none; /* hide on mobile for simplicity – can add hamburger later */
+                display: none; /* simplify for now */
             }
         }
     </style>
@@ -538,9 +718,8 @@
             </div>
             <div class="nav-links">
                 <a href="#">Home</a>
+                <a href="#cards">Cards</a>
                 <a href="#loans">Loans</a>
-                <a href="#fund">Wealth</a>
-                <a href="#apply">Apply</a>
                 <a href="#reviews">Reviews</a>
             </div>
             <div class="nav-buttons">
@@ -555,180 +734,239 @@
         <section class="hero">
             <div class="container">
                 <div class="hero-content">
-                    <h1>Banking built around you</h1>
-                    <p>Transparent, secure, and personal – we're here to help you achieve your financial goals.</p>
+                    <h1>Rewards that match your life</h1>
+                    <p>Discover cards with cash back, points, and exclusive benefits – tailored to how you spend.</p>
                     <div class="hero-buttons">
                         <a href="/register" class="btn btn-primary">Open an Account</a>
-                        <a href="/login" class="btn btn-outline">Sign In</a>
+                        <a href="#cards" class="btn btn-outline">View Cards</a>
                     </div>
                 </div>
                 <div class="hero-image">
-                    <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Mobile banking">
+                    <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Credit cards">
+                </div>
+            </div>
+        </section>
+
+        <!-- Offer Banner -->
+        <section class="offer-banner">
+            <div class="container">
+                <h2>Intro APR offer for 21 billing cycles</h2>
+                <p>on balance transfers and purchases. Limited time.</p>
+                <a href="/register" class="btn btn-gold">Learn More</a>
+            </div>
+        </section>
+
+        <!-- Cards Section -->
+        <section id="cards" class="cards-section">
+            <div class="container">
+                <h2>Choose the card that works for you</h2>
+                <p class="subhead">Premium designs with VISA Signature benefits.</p>
+                <div class="cards-grid">
+                    <!-- Card 1 - Metallic Red -->
+                    <div class="card-item">
+                        <span class="card-badge">6% cash back</span>
+                        <h3>Customized Cash Rewards</h3>
+                        <p>Earn 6% back in your chosen category (dining, travel, gas, etc.)</p>
+                        <div class="card-visual card-red">
+                            <div class="card-chip"></div>
+                            <div class="card-number">•••• •••• •••• 4567</div>
+                            <div class="card-details">
+                                <span class="card-holder">SAXON BANK</span>
+                                <span class="card-expiry">06/30</span>
+                            </div>
+                            <div class="visa-logo">VISA</div>
+                        </div>
+                        <div class="card-footer">
+                            <span>New design</span>
+                            <a href="/register" class="btn btn-primary" style="padding:0.5rem 1rem;">Apply</a>
+                        </div>
+                    </div>
+                    <!-- Card 2 - Metallic Blue -->
+                    <div class="card-item">
+                        <span class="card-badge">2% cash back</span>
+                        <h3>Unlimited Cash Rewards</h3>
+                        <p>2% back on every purchase – no categories, no limits.</p>
+                        <div class="card-visual card-blue">
+                            <div class="card-chip"></div>
+                            <div class="card-number">•••• •••• •••• 7890</div>
+                            <div class="card-details">
+                                <span class="card-holder">SAXON BANK</span>
+                                <span class="card-expiry">08/29</span>
+                            </div>
+                            <div class="visa-logo">VISA</div>
+                        </div>
+                        <div class="card-footer">
+                            <span>New design</span>
+                            <a href="/register" class="btn btn-primary" style="padding:0.5rem 1rem;">Apply</a>
+                        </div>
+                    </div>
+                    <!-- Card 3 - Metallic Gold -->
+                    <div class="card-item">
+                        <span class="card-badge">1.5x points</span>
+                        <h3>Premium Rewards</h3>
+                        <p>Earn 1.5 points per dollar, redeem for travel or cash.</p>
+                        <div class="card-visual card-gold">
+                            <div class="card-chip"></div>
+                            <div class="card-number">•••• •••• •••• 1234</div>
+                            <div class="card-details">
+                                <span class="card-holder">SAXON BANK</span>
+                                <span class="card-expiry">12/31</span>
+                            </div>
+                            <div class="visa-logo">VISA</div>
+                        </div>
+                        <div class="card-footer">
+                            <span>New offer</span>
+                            <a href="/register" class="btn btn-primary" style="padding:0.5rem 1rem;">Apply</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Loans Section -->
-        <section id="loans" class="loans">
+        <section id="loans" class="loans-section">
             <div class="container">
-                <h2>Loans designed for your life</h2>
-                <p class="section-subhead">From commercial to personal, we offer competitive rates and flexible terms.</p>
+                <h2>Loans for every stage of life</h2>
+                <p class="subhead">Competitive rates, flexible terms, and fast approval.</p>
                 <div class="loans-grid">
                     <div class="loan-card">
                         <div class="loan-icon"><i class="fas fa-briefcase"></i></div>
-                        <h3>Commercial Loan</h3>
-                        <p>Grow your business with tailored financing and expert advice.</p>
+                        <h3>Commercial</h3>
+                        <p>Expand your business with tailored financing.</p>
                         <a href="#" class="loan-link">Learn more <i class="fas fa-arrow-right"></i></a>
                     </div>
                     <div class="loan-card">
                         <div class="loan-icon"><i class="fas fa-car"></i></div>
                         <h3>Car Loan</h3>
-                        <p>Low rates, quick approval – drive away with confidence.</p>
+                        <p>Low rates, quick approval.</p>
                         <a href="#" class="loan-link">Learn more <i class="fas fa-arrow-right"></i></a>
                     </div>
                     <div class="loan-card">
                         <div class="loan-icon"><i class="fas fa-graduation-cap"></i></div>
-                        <h3>Education Loan</h3>
-                        <p>Invest in your future with flexible repayment options.</p>
+                        <h3>Education</h3>
+                        <p>Invest in your future.</p>
                         <a href="#" class="loan-link">Learn more <i class="fas fa-arrow-right"></i></a>
                     </div>
                     <div class="loan-card">
                         <div class="loan-icon"><i class="fas fa-hard-hat"></i></div>
-                        <h3>Construction Loan</h3>
-                        <p>Finance your build with staged disbursements.</p>
+                        <h3>Construction</h3>
+                        <p>Finance your build.</p>
                         <a href="#" class="loan-link">Learn more <i class="fas fa-arrow-right"></i></a>
                     </div>
                     <div class="loan-card">
                         <div class="loan-icon"><i class="fas fa-tree"></i></div>
                         <h3>Land Loan</h3>
-                        <p>Secure your plot with competitive terms.</p>
+                        <p>Secure the perfect plot.</p>
                         <a href="#" class="loan-link">Learn more <i class="fas fa-arrow-right"></i></a>
                     </div>
                     <div class="loan-card">
                         <div class="loan-icon"><i class="fas fa-home"></i></div>
                         <h3>Housing Loan</h3>
-                        <p>Make your dream home a reality with our mortgage solutions.</p>
+                        <p>Make your dream home a reality.</p>
                         <a href="#" class="loan-link">Learn more <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Stats Bar -->
-        <section class="stats">
+        <!-- Cash Offer -->
+        <section class="cash-offer">
             <div class="container">
-                <div class="stats-grid">
-                    <div>
-                        <div class="stat-number">1000+</div>
-                        <div class="stat-label">Projects Completed</div>
+                <div class="cash-offer-content">
+                    <h2><span class="highlight">Cash offer</span> up to $500</h2>
+                    <p>for new checking customers</p>
+                    <div class="cash-offer-amounts">
+                        <div>
+                            <span class="amount">$100</span>
+                            <small>with qualifying deposit</small>
+                        </div>
+                        <div>
+                            <span class="amount">$300</span>
+                            <small>with higher deposit</small>
+                        </div>
+                        <div>
+                            <span class="amount">$500</span>
+                            <small>premium checking</small>
+                        </div>
                     </div>
-                    <div>
-                        <div class="stat-number">£2.5B</div>
-                        <div class="stat-label">Funds Managed</div>
-                    </div>
-                    <div>
-                        <div class="stat-number">98%</div>
-                        <div class="stat-label">Client Satisfaction</div>
-                    </div>
-                    <div>
-                        <div class="stat-number">50K+</div>
-                        <div class="stat-label">Happy Customers</div>
-                    </div>
+                    <a href="/register" class="btn btn-gold">See details</a>
+                </div>
+                <div class="cash-offer-icon">
+                    <i class="fas fa-piggy-bank"></i>
                 </div>
             </div>
         </section>
 
-        <!-- Fund Management -->
-        <section id="fund" class="fund">
+        <!-- Steps Section -->
+        <section id="apply" class="steps-section">
             <div class="container">
-                <div class="fund-content">
-                    <h2>Expert wealth management</h2>
-                    <p>Our advisors help you preserve and grow your capital with a personalised approach. From retirement planning to multi‑asset portfolios, we're with you every step.</p>
-                    <ul class="fund-features">
-                        <li><i class="fas fa-check-circle"></i> Diversified portfolios tailored to your risk</li>
-                        <li><i class="fas fa-check-circle"></i> Transparent reporting and low fees</li>
-                        <li><i class="fas fa-check-circle"></i> Regular reviews with your dedicated advisor</li>
-                    </ul>
-                    <a href="#" class="btn btn-primary">Schedule a consultation</a>
-                </div>
-                <div class="fund-image">
-                    <img src="https://images.unsplash.com/photo-1579621970588-a35d0e7ab9b6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Financial advisor">
-                </div>
-            </div>
-        </section>
-
-        <!-- Loan Steps -->
-        <section id="apply" class="steps">
-            <div class="container">
-                <h2>Apply in four simple steps</h2>
-                <p class="section-subhead">Get from application to funding faster than you think.</p>
+                <h2>Apply in four easy steps</h2>
                 <div class="steps-grid">
-                    <div class="step-item">
+                    <div class="step">
                         <div class="step-number">1</div>
                         <h4>Check eligibility</h4>
-                        <p>Use our online tool – no impact on your credit score.</p>
+                        <p>No impact on your credit score.</p>
                     </div>
-                    <div class="step-item">
+                    <div class="step">
                         <div class="step-number">2</div>
-                        <h4>Choose your loan</h4>
-                        <p>Compare rates and terms side‑by‑side.</p>
+                        <h4>Choose your product</h4>
+                        <p>Card, loan, or account.</p>
                     </div>
-                    <div class="step-item">
+                    <div class="step">
                         <div class="step-number">3</div>
                         <h4>Upload documents</h4>
-                        <p>Securely submit ID, income proof, and more.</p>
+                        <p>Secure and fast.</p>
                     </div>
-                    <div class="step-item">
+                    <div class="step">
                         <div class="step-number">4</div>
                         <h4>Get funded</h4>
-                        <p>Funds in your account as fast as 24 hours.</p>
+                        <p>As fast as 24 hours.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Testimonials -->
-        <section id="reviews" class="testimonials">
+        <section id="reviews" class="testimonials-section">
             <div class="container">
-                <h2>Trusted by thousands</h2>
-                <p class="section-subhead">See what our clients say about banking with us.</p>
+                <h2>Trusted by our clients</h2>
                 <div class="testimonials-grid">
-                    <div class="testimonial-card">
+                    <div class="testimonial">
                         <div class="stars">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                         </div>
-                        <p class="testimonial-text">"Saxon Bank made buying our first home simple and stress‑free. The online application was clear, and we had approval in two days."</p>
+                        <p>"The cash rewards card is fantastic – I earn 6% on dining, and the app makes it easy."</p>
                         <div class="testimonial-author">
                             <div class="author-avatar">JD</div>
                             <div class="author-info">
-                                <h5>John Davies</h5>
-                                <p>Homeowner, Manchester</p>
+                                <h5>John Doe</h5>
+                                <p>Cardholder since 2025</p>
                             </div>
                         </div>
                     </div>
-                    <div class="testimonial-card">
+                    <div class="testimonial">
                         <div class="stars">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                         </div>
-                        <p class="testimonial-text">"The business loan helped us expand our bakery. The team was supportive and the rates were very competitive."</p>
+                        <p>"Got my car loan approved in one day – amazing service and rates."</p>
                         <div class="testimonial-author">
                             <div class="author-avatar">AS</div>
                             <div class="author-info">
                                 <h5>Aisha Syed</h5>
-                                <p>Small Business Owner</p>
+                                <p>Car owner</p>
                             </div>
                         </div>
                     </div>
-                    <div class="testimonial-card">
+                    <div class="testimonial">
                         <div class="stars">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                         </div>
-                        <p class="testimonial-text">"I used their education loan for my master's degree. The interest rate was fair and the online portal made repayments easy."</p>
+                        <p>"The $500 cash offer for new checking was a nice bonus – really happy I switched."</p>
                         <div class="testimonial-author">
                             <div class="author-avatar">MK</div>
                             <div class="author-info">
                                 <h5>Michael Kim</h5>
-                                <p>Graduate Student</p>
+                                <p>New customer</p>
                             </div>
                         </div>
                     </div>
@@ -737,15 +975,26 @@
         </section>
     </main>
 
+    <!-- Legal Disclaimer (UK) -->
+    <div class="legal-disclaimer">
+        <div class="container">
+            <p>Investing in securities involves risks, and there is always the potential of losing money when you invest in securities. You should review any planned financial transactions that may have tax or legal implications with your personal tax or legal advisor.</p>
+            <p>Securities products are provided by Saxon Wealth Management, a registered broker‑dealer, registered investment adviser, Member of the Financial Conduct Authority (FCA) and the Prudential Regulation Authority (PRA), and a wholly‑owned subsidiary of Saxon Bank Corporation. Saxon Wealth Management makes available certain investment products sponsored, managed, distributed or provided by companies that are affiliates of Saxon Bank Corporation.</p>
+            <p>Saxon Private Bank is a division of Saxon Bank plc, regulated by the FCA and PRA, and a wholly owned subsidiary of Saxon Bank Corporation. Trust and fiduciary services are provided by Saxon Bank plc and Saxon Trust Company (UK) Limited. Both are indirect subsidiaries of Saxon Bank Corporation.</p>
+            <p>Insurance Products are offered through Saxon Insurance Services Ltd, a licensed insurance agency and wholly‑owned subsidiary of Saxon Bank Corporation.</p>
+            <p>Banking, credit card, automobile loans, mortgage and home equity products are provided by Saxon Bank plc and affiliated banks, regulated by the FCA and PRA, and wholly owned subsidiaries of Saxon Bank Corporation. Credit and collateral are subject to approval. Terms and conditions apply. This is not a commitment to lend. Programs, rates, terms and conditions are subject to change without notice.</p>
+        </div>
+    </div>
+
     <footer id="support" class="footer">
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
                     <h5>Products</h5>
+                    <a href="#cards">Credit Cards</a>
                     <a href="#loans">Loans</a>
-                    <a href="#">Credit Cards</a>
+                    <a href="#">Checking</a>
                     <a href="#">Savings</a>
-                    <a href="#">Investments</a>
                 </div>
                 <div class="footer-col">
                     <h5>Resources</h5>
@@ -784,16 +1033,15 @@
                 </div>
                 <div class="legal">
                     <p>© 2026 Saxon Bank. All rights reserved.</p>
-                    <p>Investment and insurance products: Are Not FDIC Insured • May Lose Value • Not Bank Guaranteed</p>
-                    <p>Banking products are FDIC insured up to $250,000.</p>
-                    <p>Credit and collateral are subject to approval. Terms and conditions apply.</p>
+                    <p>Investment and insurance products: Are Not FSCS Insured • May Lose Value • Not Bank Guaranteed</p>
+                    <p>Banking products are protected by the Financial Services Compensation Scheme (FSCS) up to £85,000.</p>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Smooth scroll for anchor links -->
     <script>
+        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();

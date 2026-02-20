@@ -1,0 +1,132 @@
+/* Dark Mode Styles */
+body.dark-mode {
+    background: #0f172a;
+    color: #e2e8f0;
+}
+
+/* Navbar */
+body.dark-mode .navbar {
+    background: #1e293b;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+body.dark-mode .nav-brand {
+    color: #c9a05e;
+}
+
+body.dark-mode .nav-links a {
+    color: #cbd5e1;
+}
+
+body.dark-mode .nav-links a:hover,
+body.dark-mode .nav-links a.active {
+    color: #c9a05e;
+}
+
+/* Cards */
+body.dark-mode .stat-card,
+body.dark-mode .kyc-card,
+body.dark-mode .settings-card,
+body.dark-mode .action-card,
+body.dark-mode .transactions-table,
+body.dark-mode .statement-card,
+body.dark-mode .notifications-list,
+body.dark-mode .settings-panel,
+body.dark-mode .billers-table,
+body.dark-mode .add-form,
+body.dark-mode .modal-content {
+    background: #1e293b;
+    border-color: #334155;
+    color: #e2e8f0;
+}
+
+body.dark-mode .stat-card .stat-content h3 {
+    color: #94a3b8;
+}
+
+body.dark-mode .stat-amount {
+    color: #f1f5f9;
+}
+
+/* Forms */
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+    background: #0f172a;
+    border-color: #334155;
+    color: #e2e8f0;
+}
+
+body.dark-mode input:focus,
+body.dark-mode select:focus {
+    border-color: #c9a05e;
+}
+
+/* Tables */
+body.dark-mode table th {
+    color: #94a3b8;
+    border-bottom-color: #334155;
+}
+
+body.dark-mode table td {
+    border-bottom-color: #334155;
+}
+
+/* Footer */
+body.dark-mode .footer {
+    background: #1e293b;
+    border-top-color: #334155;
+}
+
+/* Modals */
+body.dark-mode .modal-content {
+    background: #1e293b;
+    color: #e2e8f0;
+}
+
+/* Dropdowns */
+body.dark-mode .user-dropdown {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+body.dark-mode .user-dropdown a {
+    color: #cbd5e1;
+}
+
+body.dark-mode .user-dropdown a:hover {
+    background: #0f172a;
+}
+
+/* Toggle Switch */
+.dark-mode-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: 1rem;
+    cursor: pointer;
+}
+
+.dark-mode-toggle i {
+    color: #c9a05e;
+    font-size: 1.2rem;
+}
+
+/* Dark mode specific */
+body.dark-mode .balance-card {
+    background: linear-gradient(135deg, #0f2a44, #1a3f64);
+}
+
+body.dark-mode .admin-nav {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+}
+
+body.dark-mode .alert.success {
+    background: #1e3a5f;
+    color: #c9a05e;
+}
+
+body.dark-mode .alert.error {
+    background: #3b1e1e;
+    color: #f87171;
+}

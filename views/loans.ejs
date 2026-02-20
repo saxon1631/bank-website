@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Applications | Saxon Bank</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1a2639;
+        }
+        .navbar {
+            background: #0b1f33;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #c9a05e;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #cfddee;
+            text-decoration: none;
+        }
+        .nav-links a.active {
+            color: #c9a05e;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .loan-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .loan-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+        .loan-card:hover {
+            transform: translateY(-3px);
+            border-color: #c9a05e;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+        }
+        .loan-icon {
+            font-size: 2rem;
+            color: #c9a05e;
+            margin-bottom: 1rem;
+        }
+        .loan-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        .loan-card p {
+            color: #64748b;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+        .loan-rate {
+            display: inline-block;
+            background: #e6f7e6;
+            color: #10B981;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .apply-btn {
+            background: #0b1f33;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+        }
+        .apply-btn:hover {
+            background: #1e3a5f;
+        }
+        .applications-section {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 2rem;
+        }
+        .application-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .application-item:last-child {
+            border-bottom: none;
+        }
+        .app-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .status-pending {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+        .status-approved {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+        .status-rejected {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .modal-close {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        .submit-btn {
+            background: #10B981;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 8px;
+            width: 100%;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .alert.success {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+        .alert.error {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-university"></i>
+            <span>Saxon Bank</span>
+        </div>
+        <div class="nav-links">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/loans" class="active">Loans</a>
+            <a href="/deposit">Deposit</a>
+            <a href="/transfer">Transfer</a>
+            <a href="/card">Card</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Loan Applications</h1>
+        </div>
+
+        <% if (success) { %>
+            <div class="alert success">
+                <i class="fas fa-check-circle"></i> <%= success %>
+            </div>
+        <% } %>
+        <% if (error) { %>
+            <div class="alert error">
+                <i class="fas fa-exclamation-circle"></i> <%= error %>
+            </div>
+        <% } %>
+
+        <div class="loan-types">
+            <div class="loan-card" onclick="openApplication('personal')">
+                <div class="loan-icon"><i class="fas fa-user"></i></div>
+                <h3>Personal Loan</h3>
+                <p>For your personal needs – debt consolidation, home improvement, travel</p>
+                <div class="loan-rate">From 5.99% APR</div>
+                <button class="apply-btn">Apply Now</button>
+            </div>
+
+            <div class="loan-card" onclick="openApplication('car')">
+                <div class="loan-icon"><i class="fas fa-car"></i></div>
+                <h3>Car Loan</h3>
+                <p>New or used vehicles – competitive rates, fast approval</p>
+                <div class="loan-rate">From 4.99% APR</div>
+                <button class="apply-btn">Apply Now</button>
+            </div>
+
+            <div class="loan-card" onclick="openApplication('education')">
+                <div class="loan-icon"><i class="fas fa-graduation-cap"></i></div>
+                <h3>Education Loan</h3>
+                <p>Invest in your future – tuition, books, living expenses</p>
+                <div class="loan-rate">From 3.99% APR</div>
+                <button class="apply-btn">Apply Now</button>
+            </div>
+
+            <div class="loan-card" onclick="openApplication('home')">
+                <div class="loan-icon"><i class="fas fa-home"></i></div>
+                <h3>Home Loan</h3>
+                <p>Buy your dream home – fixed and variable rate options</p>
+                <div class="loan-rate">From 4.25% APR</div>
+                <button class="apply-btn">Apply Now</button>
+            </div>
+
+            <div class="loan-card" onclick="openApplication('business')">
+                <div class="loan-icon"><i class="fas fa-briefcase"></i></div>
+                <h3>Business Loan</h3>
+                <p>Expand your business – working capital, equipment, expansion</p>
+                <div class="loan-rate">From 6.99% APR</div>
+                <button class="apply-btn">Apply Now</button>
+            </div>
+
+            <div class="loan-card" onclick="openApplication('construction')">
+                <div class="loan-icon"><i class="fas fa-hard-hat"></i></div>
+                <h3>Construction Loan</h3>
+                <p>Finance your build – flexible draw schedules</p>
+                <div class="loan-rate">From 5.75% APR</div>
+                <button class="apply-btn">Apply Now</button>
+            </div>
+        </div>
+
+        <div class="applications-section">
+            <h2 style="margin-bottom: 1rem;">Your Applications</h2>
+            
+            <div id="applicationsList">
+                <!-- Sample applications - will be replaced by server data -->
+                <div class="application-item">
+                    <div>
+                        <h4>Car Loan</h4>
+                        <p>$15,000 • Applied Feb 15, 2026</p>
+                    </div>
+                    <span class="app-status status-pending">Pending</span>
+                </div>
+                <div class="application-item">
+                    <div>
+                        <h4>Personal Loan</h4>
+                        <p>$5,000 • Applied Feb 10, 2026</p>
+                    </div>
+                    <span class="app-status status-approved">Approved</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Modal -->
+    <div class="modal" id="applicationModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Apply for Loan</h2>
+            
+            <form id="loanForm" action="/loans/apply" method="POST">
+                <input type="hidden" name="loanType" id="loanTypeInput">
+                
+                <div class="form-group">
+                    <label>Loan Amount ($)</label>
+                    <input type="number" name="amount" min="1000" max="100000" step="1000" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Loan Term (years)</label>
+                    <select name="term" required>
+                        <option value="1">1 year</option>
+                        <option value="2">2 years</option>
+                        <option value="3">3 years</option>
+                        <option value="5">5 years</option>
+                        <option value="7">7 years</option>
+                        <option value="10">10 years</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Purpose</label>
+                    <textarea name="purpose" rows="3" placeholder="Brief description of why you need this loan" required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Application</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openApplication(type) {
+            document.getElementById('modalTitle').textContent = `Apply for ${type.charAt(0).toUpperCase() + type.slice(1)} Loan`;
+            document.getElementById('loanTypeInput').value = type;
+            document.getElementById('applicationModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('applicationModal').classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('applicationModal');
+            if (event.target === modal) {
+                modal.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>

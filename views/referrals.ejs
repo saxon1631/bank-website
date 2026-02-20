@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Referral Program | Saxon Bank</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1a2639;
+        }
+        .navbar {
+            background: #0b1f33;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #c9a05e;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #cfddee;
+            text-decoration: none;
+        }
+        .nav-links a.active {
+            color: #c9a05e;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .hero-card {
+            background: linear-gradient(135deg, #0b2b4a, #133456);
+            color: white;
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .hero-card h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .hero-card p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        .reward-badge {
+            display: inline-block;
+            background: #c9a05e;
+            color: #0b1f33;
+            padding: 0.5rem 2rem;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #c9a05e;
+            margin-bottom: 0.5rem;
+        }
+        .stat-label {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        .referral-link-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 2rem;
+        }
+        .link-box {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            background: #f8fafd;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+        .link-box input {
+            flex: 1;
+            padding: 0.5rem;
+            border: none;
+            background: transparent;
+            font-family: monospace;
+            font-size: 1rem;
+        }
+        .copy-btn {
+            background: #0b1f33;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .copy-btn:hover {
+            background: #1e3a5f;
+        }
+        .share-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .share-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .share-whatsapp { background: #25D366; color: white; }
+        .share-twitter { background: #1DA1F2; color: white; }
+        .share-email { background: #EA4335; color: white; }
+        .referred-list {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+        .referred-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .referred-item:last-child {
+            border-bottom: none;
+        }
+        .referred-info h4 {
+            margin-bottom: 0.25rem;
+        }
+        .referred-info p {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        .referred-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .status-pending {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+        .status-completed {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+        .reward-amount {
+            font-weight: 600;
+            color: #10B981;
+        }
+        .terms {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #f8fafd;
+            border-radius: 8px;
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .alert.success {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+        .alert.error {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-university"></i>
+            <span>Saxon Bank</span>
+        </div>
+        <div class="nav-links">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/referrals" class="active">Referrals</a>
+            <a href="/deposit">Deposit</a>
+            <a href="/transfer">Transfer</a>
+            <a href="/card">Card</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Refer & Earn</h1>
+        </div>
+
+        <% if (success) { %>
+            <div class="alert success">
+                <i class="fas fa-check-circle"></i> <%= success %>
+            </div>
+        <% } %>
+        <% if (error) { %>
+            <div class="alert error">
+                <i class="fas fa-exclamation-circle"></i> <%= error %>
+            </div>
+        <% } %>
+
+        <div class="hero-card">
+            <span class="reward-badge">Earn $50 per referral</span>
+            <h1>Invite friends, earn rewards</h1>
+            <p>Share your unique referral link with friends. When they open an account and make their first transaction, you both get $50!</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">5</div>
+                <div class="stat-label">Total Referrals</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">3</div>
+                <div class="stat-label">Pending</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">2</div>
+                <div class="stat-label">Completed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">$100</div>
+                <div class="stat-label">Earned</div>
+            </div>
+        </div>
+
+        <div class="referral-link-card">
+            <h2 style="margin-bottom: 1rem;">Your Referral Link</h2>
+            <div class="link-box">
+                <input type="text" id="referralLink" value="https://saxonbank.com/ref/SAXON123" readonly>
+                <button class="copy-btn" onclick="copyLink()">
+                    <i class="fas fa-copy"></i> Copy
+                </button>
+            </div>
+            <div class="share-buttons">
+                <button class="share-btn share-whatsapp" onclick="shareVia('whatsapp')">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </button>
+                <button class="share-btn share-twitter" onclick="shareVia('twitter')">
+                    <i class="fab fa-twitter"></i> Twitter
+                </button>
+                <button class="share-btn share-email" onclick="shareVia('email')">
+                    <i class="fas fa-envelope"></i> Email
+                </button>
+            </div>
+        </div>
+
+        <div class="referred-list">
+            <h2 style="margin-bottom: 1.5rem;">Your Referrals</h2>
+            
+            <div class="referred-item">
+                <div class="referred-info">
+                    <h4>John Smith</h4>
+                    <p>john.smith@example.com • Referred Feb 15, 2026</p>
+                </div>
+                <span class="referred-status status-completed">Completed</span>
+                <span class="reward-amount">+$50</span>
+            </div>
+
+            <div class="referred-item">
+                <div class="referred-info">
+                    <h4>Sarah Johnson</h4>
+                    <p>sarah.j@example.com • Referred Feb 10, 2026</p>
+                </div>
+                <span class="referred-status status-pending">Pending</span>
+                <span class="reward-amount">-$50</span>
+            </div>
+
+            <div class="referred-item">
+                <div class="referred-info">
+                    <h4>Mike Wilson</h4>
+                    <p>mike.w@example.com • Referred Feb 5, 2026</p>
+                </div>
+                <span class="referred-status status-completed">Completed</span>
+                <span class="reward-amount">+$50</span>
+            </div>
+        </div>
+
+        <div class="terms">
+            <h4 style="margin-bottom: 0.5rem;">Terms & Conditions</h4>
+            <p>• You earn $50 for each friend who opens an account using your referral link and completes their first transaction (deposit, transfer, or bill payment).</p>
+            <p>• Your friend also receives $50 credited to their account.</p>
+            <p>• Maximum referral rewards per year: $1,000.</p>
+            <p>• Referrals must be new customers who have never had an account with us before.</p>
+        </div>
+    </div>
+
+    <script>
+        function copyLink() {
+            const link = document.getElementById('referralLink');
+            link.select();
+            document.execCommand('copy');
+            
+            const btn = document.querySelector('.copy-btn');
+            const original = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            setTimeout(() => {
+                btn.innerHTML = original;
+            }, 2000);
+        }
+
+        function shareVia(platform) {
+            const link = encodeURIComponent(document.getElementById('referralLink').value);
+            const text = encodeURIComponent('Join Saxon Bank and get $50 when you sign up! Use my referral link:');
+            
+            let url;
+            switch(platform) {
+                case 'whatsapp':
+                    url = `https://wa.me/?text=${text}%20${link}`;
+                    break;
+                case 'twitter':
+                    url = `https://twitter.com/intent/tweet?text=${text}&url=${link}`;
+                    break;
+                case 'email':
+                    url = `mailto:?subject=Join Saxon Bank&body=${text}%20${link}`;
+                    break;
+            }
+            
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spending Insights | Saxon Bank</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1a2639;
+        }
+        .navbar {
+            background: #0b1f33;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #c9a05e;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #cfddee;
+            text-decoration: none;
+        }
+        .nav-links a.active {
+            color: #c9a05e;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .summary-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+        .summary-card h3 {
+            color: #64748b;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+        .summary-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0b1f33;
+        }
+        .chart-container {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid #e2e8f0;
+        }
+        .monthly-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .month-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+        .month-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .month-name {
+            font-weight: 600;
+            color: #0b1f33;
+        }
+        .month-total {
+            color: #10B981;
+        }
+        .category-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+        }
+        .category-name {
+            color: #64748b;
+        }
+        .category-amount {
+            font-weight: 600;
+        }
+        .period-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .period-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #e2e8f0;
+            background: white;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+        .period-btn.active {
+            background: #0b1f33;
+            color: white;
+            border-color: #0b1f33;
+        }
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-university"></i>
+            <span>Saxon Bank</span>
+        </div>
+        <div class="nav-links">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/insights" class="active">Insights</a>
+            <a href="/deposit">Deposit</a>
+            <a href="/transfer">Transfer</a>
+            <a href="/card">Card</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Spending Insights</h1>
+            <div class="period-selector">
+                <button class="period-btn active" onclick="changePeriod('month')">This Month</button>
+                <button class="period-btn" onclick="changePeriod('quarter')">Last 3 Months</button>
+                <button class="period-btn" onclick="changePeriod('year')">This Year</button>
+            </div>
+        </div>
+
+        <div class="summary-cards">
+            <div class="summary-card">
+                <h3>Total Spent</h3>
+                <div class="summary-amount" id="totalSpent">$0.00</div>
+            </div>
+            <div class="summary-card">
+                <h3>Average per Day</h3>
+                <div class="summary-amount" id="avgPerDay">$0.00</div>
+            </div>
+            <div class="summary-card">
+                <h3>Biggest Category</h3>
+                <div class="summary-amount" id="topCategory">-</div>
+            </div>
+            <div class="summary-card">
+                <h3>Savings Rate</h3>
+                <div class="summary-amount" id="savingsRate">0%</div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="spendingChart"></canvas>
+        </div>
+
+        <h2 style="margin-bottom: 1rem;">Monthly Breakdown</h2>
+        <div class="monthly-grid" id="monthlyGrid">
+            <div class="loading">Loading data...</div>
+        </div>
+    </div>
+
+    <script>
+        let spendingChart;
+        
+        function changePeriod(period) {
+            document.querySelectorAll('.period-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            loadData(period);
+        }
+
+        function loadData(period) {
+            fetch(`/api/spending?period=${period}`)
+                .then(res => res.json())
+                .then(data => {
+                    updateSummary(data.summary);
+                    updateChart(data.chart);
+                    updateMonthly(data.monthly);
+                });
+        }
+
+        function updateSummary(summary) {
+            document.getElementById('totalSpent').text = formatCurrency(summary.totalSpent);
+            document.getElementById('avgPerDay').text = formatCurrency(summary.avgPerDay);
+            document.getElementById('topCategory').text = summary.topCategory;
+            document.getElementById('savingsRate').text = summary.savingsRate + '%';
+        }
+
+        function updateChart(data) {
+            if (spendingChart) spendingChart.destroy();
+            
+            const ctx = document.getElementById('spendingChart').getContext('2d');
+            spendingChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        data: data.values,
+                        backgroundColor: ['#c9a05e', '#10B981', '#EF4444', '#3B82F6', '#8B5CF6', '#EC4899'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateMonthly(months) {
+            const grid = document.getElementById('monthlyGrid');
+            grid.innerHTML = '';
+            
+            months.forEach(month => {
+                const card = document.createElement('div');
+                card.className = 'month-card';
+                card.innerHTML = `
+                    <div class="month-header">
+                        <span class="month-name">${month.name}</span>
+                        <span class="month-total">${formatCurrency(month.total)}</span>
+                    </div>
+                    ${month.categories.map(cat => `
+                        <div class="category-item">
+                            <span class="category-name">${cat.name}</span>
+                            <span class="category-amount">${formatCurrency(cat.amount)}</span>
+                        </div>
+                    `).join('')}
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD'
+            }).format(amount);
+        }
+
+        // Load initial data
+        loadData('month');
+    </script>
+</body>
+</html>

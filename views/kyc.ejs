@@ -189,6 +189,7 @@
             cursor: pointer;
             width: 100%;
             font-size: 1rem;
+            margin-top: 1rem;
         }
         .btn-submit:hover {
             background: #003d7a;
@@ -229,7 +230,6 @@
         .alert.success { background: #D1FAE5; color: #065F46; }
         .alert.error { background: #FEE2E2; color: #991B1B; }
         
-        /* Mobile Responsive */
         @media screen and (max-width: 768px) {
             .navbar {
                 flex-direction: column;
@@ -310,220 +310,115 @@
             
             <div class="progress-steps">
                 <div class="step <%= user.idVerified ? 'completed' : (user.kycProgress > 0 ? 'active' : '') %>">
-                    <div class="step-icon">
-                        <%= user.idVerified ? '✓' : '1' %>
-                    </div>
+                    <div class="step-icon"><%= user.idVerified ? '✓' : '1' %></div>
                     <div class="step-label">ID Verification</div>
-                    <div class="step-status">
-                        <%= user.idVerified ? 'Completed' : (user.kycProgress > 0 ? 'In Progress' : 'Pending') %>
-                    </div>
+                    <div class="step-status"><%= user.idVerified ? 'Completed' : (user.kycProgress > 0 ? 'In Progress' : 'Pending') %></div>
                 </div>
                 <div class="step <%= user.addressVerified ? 'completed' : (user.kycProgress > 33 ? 'active' : '') %>">
-                    <div class="step-icon">
-                        <%= user.addressVerified ? '✓' : '2' %>
-                    </div>
+                    <div class="step-icon"><%= user.addressVerified ? '✓' : '2' %></div>
                     <div class="step-label">Address Proof</div>
-                    <div class="step-status">
-                        <%= user.addressVerified ? 'Completed' : (user.kycProgress > 33 ? 'In Progress' : 'Pending') %>
-                    </div>
+                    <div class="step-status"><%= user.addressVerified ? 'Completed' : (user.kycProgress > 33 ? 'In Progress' : 'Pending') %></div>
                 </div>
                 <div class="step <%= user.selfieVerified ? 'completed' : (user.kycProgress > 66 ? 'active' : '') %>">
-                    <div class="step-icon">
-                        <%= user.selfieVerified ? '✓' : '3' %>
-                    </div>
+                    <div class="step-icon"><%= user.selfieVerified ? '✓' : '3' %></div>
                     <div class="step-label">Selfie Verification</div>
-                    <div class="step-status">
-                        <%= user.selfieVerified ? 'Completed' : (user.kycProgress > 66 ? 'In Progress' : 'Pending') %>
-                    </div>
+                    <div class="step-status"><%= user.selfieVerified ? 'Completed' : (user.kycProgress > 66 ? 'In Progress' : 'Pending') %></div>
                 </div>
             </div>
 
             <% if (!user.isVerified && !kycRequest) { %>
-                <!-- Document Upload Section -->
-                <div class="document-section">
-                    <h4 style="margin-bottom: 1rem;">Step 1: Government ID</h4>
-                    <div class="document-upload" onclick="document.getElementById('idUpload').click()">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        <p><strong>Click to upload your ID</strong></p>
-                        <p style="font-size: 0.875rem; color: #5a6a7e;">Passport, Driver's License, or National ID</p>
-                        <input type="file" id="idUpload" style="display: none;" accept="image/*,.pdf">
+                <!-- Upload Form -->
+                <form action="/kyc/submit" method="POST" enctype="multipart/form-data">
+                    <div class="document-section">
+                        <h4 style="margin-bottom: 1rem;">Upload Required Documents</h4>
+                        
+                        <div class="document-upload" onclick="document.getElementById('idUpload').click()">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p><strong>Government ID</strong> (Passport, Driver's License)</p>
+                            <input type="file" id="idUpload" name="idDocument" style="display: none;" accept="image/*,.pdf" required>
+                        </div>
+
+                        <div class="document-upload" onclick="document.getElementById('addressUpload').click()">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p><strong>Proof of Address</strong> (Utility bill, bank statement)</p>
+                            <input type="file" id="addressUpload" name="addressDocument" style="display: none;" accept="image/*,.pdf" required>
+                        </div>
+
+                        <div class="document-upload" onclick="document.getElementById('selfieUpload').click()">
+                            <i class="fas fa-camera"></i>
+                            <p><strong>Selfie with ID</strong> (Hold your ID next to your face)</p>
+                            <input type="file" id="selfieUpload" name="selfieDocument" style="display: none;" accept="image/*" required>
+                        </div>
+
+                        <button type="submit" class="btn-submit">
+                            <i class="fas fa-paper-plane"></i> Submit for Verification
+                        </button>
                     </div>
-
-                    <h4 style="margin: 2rem 0 1rem;">Step 2: Proof of Address</h4>
-                    <div class="document-upload" onclick="document.getElementById('addressUpload').click()">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        <p><strong>Click to upload address proof</strong></p>
-                        <p style="font-size: 0.875rem; color: #5a6a7e;">Utility bill, bank statement (last 3 months)</p>
-                        <input type="file" id="addressUpload" style="display: none;" accept="image/*,.pdf">
-                    </div>
-
-                    <h4 style="margin: 2rem 0 1rem;">Step 3: Selfie</h4>
-                    <div class="document-upload" onclick="document.getElementById('selfieUpload').click()">
-                        <i class="fas fa-camera"></i>
-                        <p><strong>Take a selfie</strong></p>
-                        <p style="font-size: 0.875rem; color: #5a6a7e;">Hold your ID next to your face</p>
-                        <input type="file" id="selfieUpload" style="display: none;" accept="image/*">
-                    </div>
-
-                    <!-- Uploaded Files List -->
-                    <div class="document-list" id="fileList"></div>
-
-                    <!-- Submit Button -->
-                    <button class="btn-submit" id="submitKYC" onclick="submitKYC()" disabled>
-                        Submit for Verification
-                    </button>
-                </div>
+                </form>
 
                 <!-- Requirements -->
                 <div class="info-box">
                     <i class="fas fa-info-circle"></i>
                     <strong>Document Requirements:</strong>
                     <div class="requirements">
-                        <div class="requirement-item">
-                            <i class="fas fa-check-circle" style="color: #10B981;"></i>
-                            Clear, legible image
-                        </div>
-                        <div class="requirement-item">
-                            <i class="fas fa-check-circle" style="color: #10B981;"></i>
-                            All 4 corners visible
-                        </div>
-                        <div class="requirement-item">
-                            <i class="fas fa-check-circle" style="color: #10B981;"></i>
-                            No glare or shadows
-                        </div>
-                        <div class="requirement-item">
-                            <i class="fas fa-check-circle" style="color: #10B981;"></i>
-                            JPG, PNG, or PDF
-                        </div>
+                        <div class="requirement-item"><i class="fas fa-check-circle" style="color: #10B981;"></i> Clear, legible image</div>
+                        <div class="requirement-item"><i class="fas fa-check-circle" style="color: #10B981;"></i> All 4 corners visible</div>
+                        <div class="requirement-item"><i class="fas fa-check-circle" style="color: #10B981;"></i> No glare or shadows</div>
+                        <div class="requirement-item"><i class="fas fa-check-circle" style="color: #10B981;"></i> JPG, PNG, or PDF</div>
                     </div>
                 </div>
 
-                <!-- Security Note -->
                 <p style="font-size: 0.875rem; color: #8a9aa8; text-align: center;">
                     <i class="fas fa-lock"></i> Your documents are encrypted and securely stored
                 </p>
             <% } else if (kycRequest && kycRequest.status === 'pending') { %>
-                <!-- Pending Message -->
                 <div style="text-align: center; padding: 2rem;">
                     <i class="fas fa-clock" style="font-size: 3rem; color: #F59E0B; margin-bottom: 1rem;"></i>
                     <h3>Verification in Progress</h3>
-                    <p>We're reviewing your documents. You'll receive an email once verified.</p>
-                    <p style="margin-top: 1rem; color: #5a6a7e;">Estimated time: 24-48 hours</p>
+                    <p>We're reviewing your documents. You'll be notified once verified.</p>
                 </div>
             <% } %>
         </div>
 
-        <!-- Benefits of Verification -->
+        <!-- Benefits -->
         <div class="kyc-card">
             <h3 style="margin-bottom: 1.5rem;">Benefits of Verification</h3>
-            
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
                 <div style="padding: 1rem; text-align: center;">
-                    <i class="fas fa-arrow-up" style="color: #0056B3; font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                    <i class="fas fa-arrow-up" style="color: #0056B3; font-size: 2rem;"></i>
                     <h4>Higher Limits</h4>
-                    <p style="font-size: 0.875rem;">Daily limit increases to $25,000</p>
+                    <p>Daily limit increases to $25,000</p>
                 </div>
                 <div style="padding: 1rem; text-align: center;">
-                    <i class="fas fa-globe" style="color: #0056B3; font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                    <i class="fas fa-globe" style="color: #0056B3; font-size: 2rem;"></i>
                     <h4>International Transfers</h4>
-                    <p style="font-size: 0.875rem;">Send money worldwide</p>
+                    <p>Send money worldwide</p>
                 </div>
                 <div style="padding: 1rem; text-align: center;">
-                    <i class="fas fa-credit-card" style="color: #0056B3; font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                    <i class="fas fa-credit-card" style="color: #0056B3; font-size: 2rem;"></i>
                     <h4>Premium Cards</h4>
-                    <p style="font-size: 0.875rem;">Access to metal cards</p>
+                    <p>Access to premium cards</p>
                 </div>
                 <div style="padding: 1rem; text-align: center;">
-                    <i class="fas fa-headset" style="color: #0056B3; font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                    <i class="fas fa-headset" style="color: #0056B3; font-size: 2rem;"></i>
                     <h4>Priority Support</h4>
-                    <p style="font-size: 0.875rem;">24/7 dedicated support</p>
+                    <p>24/7 dedicated support</p>
                 </div>
             </div>
-        </div>
-
-        <!-- Need Help? -->
-        <div style="text-align: center; margin-top: 2rem;">
-            <p style="color: #5a6a7e;">
-                <i class="fas fa-question-circle"></i> Having trouble?
-                <a href="/support" style="color: #0056B3;">Contact Support</a>
-            </p>
         </div>
     </div>
 
     <script>
-        let files = {
-            id: null,
-            address: null,
-            selfie: null
-        };
-
-        // Handle file uploads
+        // Show file names when selected
         document.getElementById('idUpload').addEventListener('change', function(e) {
-            files.id = e.target.files[0];
-            updateFileList();
+            if (this.files[0]) alert('ID document selected: ' + this.files[0].name);
         });
-
         document.getElementById('addressUpload').addEventListener('change', function(e) {
-            files.address = e.target.files[0];
-            updateFileList();
+            if (this.files[0]) alert('Address proof selected: ' + this.files[0].name);
         });
-
         document.getElementById('selfieUpload').addEventListener('change', function(e) {
-            files.selfie = e.target.files[0];
-            updateFileList();
+            if (this.files[0]) alert('Selfie selected: ' + this.files[0].name);
         });
-
-        function updateFileList() {
-            const fileList = document.getElementById('fileList');
-            const submitBtn = document.getElementById('submitKYC');
-            let html = '';
-            let allUploaded = true;
-
-            if (files.id) {
-                html += `<div class="document-item"><i class="fas fa-check-circle"></i> ID: ${files.id.name}</div>`;
-            } else {
-                allUploaded = false;
-            }
-
-            if (files.address) {
-                html += `<div class="document-item"><i class="fas fa-check-circle"></i> Address: ${files.address.name}</div>`;
-            } else {
-                allUploaded = false;
-            }
-
-            if (files.selfie) {
-                html += `<div class="document-item"><i class="fas fa-check-circle"></i> Selfie: ${files.selfie.name}</div>`;
-            } else {
-                allUploaded = false;
-            }
-
-            fileList.innerHTML = html;
-            submitBtn.disabled = !allUploaded;
-        }
-
-        function submitKYC() {
-            // In a real app, this would upload files to server
-            // For demo, we'll redirect to a success message
-            alert('Documents uploaded successfully! They will be reviewed within 24 hours.');
-            window.location.href = '/kyc?success=Documents submitted successfully';
-            
-            // Actual implementation would use FormData and fetch:
-            /*
-            const formData = new FormData();
-            formData.append('id', files.id);
-            formData.append('address', files.address);
-            formData.append('selfie', files.selfie);
-            
-            fetch('/kyc/submit', {
-                method: 'POST',
-                body: formData
-            }).then(response => {
-                if (response.ok) {
-                    window.location.href = '/kyc?success=Documents submitted';
-                }
-            });
-            */
-        }
     </script>
 </body>
 </html>

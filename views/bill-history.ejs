@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1a2639;
+        }
+        .navbar {
+            background: #0b1f33;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #c9a05e;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #cfddee;
+            text-decoration: none;
+        }
+        .nav-links a.active {
+            color: #c9a05e;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .back-link {
+            color: #c9a05e;
+            text-decoration: none;
+        }
+        .payments-table {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            text-align: left;
+            padding: 1rem 0.5rem;
+            color: #64748b;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        td {
+            padding: 1rem 0.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .status-completed {
+            color: #10B981;
+        }
+        .status-pending {
+            color: #F59E0B;
+        }
+        .status-failed {
+            color: #EF4444;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-university"></i>
+            <span>Saxon Bank</span>
+        </div>
+        <div class="nav-links">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/deposit">Deposit</a>
+            <a href="/transfer">Transfer</a>
+            <a href="/billers" class="active">Bill Pay</a>
+            <a href="/card">Card</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Payment History</h1>
+            <a href="/billers" class="back-link">← Back to Bill Pay</a>
+        </div>
+
+        <div class="payments-table">
+            <% if (payments && payments.length > 0) { %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Biller</th>
+                            <th>Reference</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% payments.forEach(payment => { %>
+                            <tr>
+                                <td><%= new Date(payment.paymentDate).toLocaleDateString() %></td>
+                                <td><%= payment.billerId ? payment.billerId.name : 'Unknown' %></td>
+                                <td><%= payment.reference %></td>
+                                <td><%= formatCurrency(payment.amount) %></td>
+                                <td class="status-<%= payment.status %>">
+                                    <%= payment.status.charAt(0).toUpperCase() + payment.status.slice(1) %>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <div class="empty-state">
+                    <i class="fas fa-receipt" style="font-size: 3rem;"></i>
+                    <h3>No payment history</h3>
+                    <p>Your bill payments will appear here</p>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>

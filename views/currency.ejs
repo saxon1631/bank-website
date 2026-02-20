@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Currency | Saxon Bank</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1a2639;
+        }
+        .navbar {
+            background: #0b1f33;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #c9a05e;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #cfddee;
+            text-decoration: none;
+        }
+        .nav-links a.active {
+            color: #c9a05e;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .balance-card {
+            background: linear-gradient(135deg, #0b2b4a, #133456);
+            color: white;
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .main-balance {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .main-currency {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .currency-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .currency-option {
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 30px;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .currency-option:hover,
+        .currency-option.active {
+            background: #c9a05e;
+            border-color: #c9a05e;
+        }
+        .rates-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 2rem;
+        }
+        .rates-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .rates-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .rates-table th {
+            text-align: left;
+            padding: 1rem 0.5rem;
+            color: #64748b;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .rates-table td {
+            padding: 1rem 0.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .rates-table tr:last-child td {
+            border-bottom: none;
+        }
+        .currency-flag {
+            display: inline-block;
+            width: 24px;
+            margin-right: 0.5rem;
+        }
+        .rate-up {
+            color: #10B981;
+        }
+        .rate-down {
+            color: #EF4444;
+        }
+        .currency-wallets {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .wallet-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+        .wallet-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #c9a05e;
+        }
+        .wallet-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .wallet-flag {
+            font-size: 2rem;
+        }
+        .wallet-details h3 {
+            margin-bottom: 0.25rem;
+        }
+        .wallet-details p {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        .wallet-balance {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0b1f33;
+            margin-bottom: 1rem;
+        }
+        .wallet-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .wallet-btn {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #e2e8f0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .wallet-btn:hover {
+            background: #c9a05e;
+            color: white;
+            border-color: #c9a05e;
+        }
+        .converter-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 2rem;
+        }
+        .converter-grid {
+            display: grid;
+            grid-template-columns: 1fr 0.5fr 1fr;
+            gap: 1rem;
+            align-items: center;
+            margin: 2rem 0;
+        }
+        .currency-select {
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .swap-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 1px solid #e2e8f0;
+            background: white;
+            cursor: pointer;
+            margin: 0 auto;
+            transition: all 0.2s;
+        }
+        .swap-btn:hover {
+            background: #c9a05e;
+            color: white;
+            border-color: #c9a05e;
+        }
+        .convert-result {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0b1f33;
+            margin: 1rem 0;
+        }
+        .convert-btn {
+            background: #c9a05e;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            width: 100%;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .convert-btn:hover {
+            background: #b48a4a;
+        }
+        .rate-info {
+            font-size: 0.875rem;
+            color: #64748b;
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .travel-card {
+            background: linear-gradient(135deg, #f8fafd, #ffffff);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        .travel-info {
+            flex: 1;
+        }
+        .travel-info h3 {
+            margin-bottom: 0.5rem;
+        }
+        .travel-info p {
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+        .travel-btn {
+            background: #0b1f33;
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .travel-btn:hover {
+            background: #1e3a5f;
+        }
+        .travel-icon {
+            font-size: 4rem;
+            color: #c9a05e;
+        }
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .alert.success {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+        .alert.error {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-university"></i>
+            <span>Saxon Bank</span>
+        </div>
+        <div class="nav-links">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/currency" class="active">Currency</a>
+            <a href="/deposit">Deposit</a>
+            <a href="/transfer">Transfer</a>
+            <a href="/card">Card</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Multi-Currency Account</h1>
+        </div>
+
+        <div class="balance-card">
+            <div class="main-balance" id="mainBalance">$12,345.67</div>
+            <div class="main-currency">USD - US Dollar (Default)</div>
+            <div class="currency-selector">
+                <button class="currency-option active" onclick="switchCurrency('USD')">USD</button>
+                <button class="currency-option" onclick="switchCurrency('EUR')">EUR</button>
+                <button class="currency-option" onclick="switchCurrency('GBP')">GBP</button>
+                <button class="currency-option" onclick="switchCurrency('JPY')">JPY</button>
+                <button class="currency-option" onclick="switchCurrency('CAD')">CAD</button>
+                <button class="currency-option" onclick="switchCurrency('AUD')">AUD</button>
+            </div>
+        </div>
+
+        <div class="currency-wallets">
+            <div class="wallet-card">
+                <div class="wallet-header">
+                    <span class="wallet-flag">🇺🇸</span>
+                    <div class="wallet-details">
+                        <h3>USD Wallet</h3>
+                        <p>US Dollar</p>
+                    </div>
+                </div>
+                <div class="wallet-balance">$10,000.00</div>
+                <div class="wallet-actions">
+                    <button class="wallet-btn" onclick="openTransferModal('USD')">Send</button>
+                    <button class="wallet-btn" onclick="openTransferModal('USD', 'deposit')">Add</button>
+                    <button class="wallet-btn" onclick="openTransferModal('USD', 'convert')">Convert</button>
+                </div>
+            </div>
+
+            <div class="wallet-card">
+                <div class="wallet-header">
+                    <span class="wallet-flag">🇪🇺</span>
+                    <div class="wallet-details">
+                        <h3>EUR Wallet</h3>
+                        <p>Euro</p>
+                    </div>
+                </div>
+                <div class="wallet-balance">€2,345.67</div>
+                <div class="wallet-actions">
+                    <button class="wallet-btn" onclick="openTransferModal('EUR')">Send</button>
+                    <button class="wallet-btn" onclick="openTransferModal('EUR', 'deposit')">Add</button>
+                    <button class="wallet-btn" onclick="openTransferModal('EUR', 'convert')">Convert</button>
+                </div>
+            </div>
+
+            <div class="wallet-card">
+                <div class="wallet-header">
+                    <span class="wallet-flag">🇬🇧</span>
+                    <div class="wallet-details">
+                        <h3>GBP Wallet</h3>
+                        <p>British Pound</p>
+                    </div>
+                </div>
+                <div class="wallet-balance">£5,678.90</div>
+                <div class="wallet-actions">
+                    <button class="wallet-btn" onclick="openTransferModal('GBP')">Send</button>
+                    <button class="wallet-btn" onclick="openTransferModal('GBP', 'deposit')">Add</button>
+                    <button class="wallet-btn" onclick="openTransferModal('GBP', 'convert')">Convert</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="rates-section">
+            <div class="rates-header">
+                <h2>Live Exchange Rates</h2>
+                <span style="color: #64748b;">Updated 1 min ago</span>
+            </div>
+            <table class="rates-table">
+                <thead>
+                    <tr>
+                        <th>Currency</th>
+                        <th>Buy Rate</th>
+                        <th>Sell Rate</th>
+                        <th>Change</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="currency-flag">🇪🇺</span> EUR</td>
+                        <td>1.0845</td>
+                        <td>1.0825</td>
+                        <td class="rate-up">▲ +0.2%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="currency-flag">🇬🇧</span> GBP</td>
+                        <td>1.2645</td>
+                        <td>1.2620</td>
+                        <td class="rate-down">▼ -0.1%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="currency-flag">🇯🇵</span> JPY</td>
+                        <td>151.23</td>
+                        <td>150.98</td>
+                        <td class="rate-up">▲ +0.3%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="currency-flag">🇨🇦</span> CAD</td>
+                        <td>1.3520</td>
+                        <td>1.3495</td>
+                        <td class="rate-up">▲ +0.1%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="currency-flag">🇦🇺</span> AUD</td>
+                        <td>1.5230</td>
+                        <td>1.5205</td>
+                        <td class="rate-down">▼ -0.2%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="currency-flag">🇨🇭</span> CHF</td>
+                        <td>0.8845</td>
+                        <td>0.8820</td>
+                        <td class="rate-up">▲ +0.1%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="converter-section">
+            <h2 style="margin-bottom: 1.5rem;">Currency Converter</h2>
+            
+            <div class="converter-grid">
+                <select class="currency-select" id="fromCurrency">
+                    <option value="USD">🇺🇸 USD - US Dollar</option>
+                    <option value="EUR">🇪🇺 EUR - Euro</option>
+                    <option value="GBP">🇬🇧 GBP - British Pound</option>
+                    <option value="JPY">🇯🇵 JPY - Japanese Yen</option>
+                    <option value="CAD">🇨🇦 CAD - Canadian Dollar</option>
+                    <option value="AUD">🇦🇺 AUD - Australian Dollar</option>
+                    <option value="CHF">🇨🇭 CHF - Swiss Franc</option>
+                </select>
+                
+                <button class="swap-btn" onclick="swapCurrencies()">
+                    <i class="fas fa-exchange-alt"></i>
+                </button>
+                
+                <select class="currency-select" id="toCurrency">
+                    <option value="EUR">🇪🇺 EUR - Euro</option>
+                    <option value="USD">🇺🇸 USD - US Dollar</option>
+                    <option value="GBP">🇬🇧 GBP - British Pound</option>
+                    <option value="JPY">🇯🇵 JPY - Japanese Yen</option>
+                    <option value="CAD">🇨🇦 CAD - Canadian Dollar</option>
+                    <option value="AUD">🇦🇺 AUD - Australian Dollar</option>
+                    <option value="CHF">🇨🇭 CHF - Swiss Franc</option>
+                </select>
+            </div>
+
+            <div class="convert-result" id="convertResult">
+                1 USD = 0.92 EUR
+            </div>
+
+            <div class="rate-info">
+                <i class="fas fa-info-circle"></i> Rates are updated in real-time. Transaction fees may apply.
+            </div>
+
+            <button class="convert-btn" onclick="convertCurrency()">
+                <i class="fas fa-calculator"></i> Calculate
+            </button>
+        </div>
+
+        <div class="travel-card">
+            <div class="travel-info">
+                <h3>🌍 Traveling abroad?</h3>
+                <p>Spend in local currency with no foreign transaction fees. Get real exchange rates instantly.</p>
+                <button class="travel-btn" onclick="location.href='/card'">
+                    <i class="fas fa-credit-card"></i> Get Travel Card
+                </button>
+            </div>
+            <div class="travel-icon">
+                <i class="fas fa-globe-americas"></i>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const exchangeRates = {
+            USD: { EUR: 0.92, GBP: 0.79, JPY: 151.23, CAD: 1.35, AUD: 1.52, CHF: 0.88 },
+            EUR: { USD: 1.08, GBP: 0.86, JPY: 163.89, CAD: 1.46, AUD: 1.65, CHF: 0.96 },
+            GBP: { USD: 1.26, EUR: 1.16, JPY: 190.45, CAD: 1.70, AUD: 1.92, CHF: 1.12 },
+            JPY: { USD: 0.0066, EUR: 0.0061, GBP: 0.0053, CAD: 0.0089, AUD: 0.010, CHF: 0.0058 },
+            CAD: { USD: 0.74, EUR: 0.68, GBP: 0.59, JPY: 112.36, AUD: 1.13, CHF: 0.65 },
+            AUD: { USD: 0.66, EUR: 0.61, GBP: 0.52, JPY: 99.47, CAD: 0.89, CHF: 0.58 },
+            CHF: { USD: 1.13, EUR: 1.04, GBP: 0.89, JPY: 171.43, CAD: 1.53, AUD: 1.73 }
+        };
+
+        function switchCurrency(currency) {
+            document.querySelectorAll('.currency-option').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent === currency) btn.classList.add('active');
+            });
+
+            // Update main balance display (would be dynamic in production)
+            const balances = {
+                USD: '$12,345.67',
+                EUR: '€11,345.67',
+                GBP: '£9,765.43',
+                JPY: '¥1,867,890',
+                CAD: 'C$16,667.89',
+                AUD: 'A$18,765.43'
+            };
+            
+            document.getElementById('mainBalance').textContent = balances[currency];
+        }
+
+        function swapCurrencies() {
+            const from = document.getElementById('fromCurrency');
+            const to = document.getElementById('toCurrency');
+            const temp = from.value;
+            from.value = to.value;
+            to.value = temp;
+            updateConversion();
+        }
+
+        function updateConversion() {
+            const from = document.getElementById('fromCurrency').value;
+            const to = document.getElementById('toCurrency').value;
+            
+            if (from === to) {
+                document.getElementById('convertResult').textContent = `1 ${from} = 1 ${to}`;
+            } else {
+                const rate = exchangeRates[from][to];
+                document.getElementById('convertResult').textContent = `1 ${from} = ${rate.toFixed(4)} ${to}`;
+            }
+        }
+
+        function convertCurrency() {
+            updateConversion();
+            // In production, this would do actual conversion with amount input
+            alert('In production, this would convert your currency with the current rate');
+        }
+
+        function openTransferModal(currency, action = 'send') {
+            alert(`Opening ${action} modal for ${currency} wallet`);
+        }
+
+        // Initialize
+        updateConversion();
+
+        // Update on change
+        document.getElementById('fromCurrency').addEventListener('change', updateConversion);
+        document.getElementById('toCurrency').addEventListener('change', updateConversion);
+    </script>
+</body>
+</html>

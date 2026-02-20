@@ -1,0 +1,70 @@
+<% 
+// Dark mode toggle component
+const darkMode = user && user.darkMode ? user.darkMode : false;
+%>
+
+<style>
+.dark-mode-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: 1rem;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: 30px;
+    background: transparent;
+    transition: all 0.2s;
+}
+
+.dark-m
+    font-size: 0.875rem;
+    color: #5a6a7e;
+}
+
+body.dark-mode .dark-mode-text {
+    color: #cbd5e1;
+}
+</style>
+
+<div class="dark-mode-toggle" onclick="toggleDarkMode()" id="darkModeToggle">
+    <i class="fas fa-moon" id="darkModeIcon"></i>
+    <span class="dark-mode-text" id="darkModeText">Dark Mode</span>
+</div>
+
+<script>
+// Check for saved dark mode preference
+const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+if (savedDarkMode) {
+    document.body.classList.add('dark-mode');
+    updateDarkModeIcon(true);
+}
+
+function toggleDarkMode() {
+    const isDark = document.body.classList.toggle('dark-mode');
+    localStorage.setItem('darkMode', isDark);
+    updateDarkModeIcon(isDark);
+    
+    // Send preference to server
+    fetch('/api/user/darkmode', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ darkMode: isDark })
+    });
+}
+
+function updateDarkModeIcon(isDark) {
+    const icon = document.getElementById('darkModeIcon');
+    const text = document.getElementById('darkModeText');
+    
+    if (isDark) {
+        icon.className = 'fas fa-sun';
+        text.textContent = 'Light Mode';
+    } else {
+        icon.className = 'fas fa-moon';
+        text.textContent = 'Dark Mode';
+    }
+}
+
+// Set initial icon based on saved preference
+updateDarkModeIcon(savedDarkMode);
+</script>

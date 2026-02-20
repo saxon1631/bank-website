@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1a2639;
+        }
+        .navbar {
+            background: #0b1f33;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #c9a05e;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #cfddee;
+            text-decoration: none;
+        }
+        .nav-links a.active {
+            color: #c9a05e;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .balance-card {
+            background: linear-gradient(135deg, #0b2b4a, #133456);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+        }
+        .balance-amount {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .alert.success {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+        .alert.error {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+        .billers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .biller-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s;
+        }
+        .biller-card:hover {
+            transform: translateY(-3px);
+            border-color: #c9a05e;
+        }
+        .biller-category {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .category-utility { background: #e6f7e6; color: #1e7e34; }
+        .category-credit\ card { background: #fff1e0; color: #b45b0a; }
+        .category-loan { background: #fee7e7; color: #b33; }
+        .category-internet { background: #e6f0fa; color: #1e3a5f; }
+        .category-phone { background: #f3eaff; color: #6b3fa0; }
+        .biller-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .biller-account {
+            font-family: monospace;
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+        .pay-form {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .pay-input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        .pay-btn {
+            background: #0b1f33;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .pay-btn:hover {
+            background: #1e3a5f;
+        }
+        .payments-list {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+        .payment-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .payment-item:last-child {
+            border-bottom: none;
+        }
+        .payment-details h4 {
+            margin-bottom: 0.25rem;
+        }
+        .payment-details p {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        .payment-amount {
+            font-weight: 600;
+            color: #1e7e34;
+        }
+        .view-all {
+            text-align: right;
+            margin-top: 1rem;
+        }
+        .view-all a {
+            color: #c9a05e;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-university"></i>
+            <span>Saxon Bank</span>
+        </div>
+        <div class="nav-links">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/deposit">Deposit</a>
+            <a href="/transfer">Transfer</a>
+            <a href="/billers" class="active">Bill Pay</a>
+            <a href="/card">Card</a>
+            <div class="user-menu">
+                <span class="user-name"><i class="fas fa-user-circle"></i> <%= user.name %></span>
+                <div class="user-dropdown">
+                    <a href="/profile">Profile</a>
+                    <a href="/settings">Settings</a>
+                    <a href="/logout">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Bill Payment</h1>
+            <a href="/billers/history" style="color: #c9a05e;">View History →</a>
+        </div>
+
+        <% if (success) { %>
+            <div class="alert success">
+                <i class="fas fa-check-circle"></i> <%= success %>
+            </div>
+        <% } %>
+        <% if (error) { %>
+            <div class="alert error">
+                <i class="fas fa-exclamation-circle"></i> <%= error %>
+            </div>
+        <% } %>
+
+        <div class="balance-card">
+            <p>Available Balance</p>
+            <div class="balance-amount"><%= formatCurrency(user.balance) %></div>
+        </div>
+
+        <h2 style="margin-bottom: 1rem;">Pay Bills</h2>
+        <div class="billers-grid">
+            <% if (billers && billers.length > 0) { %>
+                <% billers.forEach(biller => { %>
+                    <div class="biller-card">
+                        <span class="biller-category category-<%= biller.category.replace(' ', '-') %>">
+                            <%= biller.category.toUpperCase() %>
+                        </span>
+                        <div class="biller-name"><%= biller.name %></div>
+                        <div class="biller-account">Account: <%= biller.accountNumber %></div>
+                        <% if (biller.description) { %>
+                            <p style="color: #64748b; font-size: 0.875rem;"><%= biller.description %></p>
+                        <% } %>
+                        
+                        <form action="/billers/pay" method="POST" class="pay-form">
+                            <input type="hidden" name="billerId" value="<%= biller._id %>">
+                            <input type="number" name="amount" class="pay-input" placeholder="Amount" min="1" step="0.01" required>
+                            <input type="text" name="description" class="pay-input" placeholder="Reference (optional)" style="flex: 0.5;">
+                            <button type="submit" class="pay-btn">Pay</button>
+                        </form>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p>No billers available at this time.</p>
+            <% } %>
+        </div>
+
+        <h2 style="margin: 2rem 0 1rem;">Recent Payments</h2>
+        <div class="payments-list">
+            <% if (payments && payments.length > 0) { %>
+                <% payments.forEach(payment => { %>
+                    <div class="payment-item">
+                        <div class="payment-details">
+                            <h4><%= payment.billerId ? payment.billerId.name : 'Unknown' %></h4>
+                            <p><%= payment.description || 'Bill payment' %> • Ref: <%= payment.reference %></p>
+                            <p style="font-size: 0.75rem;"><%= new Date(payment.paymentDate).toLocaleString() %></p>
+                        </div>
+                        <div class="payment-amount">-<%= formatCurrency(payment.amount) %></div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p style="text-align: center; color: #64748b;">No recent payments</p>
+            <% } %>
+        </div>
+        
+        <div class="view-all">
+            <a href="/billers/history">View all payment history →</a>
+        </div>
+    </div>
+</body>
+</html>

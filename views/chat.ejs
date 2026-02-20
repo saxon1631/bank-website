@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Support | Saxon Bank</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1a2639;
+        }
+        .navbar {
+            background: #0b1f33;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #c9a05e;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #cfddee;
+            text-decoration: none;
+        }
+        .nav-links a.active {
+            color: #c9a05e;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .chat-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            height: 600px;
+        }
+        .sidebar {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar-header {
+            padding: 1.5rem;
+            background: #f8fafd;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .sidebar-header h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #0b1f33;
+        }
+        .faq-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+        .faq-item {
+            padding: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .faq-item:hover {
+            background: #f8fafd;
+        }
+        .faq-item h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+        .faq-item p {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        .chat-main {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .chat-header {
+            padding: 1.5rem;
+            background: #f8fafd;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chat-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #10B981;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .message {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            max-width: 70%;
+        }
+        .message.support {
+            align-self: flex-start;
+        }
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #c9a05e;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        .message-content {
+            background: #f8fafd;
+            padding: 1rem;
+            border-radius: 16px;
+            position: relative;
+        }
+        .message.user .message-content {
+            background: #c9a05e;
+            color: white;
+        }
+        .message-content p {
+            margin-bottom: 0.25rem;
+        }
+        .message-time {
+            font-size: 0.7rem;
+            color: #64748b;
+        }
+        .message.user .message-time {
+            color: rgba(255,255,255,0.7);
+        }
+        .chat-input-area {
+            padding: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+            background: #f8fafd;
+        }
+        .chat-input {
+            display: flex;
+            gap: 1rem;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .chat-input input:focus {
+            outline: none;
+            border-color: #c9a05e;
+        }
+        .chat-input button {
+            background: #c9a05e;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .chat-input button:hover {
+            background: #b48a4a;
+        }
+        .quick-replies {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        .quick-reply {
+            padding: 0.5rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 30px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+        .quick-reply:hover {
+            background: #c9a05e;
+            color: white;
+            border-color: #c9a05e;
+        }
+        .contact-info {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 2rem;
+            border: 1px solid #e2e8f0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .contact-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #f0f5ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #c9a05e;
+            font-size: 1.5rem;
+        }
+        .contact-details h4 {
+            margin-bottom: 0.25rem;
+        }
+        .contact-details p {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        .contact-details a {
+            color: #c9a05e;
+            text-decoration: none;
+        }
+        .faq-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 2rem;
+            border: 1px solid #e2e8f0;
+        }
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .faq-card {
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            transition: transform 0.2s;
+        }
+        .faq-card:hover {
+            transform: translateY(-2px);
+            border-color: #c9a05e;
+        }
+        .faq-card h4 {
+            margin-bottom: 0.5rem;
+            color: #0b1f33;
+        }
+        .faq-card p {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-university"></i>
+            <span>Saxon Bank</span>
+        </div>
+        <div class="nav-links">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/chat" class="active">Chat Support</a>
+            <a href="/deposit">Deposit</a>
+            <a href="/transfer">Transfer</a>
+            <a href="/card">Card</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Chat Support</h1>
+            <a href="/faq" style="color: #c9a05e;">View FAQ →</a>
+        </div>
+
+        <div class="chat-container">
+            <div class="sidebar">
+                <div class="sidebar-header">
+                    <h3>
+                        <i class="fas fa-question-circle" style="color: #c9a05e;"></i>
+                        Quick Help Topics
+                    </h3>
+                </div>
+                <div class="faq-list">
+                    <div class="faq-item" onclick="quickQuestion('How do I reset my password?')">
+                        <h4>🔐 Password Reset</h4>
+                        <p>Steps to reset your password</p>
+                    </div>
+                    <div class="faq-item" onclick="quickQuestion('How do I transfer money?')">
+                        <h4>💰 Transfer Money</h4>
+                        <p>Send money to other accounts</p>
+                    </div>
+                    <div class="faq-item" onclick="quickQuestion('How to apply for a card?')">
+                        <h4>💳 Card Application</h4>
+                        <p>Apply for a debit card</p>
+                    </div>
+                    <div class="faq-item" onclick="quickQuestion('What are the transaction limits?')">
+                        <h4>📊 Transaction Limits</h4>
+                        <p>Daily, weekly, monthly limits</p>
+                    </div>
+                    <div class="faq-item" onclick="quickQuestion('How to update my address?')">
+                        <h4>📝 Update Profile</h4>
+                        <p>Change personal information</p>
+                    </div>
+                    <div class="faq-item" onclick="quickQuestion('How to report a lost card?')">
+                        <h4>🚨 Lost Card</h4>
+                        <p>Report lost or stolen card</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-main">
+                <div class="chat-header">
+                    <div class="chat-status">
+                        <span class="status-dot"></span>
+                        <span>Support is online</span>
+                    </div>
+                    <span>Average response: ~5 mins</span>
+                </div>
+
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message support">
+                        <div class="message-avatar">🤖</div>
+                        <div class="message-content">
+                            <p>👋 Hello! Welcome to Saxon Bank Support. How can I help you today?</p>
+                            <div class="message-time">Just now</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input-area">
+                    <div class="quick-replies">
+                        <button class="quick-reply" onclick="quickQuestion('What are your business hours?')">🕒 Business Hours</button>
+                        <button class="quick-reply" onclick="quickQuestion('How do I contact support?')">📞 Contact Support</button>
+                        <button class="quick-reply" onclick="quickQuestion('Where is my nearest branch?')">🏦 Branch Locator</button>
+                        <button class="quick-reply" onclick="quickQuestion('How to enable 2FA?')">🔐 2FA Setup</button>
+                    </div>
+                    
+                    <div class="chat-input">
+                        <input type="text" id="chatInput" placeholder="Type your message here..." onkeypress="if(event.key==='Enter') sendMessage()">
+                        <button onclick="sendMessage()">
+                            <i class="fas fa-paper-plane"></i> Send
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-info">
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <div class="contact-details">
+                    <h4>Phone Support</h4>
+                    <p><a href="tel:+447362593627">+44 7362 593627</a></p>
+                    <p style="font-size: 0.75rem;">24/7 support available</p>
+                </div>
+            </div>
+
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="contact-details">
+                    <h4>Email Support</h4>
+                    <p><a href="mailto:support@saxonsavingunion.com">support@saxonsavingunion.com</a></p>
+                    <p style="font-size: 0.75rem;">Response within 24h</p>
+                </div>
+            </div>
+
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="contact-details">
+                    <h4>Branch Locator</h4>
+                    <p>123 High Street, London, UK</p>
+                    <p style="font-size: 0.75rem;">Find nearest branch</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-card">
+                    <h4>How do I reset my password?</h4>
+                    <p>Click on "Forgot Password" on the login page and follow the instructions sent to your email.</p>
+                </div>
+                <div class="faq-card">
+                    <h4>What are the transaction limits?</h4>
+                    <p>Daily: $5,000 | Weekly: $25,000 | Monthly: $100,000. Verified users get higher limits.</p>
+                </div>
+                <div class="faq-card">
+                    <h4>How long do transfers take?</h4>
+                    <p>Internal transfers are instant. External transfers take 1-3 business days.</p>
+                </div>
+                <div class="faq-card">
+                    <h4>Is my money safe?</h4>
+                    <p>Yes! We use 256-bit encryption and are regulated by the FCA. Funds are protected up to £85,000.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let messageCount = 0;
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addMessage(message, 'user');
+                input.value = '';
+                
+                // Simulate response after a short delay
+                setTimeout(() => {
+                    respondToMessage(message);
+                }, 1000);
+            }
+        }
+
+        function quickQuestion(question) {
+            addMessage(question, 'user');
+            
+            setTimeout(() => {
+                respondToMessage(question);
+            }, 1000);
+        }
+
+        function addMessage(text, sender) {
+            const messages = document.getElementById('chatMessages');
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            messageDiv.innerHTML = `
+                <div class="message-avatar">${sender === 'user' ? '👤' : '🤖'}</div>
+                <div class="message-content">
+                    <p>${text}</p>
+                    <div class="message-time">${time}</div>
+                </div>
+            `;
+            
+            messages.appendChild(messageDiv);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function respondToMessage(userMessage) {
+            const responses = {
+                default: "Thank you for your message. One of our agents will assist you shortly.",
+                password: "To reset your password, click on 'Forgot Password' on the login page. You'll receive an email with instructions.",
+                transfer: "To transfer money, go to the Transfer page and enter the recipient's account number and amount.",
+                card: "You can apply for a card by going to the Card Services page and clicking 'Apply Now'.",
+                limits: "Standard limits: Daily $5,000, Weekly $25,000, Monthly $100,000. Verified users get higher limits.",
+                address: "You can update your address in Profile Settings.",
+                hours: "Our support team is available 24/7. Phone lines are open 8am-8pm Monday-Friday.",
+                support: "You can reach us by phone at +44 7362 593627 or email at support@saxonsavingunion.com.",
+                branch: "Our main branch is at 123 High Street, London. You can find other locations in our app.",
+                '2fa': "To enable 2FA, go to Security Settings and follow the setup instructions."
+            };
+
+            let response = responses.default;
+            const lowerMsg = userMessage.toLowerCase();
+            
+            if (lowerMsg.includes('password') || lowerMsg.includes('reset')) {
+                response = responses.password;
+            } else if (lowerMsg.includes('transfer') || lowerMsg.includes('send money')) {
+                response = responses.transfer;
+            } else if (lowerMsg.includes('card') || lowerMsg.includes('apply')) {
+                response = responses.card;
+            } else if (lowerMsg.includes('limit')) {
+                response = responses.limits;
+            } else if (lowerMsg.includes('address') || lowerMsg.includes('update')) {
+                response = responses.address;
+            } else if (lowerMsg.includes('hour') || lowerMsg.includes('business')) {
+                response = responses.hours;
+            } else if (lowerMsg.includes('contact') || lowerMsg.includes('phone') || lowerMsg.includes('call')) {
+                response = responses.support;
+            } else if (lowerMsg.includes('branch') || lowerMsg.includes('location')) {
+                response = responses.branch;
+            } else if (lowerMsg.includes('2fa') || lowerMsg.includes('two factor')) {
+                response = responses['2fa'];
+            }
+
+            addMessage(response, 'support');
+        }
+    </script>
+</body>
+</html>
